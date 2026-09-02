@@ -6,6 +6,7 @@
 - **RA:** 22452139
 - **Repositório:** <https://github.com/MorimFr/entrega-inicial>
 - **Marco:** Sprint 2 — Entrega intermediária
+- **PR de implementação:** <https://github.com/MorimFr/entrega-inicial/pull/20>
 
 ## Conteúdo consolidado
 

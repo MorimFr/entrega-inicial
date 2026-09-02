@@ -6,7 +6,7 @@
 |---|---:|---:|---:|
 | Windows / Python 3.14.7 | 34 aprovados | 98,44% | 0 |
 | Docker / Linux / Python 3.12.14 | 34 aprovados | 98,59% | 0 |
-| GitHub Actions / Python 3.12 | aguardando execução do PR | — | — |
+| GitHub Actions / Python 3.12.14 | 34 aprovados | 98,59% | 0 |
 
 Todos os testes coletados passaram. “100% de passagem” significa `34 passed / 34 collected`; a
 cobertura de linhas é uma métrica distinta e permanece acima do gate obrigatório de 90%.
@@ -59,5 +59,21 @@ e exit code 0.
 
 ## GitHub Actions
 
-Esta seção será atualizada com URL, commit e artefato reais depois que o PR da Sprint 2 disparar o
-workflow. A evidência não será preenchida antecipadamente.
+- **PR:** [#20 — feat: consolida Entrega 2 do CampusFlow](https://github.com/MorimFr/entrega-inicial/pull/20)
+- **Primeira execução verde:** [run 33582687001](https://github.com/MorimFr/entrega-inicial/actions/runs/33582687001)
+- **Commit validado:** `f2a34644adfe6e72b14db2fd0f434947f4f41838`
+- **Job:** `quality`, sucesso em 16 segundos
+- **Ambiente:** Ubuntu / Python 3.12.14
+- **Resultado:** Ruff aprovado; 34/34 testes; cobertura 98,59%
+- **Artefato:** `test-evidence-33582687001`, contendo `test-output.log` e `coverage.xml`
+
+```text
+All checks passed!
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+collected 34 items
+Required test coverage of 90% reached. Total coverage: 98.59%
+34 passed in 0.46s
+```
+
+O commit documental que registra esta própria execução dispara um novo check no mesmo PR. No PDF,
+deve ser usada a execução verde associada ao commit final do PR.
