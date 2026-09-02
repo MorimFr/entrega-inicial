@@ -6,6 +6,7 @@ from campusflow.domain import ReservationStatus
 from campusflow.errors import (
     AlreadyCancelledError,
     DailyLimitError,
+    DomainError,
     DurationLimitError,
     InvalidPeriodError,
     ReservationConflictError,
@@ -84,6 +85,16 @@ def test_rejects_more_than_two_hours(service: ReservationService) -> None:
 def test_rejects_attendees_over_capacity(service: ReservationService) -> None:
     with pytest.raises(RoomCapacityError):
         create(service, room_id="small", attendees=3)
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize("attendees", [0, -1])
+def test_rejects_non_positive_attendee_count(
+    service: ReservationService, attendees: int
+) -> None:
+    """Regressão RN-03: a regra deve existir além da validação HTTP."""
+    with pytest.raises(DomainError):
+        create(service, attendees=attendees)
 
 
 @pytest.mark.unit
