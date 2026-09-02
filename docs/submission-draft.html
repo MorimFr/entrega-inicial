@@ -42,9 +42,9 @@
       <p><strong>Data:</strong> 1 de setembro de 2026</p>
     </div>
     <div class="pending">
-      <strong>RASCUNHO:</strong> substituir esta caixa pelas evidências do GitHub Actions, Project,
-      Pull Requests e ruleset depois do primeiro push. Não submeter ao Moodle enquanto esta caixa
-      existir.
+      <strong>RASCUNHO:</strong> adicionar as capturas do Docker, Issues, Pull Request e rulesets, e
+      confirmar com o docente a revisão para equipe individual. Não submeter ao Moodle enquanto
+      esta caixa existir.
     </div>
   </section>
 
@@ -115,12 +115,20 @@ Required test coverage of 90% reached. Total coverage: 99.39%
     <p class="small">Log integral versionado em <code>docs/evidence/test-run.md</code>. O Compose foi
       validado sintaticamente. A evidência de execução Docker deve ser adicionada quando o daemon
       estiver disponível.</p>
+    <h3>GitHub Actions — Pull Request #10</h3>
+    <p class="ok">Pipeline real aprovado em Ubuntu/Python 3.12.14: Ruff aprovado, 26 testes e
+      cobertura de 99,48%.</p>
+    <p><a href="https://github.com/MorimFr/entrega-inicial/actions/runs/33577382487">Execução
+      33577382487 do workflow Test harness</a></p>
+    <pre>All checks passed!
+platform linux -- Python 3.12.14, pytest-8.4.1
+collected 26 items
+Required test coverage of 90% reached. Total coverage: 99.48%
+======================= 26 passed in 0.34s =======================</pre>
   </section>
 
   <section class="page-break">
     <h2>7. Evidências externas pendentes</h2>
-    <div class="pending"><strong>GitHub Actions:</strong> inserir print do job <code>quality</code>
-      verde com URL e hash do commit visíveis.</div>
     <div class="pending"><strong>Docker:</strong> inserir print do comando Compose e dos 26 testes
       aprovados no contêiner.</div>
     <div class="pending"><strong>GitHub Project:</strong> inserir Board com Issues, responsável e
@@ -142,8 +150,8 @@ Required test coverage of 90% reached. Total coverage: 99.39%
       <li class="ok">Link do repositório público preenchido.</li>
       <li class="ok">Especificação, ADRs, agente, ambiente e harness documentados.</li>
       <li class="ok">26 testes e cobertura de 99,39% comprovados localmente.</li>
-      <li class="warning">Pendente: primeiro push com uma conta que tenha escrita no repositório.</li>
-      <li class="warning">Pendente: Issues/Project, PRs, ruleset e execução do Actions.</li>
+      <li class="ok">GitHub Actions aprovado em Python 3.12.14, com artefato de evidência.</li>
+      <li class="warning">Pendente: capturas legíveis das Issues, do PR e dos rulesets.</li>
       <li class="warning">Pendente: evidência Docker e confirmação docente sobre revisão individual.</li>
     </ul>
   </section>

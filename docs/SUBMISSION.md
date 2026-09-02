@@ -57,7 +57,12 @@ validação em cada PR e publica log/cobertura como artefato.
 
 ### 5.1 Pipeline GitHub Actions
 
-`INSERIR PRINT: execução verde do workflow, com URL e hash do commit visíveis.`
+O workflow `Test harness` executou com sucesso no Pull Request #10 em Python 3.12.14: Ruff aprovado,
+26 testes aprovados e cobertura de 99,48%. Execução:
+<https://github.com/MorimFr/entrega-inicial/actions/runs/33577382487>. O artefato
+`test-evidence-33577382487` contém `test-output.log` e `coverage.xml`.
+
+`INSERIR PRINT: execução verde acima, com URL e hash do commit visíveis.`
 
 ### 5.2 Log do test harness
 

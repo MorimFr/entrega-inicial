@@ -54,6 +54,20 @@ docker compose --profile test run --rm --build tests
 
 ## GitHub Actions
 
-Após o primeiro push/PR, abra a execução `Test harness`, confirme o job `quality` verde e baixe o
-artefato `test-evidence-<run_id>`. Anexe o print e o link no PDF final.
+Execução real do Pull Request #10:
 
+- **Workflow:** `Test harness`
+- **Run:** [33577382487](https://github.com/MorimFr/entrega-inicial/actions/runs/33577382487)
+- **Commit:** `b9915b3a495033d12555d564cef889905ff74962`
+- **Ambiente:** Ubuntu / Python 3.12.14
+- **Job `quality`:** sucesso em 20 segundos
+- **Resultado:** Ruff aprovado; 26 testes aprovados; cobertura 99,48%
+- **Artefato:** `test-evidence-33577382487` (`test-output.log` e `coverage.xml`)
+
+```text
+All checks passed!
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+collected 26 items
+Required test coverage of 90% reached. Total coverage: 99.48%
+============================== 26 passed in 0.34s ==============================
+```
