@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>CampusFlow — Relatório Final da Entrega 1</title>
+  <style>
+    @page { size: A4; margin: 15mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #172033; font: 10.5pt/1.42 Arial, sans-serif; }
+    h1 { color: #173f7a; font-size: 29pt; margin: 0 0 5mm; }
+    h2 { color: #173f7a; font-size: 17pt; border-bottom: 1px solid #cbd5e1; padding-bottom: 2mm; margin: 0 0 5mm; }
+    h3 { color: #28558f; font-size: 12pt; margin: 5mm 0 2mm; }
+    p { margin: 2mm 0 4mm; }
+    ul, ol { margin: 2mm 0 4mm; padding-left: 7mm; }
+    li { margin-bottom: 1.5mm; }
+    a { color: #135f9f; overflow-wrap: anywhere; }
+    code, pre { font-family: Consolas, monospace; }
+    pre { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 3.5mm; white-space: pre-wrap; font-size: 8.6pt; }
+    table { width: 100%; border-collapse: collapse; margin: 4mm 0; }
+    th, td { border: 1px solid #cbd5e1; padding: 2.7mm; text-align: left; vertical-align: top; }
+    th { background: #e8f0fa; color: #173f7a; }
+    figure { margin: 3mm 0 0; break-inside: avoid; }
+    figure img { display: block; width: 100%; max-height: 218mm; object-fit: contain; border: 1px solid #94a3b8; }
+    figcaption { color: #475569; font-size: 8.8pt; margin-top: 2mm; text-align: center; }
+    .cover { min-height: 262mm; display: flex; flex-direction: column; justify-content: center; }
+    .subtitle { font-size: 16pt; color: #475569; }
+    .meta { margin-top: 19mm; padding: 6mm; background: #edf5ff; border-left: 4px solid #2870bd; }
+    .page { break-before: page; }
+    .badge { display: inline-block; padding: 1.5mm 3mm; border-radius: 3mm; background: #dff5e5; color: #176b3a; font-weight: bold; }
+    .callout { padding: 4mm; background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #2870bd; }
+    .flow { text-align: center; font-family: Consolas, monospace; background: #f1f5f9; padding: 5mm; border: 1px solid #cbd5e1; }
+    .small { font-size: 8.7pt; color: #475569; }
+    .check { color: #176b3a; font-weight: bold; }
+    .evidence img { max-height: 205mm; }
+    .two-images img { max-height: 105mm; margin-bottom: 3mm; }
+    footer { margin-top: 8mm; font-size: 8pt; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="small">Desenvolvimento Iterativo, Colaboração com IA e Validação Automatizada</div>
+    <h1>CampusFlow</h1>
+    <div class="subtitle">Entrega 1 — Ambiente, Especificação Técnica e Test Harness</div>
+    <div class="meta">
+      <p><strong>Integrante:</strong> Felipe Amorim Monteiro</p>
+      <p><strong>RA:</strong> 22452139</p>
+      <p><strong>Repositório público:</strong><br>
+        <a href="https://github.com/MorimFr/entrega-inicial">https://github.com/MorimFr/entrega-inicial</a>
+      </p>
+      <p><strong>Data:</strong> 1 de setembro de 2026</p>
+      <p><span class="badge">Entrega validada</span></p>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2>1. Visão geral</h2>
+    <p>O CampusFlow é uma API para reserva de salas de estudo compartilhadas. O sistema elimina
+      conflitos de horário, respeita a capacidade das salas, limita duração e quantidade diária de
+      reservas e mantém um contrato HTTP verificável.</p>
+
+    <h3>Escopo da primeira iteração</h3>
+    <ul>
+      <li>listar salas e respectivas capacidades;</li>
+      <li>criar, consultar e cancelar reservas;</li>
+      <li>impedir sobreposição de intervalos;</li>
+      <li>limitar reservas a duas horas e duas reservas ativas por usuário/dia;</li>
+      <li>consultar disponibilidade por sala e intervalo.</li>
+    </ul>
+
+    <h3>Tecnologias</h3>
+    <table>
+      <tr><th>Área</th><th>Tecnologia</th><th>Finalidade</th></tr>
+      <tr><td>Aplicação</td><td>Python 3.12, FastAPI, Pydantic</td><td>API, contratos e validação de entrada.</td></tr>
+      <tr><td>Qualidade</td><td>Pytest, pytest-cov, Ruff</td><td>Testes, cobertura e análise estática.</td></tr>
+      <tr><td>Ambiente</td><td>Docker e Docker Compose</td><td>Execução reproduzível.</td></tr>
+      <tr><td>Automação</td><td>GitHub Actions</td><td>Validação obrigatória em Pull Requests.</td></tr>
+      <tr><td>IA</td><td>Codex e AGENTS.md</td><td>Apoio à decomposição, código e testes no fluxo SDD.</td></tr>
+    </table>
+
+    <div class="callout"><strong>Resultado:</strong> aplicação funcional, 26 testes automatizados,
+      cobertura de 99,48% no ambiente oficial, CI verde e governança baseada em Issues, branches
+      protegidas, revisões e Pull Requests.</div>
+  </section>
+
+  <section class="page">
+    <h2>2. Especificação SDD e arquitetura</h2>
+    <p>A especificação em <code>docs/SPECIFICATION.md</code> é a fonte de verdade do comportamento.
+      Ela contém requisitos RF-01 a RF-06, regras RN-01 a RN-09, requisitos não funcionais,
+      contratos JSON/HTTP e uma matriz de rastreabilidade para os testes.</p>
+
+    <h3>Refinamento orientado por feedback</h3>
+    <p>A revisão dos casos de teste revelou ambiguidades sobre fuso horário, intervalos adjacentes,
+      cancelamento repetido e limite diário. As decisões foram incorporadas à versão 0.2.0 e
+      registradas em <code>docs/SPEC_CHANGELOG.md</code>. A execução Docker também revelou que o
+      atalho <code>pytest</code> não ativava o coletor de cobertura no contêiner; o Compose foi
+      refinado para <code>python -m pytest</code> e validado novamente.</p>
+
+    <h3>Componentes</h3>
+    <div class="flow">Cliente HTTP → FastAPI/contratos → Serviço/casos de uso → Domínio<br>
+      Serviço → Porta de repositório → Adaptador em memória<br>
+      Test harness → API + Serviço</div>
+
+    <table>
+      <tr><th>Componente</th><th>Responsabilidade</th></tr>
+      <tr><td><code>api.py</code></td><td>Rotas, injeção e tradução de erros para HTTP.</td></tr>
+      <tr><td><code>service.py</code></td><td>Casos de uso e regras de negócio.</td></tr>
+      <tr><td><code>domain.py</code></td><td>Entidades e estados sem dependência do framework.</td></tr>
+      <tr><td><code>repository.py</code></td><td>Porta de persistência e adaptador em memória.</td></tr>
+      <tr><td><code>schemas.py</code></td><td>Contratos públicos de entrada e saída.</td></tr>
+    </table>
+
+    <p>As decisões estruturais estão documentadas nos ADRs 001 e 002. Essa separação permite testar
+      as regras sem servidor ou banco e trocar a persistência em uma iteração futura.</p>
+  </section>
+
+  <section class="page">
+    <h2>3. Ambiente e colaboração com IA</h2>
+    <h3>Execução local</h3>
+    <pre>.\scripts\setup.ps1
+.\scripts\test.ps1
+uvicorn campusflow.api:app --reload</pre>
+
+    <h3>Execução padronizada</h3>
+    <pre>docker compose up --build api
+docker compose --profile test run --rm --build tests</pre>
+
+    <p>O Dockerfile usa Python 3.12 e instala versões fixadas no <code>pyproject.toml</code>. O Compose
+      possui serviços independentes para API e testes. A mesma suíte é executada localmente, no
+      contêiner e no GitHub Actions.</p>
+
+    <h3>Agente Codex</h3>
+    <p>O Codex foi usado como agente auxiliar para decompor o enunciado, estruturar a aplicação e
+      apoiar os testes. O arquivo <code>AGENTS.md</code> mantém no repositório as instruções do fluxo
+      SDD, os limites arquiteturais, os comandos de validação e os requisitos de segurança. Essa
+      configuração segue o mecanismo de instruções persistentes documentado oficialmente pelo
+      Codex.</p>
+
+    <ol>
+      <li>Vincular alteração a uma Issue e aos IDs da especificação.</li>
+      <li>Escrever ou ajustar o teste do critério de aceitação.</li>
+      <li>Implementar a menor mudança compatível com o contrato.</li>
+      <li>Executar Ruff, Pytest e cobertura.</li>
+      <li>Submeter a Pull Request e revisão humana.</li>
+    </ol>
+
+    <p>Prompts e controles de revisão estão registrados em <code>docs/AI_USAGE.md</code>. Saída de IA
+      não substitui especificação, teste, CI ou aprovação humana.</p>
+  </section>
+
+  <section class="page">
+    <h2>4. Test harness e resultados</h2>
+    <p>O harness possui testes unitários do serviço e testes de integração dos contratos HTTP. Cada
+      teste usa um repositório isolado, não depende de rede, relógio real ou ordem de execução, e o
+      pipeline falha se a cobertura ficar abaixo de 90%.</p>
+
+    <table>
+      <tr><th>Ambiente</th><th>Python</th><th>Testes</th><th>Cobertura</th><th>Estado</th></tr>
+      <tr><td>Local Windows</td><td>3.14.7</td><td>26/26</td><td>99,39%</td><td class="check">Aprovado</td></tr>
+      <tr><td>Docker Linux</td><td>3.12.14</td><td>26/26</td><td>99,48%</td><td class="check">Aprovado</td></tr>
+      <tr><td>GitHub Actions</td><td>3.12.14</td><td>26/26</td><td>99,48%</td><td class="check">Aprovado</td></tr>
+    </table>
+
+    <h3>Cenários cobertos</h3>
+    <ul>
+      <li>criação, consulta e cancelamento de reserva;</li>
+      <li>sala e reserva inexistentes;</li>
+      <li>período inválido e ausência de fuso horário;</li>
+      <li>fronteira de duas horas e excesso de duração;</li>
+      <li>capacidade, sobreposição e intervalos adjacentes;</li>
+      <li>limite diário, cancelamento repetido e liberação do horário;</li>
+      <li>saúde, catálogo e disponibilidade pela API.</li>
+    </ul>
+
+    <pre>Required test coverage of 90% reached. Total coverage: 99.48%
+============================== 26 passed in 0.52s ==============================</pre>
+  </section>
+
+  <section class="page evidence two-images">
+    <h2>5. Evidência — execução no Docker</h2>
+    <figure>
+      <img src="evidence/screenshots/01-docker-build.png" alt="Construção da imagem e início do contêiner">
+      <figcaption>Figura 1 — Construção da imagem padronizada e execução do contêiner de testes em Python 3.12.</figcaption>
+    </figure>
+    <figure>
+      <img src="evidence/screenshots/02-docker-results.png" alt="Resultado final do harness no Docker">
+      <figcaption>Figura 2 — Resultado final: 26 testes aprovados, cobertura de 99,48% e exit code 0.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page evidence">
+    <h2>6. Evidência — pipeline automatizado</h2>
+    <figure>
+      <img src="evidence/screenshots/03-github-actions.png" alt="Execuções verdes do GitHub Actions">
+      <figcaption>Figura 3 — Workflow Test harness executado automaticamente no PR, com todas as execuções verdes.</figcaption>
+    </figure>
+    <p class="small">A execução final está disponível em
+      https://github.com/MorimFr/entrega-inicial/actions/runs/33578395082 e publicou log e
+      <code>coverage.xml</code> como artefatos.</p>
+  </section>
+
+  <section class="page evidence">
+    <h2>7. Evidência — planejamento da Sprint</h2>
+    <figure>
+      <img src="evidence/screenshots/04-sprint-issues.png" alt="Issues da Sprint 1">
+      <figcaption>Figura 4 — Nove Issues independentes, categorizadas e vinculadas à milestone Sprint 1.</figcaption>
+    </figure>
+    <p>As Issues decompõem ambiente, especificação, funcionalidades, harness, CI, agente de IA e
+      submissão. Felipe Amorim Monteiro, único integrante do grupo, aparece como responsável. A
+      revisão foi realizada por colaborador externo autorizado, preservando a separação entre autor
+      e aprovador.</p>
+  </section>
+
+  <section class="page evidence">
+    <h2>8. Evidência — PR da feature para develop</h2>
+    <figure>
+      <img src="evidence/screenshots/05-pr-feature-develop.png" alt="PR 10 aprovado e integrado em develop">
+      <figcaption>Figura 5 — PR #10 aprovado por SrMorim, CI verde e merge de feature/1-entrega-inicial em develop.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page evidence">
+    <h2>9. Evidência — PR de develop para main</h2>
+    <figure>
+      <img src="evidence/screenshots/06-pr-develop-main.png" alt="PR 11 aprovado e integrado em main">
+      <figcaption>Figura 6 — PR #11 com aprovação, dois checks aprovados e merge de develop em main.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page evidence">
+    <h2>10. Evidência — repositório final</h2>
+    <figure>
+      <img src="evidence/screenshots/07-main-repository.png" alt="Conteúdo final da branch main">
+      <figcaption>Figura 7 — Branch main após os merges, contendo aplicação, testes, documentação, CI e ambiente.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page evidence">
+    <h2>11. Evidência — proteção da main</h2>
+    <figure>
+      <img src="evidence/screenshots/08-protection-main.png" alt="Regra de proteção da branch main">
+      <figcaption>Figura 8 — main exige PR, uma aprovação, atualização da branch e status check quality.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page evidence">
+    <h2>12. Evidência — proteção da develop</h2>
+    <figure>
+      <img src="evidence/screenshots/09-protection-develop.png" alt="Regra de proteção da branch develop">
+      <figcaption>Figura 9 — develop possui os mesmos gates de revisão e validação automatizada.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page">
+    <h2>13. Conclusão</h2>
+    <p>A Entrega 1 estabeleceu uma base funcional e auditável para evolução iterativa do CampusFlow.
+      A especificação dirige o comportamento; a arquitetura separa contratos, regras e persistência;
+      e o harness oferece feedback rápido nos três ambientes de execução.</p>
+
+    <h3>Atendimento aos itens obrigatórios</h3>
+    <table>
+      <tr><th>Item</th><th>Evidência</th><th>Estado</th></tr>
+      <tr><td>Repositório e governança</td><td>Issues, branches protegidas, PRs, revisões, README e ADRs.</td><td class="check">Atendido</td></tr>
+      <tr><td>Especificação SDD</td><td>Requisitos, regras, contratos, componentes, rastreabilidade e changelog.</td><td class="check">Atendido</td></tr>
+      <tr><td>Agente e ambiente</td><td>Codex, AGENTS.md, Dockerfile, Compose e scripts.</td><td class="check">Atendido</td></tr>
+      <tr><td>Test harness</td><td>26 testes, bordas, 99,48%, logs, Docker e Actions.</td><td class="check">Atendido</td></tr>
+    </table>
+
+    <div class="callout"><strong>Link para avaliação:</strong><br>
+      <a href="https://github.com/MorimFr/entrega-inicial">https://github.com/MorimFr/entrega-inicial</a>
+    </div>
+
+    <h3>Integrante</h3>
+    <p><strong>Felipe Amorim Monteiro — RA 22452139.</strong></p>
+
+    <footer>CampusFlow — Entrega 1 — 1 de setembro de 2026</footer>
+  </section>
+</body>
+</html>
