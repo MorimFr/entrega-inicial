@@ -43,6 +43,54 @@ def test_create_then_get_reservation(client: TestClient) -> None:
     assert fetched.json() == body
 
 
+def test_lists_reservations_by_user_and_status(client: TestClient) -> None:
+    first = client.post("/reservations", json=valid_payload()).json()
+    second = client.post(
+        "/reservations",
+        json=valid_payload(
+            starts_at="2026-09-10T12:00:00Z",
+            ends_at="2026-09-10T13:00:00Z",
+        ),
+    ).json()
+    client.delete(f"/reservations/{first['id']}")
+    client.post(
+        "/reservations",
+        json=valid_payload(
+            user_id="outro-aluno",
+            room_id="small",
+            attendees=1,
+            starts_at="2026-09-10T14:00:00Z",
+            ends_at="2026-09-10T15:00:00Z",
+        ),
+    )
+
+    all_reservations = client.get("/reservations", params={"user_id": "aluno-1"})
+    active = client.get(
+        "/reservations", params={"user_id": "aluno-1", "status": "active"}
+    )
+    cancelled = client.get(
+        "/reservations", params={"user_id": "aluno-1", "status": "cancelled"}
+    )
+    empty = client.get("/reservations", params={"user_id": "sem-reservas"})
+
+    assert all_reservations.status_code == 200
+    assert [item["id"] for item in all_reservations.json()] == [first["id"], second["id"]]
+    assert active.json() == [second]
+    assert cancelled.json()[0]["id"] == first["id"]
+    assert empty.json() == []
+
+
+def test_list_reservations_validates_query(client: TestClient) -> None:
+    assert client.get("/reservations").status_code == 422
+    assert (
+        client.get(
+            "/reservations",
+            params={"user_id": "aluno-1", "status": "unknown"},
+        ).status_code
+        == 422
+    )
+
+
 def test_returns_structured_domain_error(client: TestClient) -> None:
     response = client.post(
         "/reservations", json=valid_payload(room_id="small", attendees=3)
@@ -113,4 +161,3 @@ def test_unknown_resources_return_404(client: TestClient) -> None:
     assert reservation.json()["code"] == "reservation_not_found"
     assert room.status_code == 404
     assert room.json()["code"] == "room_not_found"
-

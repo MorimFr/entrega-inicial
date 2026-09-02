@@ -8,6 +8,7 @@ from campusflow.errors import (
     AlreadyCancelledError,
     DailyLimitError,
     DurationLimitError,
+    InvalidAttendeeCountError,
     InvalidPeriodError,
     ReservationConflictError,
     ReservationNotFoundError,
@@ -45,6 +46,10 @@ class ReservationService:
             )
         if ends_at - starts_at > MAX_DURATION:
             raise DurationLimitError("A reserva não pode durar mais que 2 horas.")
+        if attendees <= 0:
+            raise InvalidAttendeeCountError(
+                "Quantidade de participantes deve ser um inteiro positivo."
+            )
         if attendees > room.capacity:
             raise RoomCapacityError("Quantidade de participantes excede a capacidade da sala.")
         if self.repository.count_active_for_user_on_date(user_id, starts_at.date()) >= 2:
@@ -63,6 +68,11 @@ class ReservationService:
             attendees=attendees,
         )
         return self.repository.save(reservation)
+
+    def list_reservations(
+        self, *, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]:
+        return self.repository.list_for_user(user_id, status)
 
     def get_reservation(self, reservation_id: str) -> Reservation:
         reservation = self.repository.get(reservation_id)
@@ -89,4 +99,3 @@ class ReservationService:
             starts_at < reservation.ends_at and ends_at > reservation.starts_at
             for reservation in self.repository.list_active_for_room(room_id)
         )
-

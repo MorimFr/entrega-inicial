@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "campusflow"
-version = "0.1.0"
+version = "0.2.0"
 description = "API para reserva segura de salas de estudo"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -31,6 +31,7 @@ testpaths = ["tests"]
 markers = [
   "unit: testes isolados da regra de negócio",
   "api: testes dos contratos HTTP",
+  "integration: testes do adaptador SQLite",
 ]
 
 [tool.ruff]

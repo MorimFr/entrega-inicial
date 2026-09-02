@@ -9,6 +9,6 @@ htmlcov/
 .env
 .idea/
 .vscode/
+/data/
 dist/
 build/
-
