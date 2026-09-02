@@ -141,6 +141,12 @@ Prompts, limites de uso e protocolo de revisão humana estão em
 Mudanças da especificação motivadas por revisão/testes estão registradas em
 [`docs/SPEC_CHANGELOG.md`](docs/SPEC_CHANGELOG.md).
 
+## Relatório da Entrega 1
+
+O relatório consolidado, com identificação, resumo técnico e nove evidências legíveis, está em
+[`docs/ENTREGA_INICIAL_FINAL.pdf`](docs/ENTREGA_INICIAL_FINAL.pdf). Os arquivos-fonte e os PNGs
+originais ficam em `docs/RELATORIO_FINAL.html` e `docs/evidence/screenshots/`.
+
 ## Estrutura do repositório
 
 ```text
@@ -155,16 +161,15 @@ Dockerfile/compose.yaml ambiente reproduzível
 
 ## Integrante
 
-**Felipe Amorim Monteiro — RA 22452139.** O procedimento honesto para suprir a revisão entre membros
-em uma equipe individual está documentado em `docs/GOVERNANCE.md` e depende de confirmação docente.
+**Felipe Amorim Monteiro — RA 22452139.** Como a equipe é individual, as revisões foram realizadas
+por um colaborador externo autorizado, mantendo autor e aprovador distintos nos PRs #10 e #11.
 
 ## Limitações conhecidas da iteração
 
 - os dados ficam em memória e são perdidos ao reiniciar;
 - autenticação e autorização ainda não fazem parte desta sprint;
 - o catálogo inicial contém duas salas fixas;
-- criação de repositório remoto, proteção de branch, Issues, Project e aprovações precisam ser
-  realizadas no GitHub pelos integrantes para produzir evidência autêntica.
+- persistência SQL, autenticação institucional e interface web ficam para próximas iterações.
 
 ## Licença
 
