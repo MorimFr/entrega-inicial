@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>CampusFlow — Entrega inicial</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    * { box-sizing: border-box; }
+    body { font: 11pt/1.45 Arial, sans-serif; color: #172033; margin: 0; }
+    h1 { color: #173f7a; font-size: 28pt; margin: 0 0 6mm; }
+    h2 { color: #173f7a; font-size: 17pt; border-bottom: 1px solid #cbd5e1; padding-bottom: 2mm; }
+    h3 { color: #28558f; margin-bottom: 2mm; }
+    p { margin: 2mm 0 4mm; }
+    a { color: #135f9f; }
+    code, pre { font-family: Consolas, monospace; }
+    pre { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4mm; white-space: pre-wrap; font-size: 8.7pt; }
+    table { width: 100%; border-collapse: collapse; margin: 4mm 0; }
+    th, td { border: 1px solid #cbd5e1; padding: 3mm; text-align: left; vertical-align: top; }
+    th { background: #e8f0fa; }
+    .cover { min-height: 245mm; display: flex; flex-direction: column; justify-content: center; }
+    .subtitle { font-size: 16pt; color: #475569; }
+    .meta { margin-top: 22mm; padding: 6mm; background: #edf5ff; border-left: 4px solid #2870bd; }
+    .page-break { break-before: page; }
+    .pending { background: #fff7d6; border: 1px solid #d5a800; padding: 4mm; margin: 3mm 0; }
+    .ok { color: #176b3a; font-weight: bold; }
+    .warning { color: #8a4b00; font-weight: bold; }
+    .small { font-size: 9pt; color: #475569; }
+    ul { padding-left: 7mm; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="small">Desenvolvimento Iterativo, Colaboração com IA e Validação Automatizada</div>
+    <h1>CampusFlow</h1>
+    <div class="subtitle">Entrega 1 — Ambiente, Especificação Técnica e Test Harness</div>
+    <div class="meta">
+      <p><strong>Integrante:</strong> Felipe Amorim Monteiro</p>
+      <p><strong>RA:</strong> 22452139</p>
+      <p><strong>Repositório público:</strong><br>
+        <a href="https://github.com/MorimFr/entrega-inicial">https://github.com/MorimFr/entrega-inicial</a>
+      </p>
+      <p><strong>Data:</strong> 1 de setembro de 2026</p>
+    </div>
+    <div class="pending">
+      <strong>RASCUNHO:</strong> substituir esta caixa pelas evidências do GitHub Actions, Project,
+      Pull Requests e ruleset depois do primeiro push. Não submeter ao Moodle enquanto esta caixa
+      existir.
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>1. Resumo do projeto</h2>
+    <p>O CampusFlow é uma API de reserva de salas de estudo que evita conflitos de horário,
+      ocupação acima da capacidade e excesso de reservas por usuário. A primeira iteração permite
+      listar salas, criar/consultar/cancelar reservas e verificar disponibilidade.</p>
+
+    <h2>2. Ambiente e arquitetura</h2>
+    <p>A implementação usa Python 3.12 como versão-base, FastAPI/Pydantic nos contratos HTTP, serviço
+      independente para regras de negócio e repositório em memória substituível. O ambiente é
+      empacotado em Dockerfile e Compose; as versões são fixadas no <code>pyproject.toml</code>.</p>
+    <table>
+      <tr><th>Camada</th><th>Responsabilidade</th></tr>
+      <tr><td>API</td><td>Rotas, validação dos contratos e tradução de erros para HTTP.</td></tr>
+      <tr><td>Serviço</td><td>Casos de uso, duração, capacidade, conflitos e limite diário.</td></tr>
+      <tr><td>Domínio</td><td>Entidades e estados sem dependência do framework.</td></tr>
+      <tr><td>Repositório</td><td>Porta de persistência e adaptador em memória na iteração inicial.</td></tr>
+    </table>
+
+    <h2>3. Especificação SDD</h2>
+    <p><code>docs/SPECIFICATION.md</code> contém requisitos RF-01 a RF-06, regras RN-01 a RN-09,
+      requisitos não funcionais, contratos JSON/HTTP e matriz de rastreabilidade. A revisão dos
+      testes refinou fuso horário, intervalos adjacentes, limite diário e cancelamento repetido; as
+      mudanças constam em <code>docs/SPEC_CHANGELOG.md</code>.</p>
+
+    <h2>4. Agente de IA</h2>
+    <p>O Codex foi usado para apoiar decomposição, estrutura inicial e testes. O arquivo
+      <code>AGENTS.md</code> mantém no repositório as regras SDD, limites arquiteturais e comandos de
+      validação. Saídas de IA não são aceitas por afirmação: precisam passar pelo mesmo harness,
+      Pull Request e revisão humana. Os prompts e o protocolo estão em <code>docs/AI_USAGE.md</code>.</p>
+  </section>
+
+  <section class="page-break">
+    <h2>5. Comandos do test harness</h2>
+    <h3>Ambiente padronizado</h3>
+    <pre>docker compose --profile test run --rm --build tests</pre>
+    <h3>Windows local</h3>
+    <pre>.\scripts\setup.ps1
+.\scripts\test.ps1</pre>
+    <p>O harness executa Ruff, testes unitários e testes HTTP. O Pytest falha abaixo de 90% de
+      cobertura. O GitHub Actions executa os mesmos gates em Pull Requests e publica
+      <code>test-output.log</code> e <code>coverage.xml</code>.</p>
+
+    <h2>6. Log comprovado da execução local</h2>
+    <p class="ok">Resultado: Ruff aprovado; 26 testes aprovados; cobertura total de 99,39%; exit code 0.</p>
+    <pre>All checks passed!
+============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-8.4.1
+collected 26 items
+
+tests\api\test_reservations_api.py ........                    [ 30%]
+tests\unit\test_reservation_service.py ..................      [100%]
+
+Name                       Stmts   Miss  Cover
+--------------------------------------------------------
+campusflow\api.py             46      0   100%
+campusflow\domain.py          11      0   100%
+campusflow\errors.py          18      0   100%
+campusflow\repository.py      29      1    97%
+campusflow\schemas.py         13      0   100%
+campusflow\service.py         47      0   100%
+--------------------------------------------------------
+TOTAL                        164      1    99%
+Required test coverage of 90% reached. Total coverage: 99.39%
+======================= 26 passed in 0.40s =======================</pre>
+    <p class="small">Log integral versionado em <code>docs/evidence/test-run.md</code>. O Compose foi
+      validado sintaticamente. A evidência de execução Docker deve ser adicionada quando o daemon
+      estiver disponível.</p>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Evidências externas pendentes</h2>
+    <div class="pending"><strong>GitHub Actions:</strong> inserir print do job <code>quality</code>
+      verde com URL e hash do commit visíveis.</div>
+    <div class="pending"><strong>Docker:</strong> inserir print do comando Compose e dos 26 testes
+      aprovados no contêiner.</div>
+    <div class="pending"><strong>GitHub Project:</strong> inserir Board com Issues, responsável e
+      estados da Sprint 1.</div>
+    <div class="pending"><strong>Pull Requests:</strong> inserir PRs com comentários, CI e a forma de
+      revisão autorizada pelo docente.</div>
+    <div class="pending"><strong>Proteção:</strong> inserir ruleset de <code>main</code> exigindo PR e
+      status check.</div>
+
+    <h2>8. Governança para equipe individual</h2>
+    <p>O trabalho possui apenas um integrante. A exigência de aprovação “entre membros” não pode ser
+      atendida literalmente sem fabricar identidade. Deve-se confirmar com o docente revisão por
+      professor/monitor/colega autorizado ou uma dispensa formal, preservando Issues, PRs e CI. A
+      autorização escolhida será registrada no PDF final.</p>
+
+    <h2>9. Checklist final</h2>
+    <ul>
+      <li class="ok">Nome e RA preenchidos.</li>
+      <li class="ok">Link do repositório público preenchido.</li>
+      <li class="ok">Especificação, ADRs, agente, ambiente e harness documentados.</li>
+      <li class="ok">26 testes e cobertura de 99,39% comprovados localmente.</li>
+      <li class="warning">Pendente: primeiro push com uma conta que tenha escrita no repositório.</li>
+      <li class="warning">Pendente: Issues/Project, PRs, ruleset e execução do Actions.</li>
+      <li class="warning">Pendente: evidência Docker e confirmação docente sobre revisão individual.</li>
+    </ul>
+  </section>
+</body>
+</html>
