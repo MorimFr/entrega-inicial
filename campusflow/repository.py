@@ -1,4 +1,4 @@
-"""Porta de persistência e implementação em memória para a entrega inicial."""
+"""Porta de persistência e adaptador em memória para testes isolados."""
 
 from dataclasses import replace
 from datetime import date
@@ -15,6 +15,10 @@ class ReservationRepository(Protocol):
     def save(self, reservation: Reservation) -> Reservation: ...
 
     def get(self, reservation_id: str) -> Reservation | None: ...
+
+    def list_for_user(
+        self, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]: ...
 
     def list_active_for_room(self, room_id: str) -> list[Reservation]: ...
 
@@ -50,6 +54,19 @@ class InMemoryReservationRepository:
     def get(self, reservation_id: str) -> Reservation | None:
         return self._reservations.get(reservation_id)
 
+    def list_for_user(
+        self, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]:
+        return sorted(
+            (
+                reservation
+                for reservation in self._reservations.values()
+                if reservation.user_id == user_id
+                and (status is None or reservation.status == status)
+            ),
+            key=lambda reservation: (reservation.starts_at, reservation.id),
+        )
+
     def list_active_for_room(self, room_id: str) -> list[Reservation]:
         return [
             reservation
@@ -73,4 +90,3 @@ class InMemoryReservationRepository:
         cancelled = replace(reservation, status=ReservationStatus.CANCELLED)
         self._reservations[reservation_id] = cancelled
         return cancelled
-
