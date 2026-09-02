@@ -1,0 +1,8 @@
+Title,Type,Milestone,Assignee,Status,Specification
+Corrigir validação de participantes no domínio,Bug,Sprint 2 — Entrega intermediária,MorimFr,In progress,"RN-03; RNF-02; RNF-05"
+Adicionar persistência SQLite substituível,Feature,Sprint 2 — Entrega intermediária,MorimFr,In progress,"RF-08; RNF-01; RNF-07"
+Implementar consulta de reservas por usuário,Feature,Sprint 2 — Entrega intermediária,MorimFr,In progress,"RF-07; RN-10"
+Ampliar test harness da Entrega 2,Test,Sprint 2 — Entrega intermediária,MorimFr,In progress,"RNF-02; RNF-03; RNF-05"
+Registrar erros lógicos re-especificação e ADRs,Documentation,Sprint 2 — Entrega intermediária,MorimFr,In progress,"SDD 0.3.0"
+Elaborar análise comparativa e ético-técnica de IA,Documentation,Sprint 2 — Entrega intermediária,MorimFr,In progress,"Item 4"
+Consolidar README e submissão da Entrega 2,Documentation,Sprint 2 — Entrega intermediária,MorimFr,In progress,"Itens 3 e 5"

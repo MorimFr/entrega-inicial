@@ -1,23 +1,26 @@
 """Adaptador HTTP FastAPI."""
 
+import os
 from datetime import datetime
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Query, Request, status
 from fastapi.responses import JSONResponse
 
+from campusflow.domain import ReservationStatus
 from campusflow.errors import (
     AlreadyCancelledError,
     DailyLimitError,
     DomainError,
     DurationLimitError,
+    InvalidAttendeeCountError,
     InvalidPeriodError,
     ReservationConflictError,
     ReservationNotFoundError,
     RoomCapacityError,
     RoomNotFoundError,
 )
-from campusflow.repository import InMemoryReservationRepository
+from campusflow.repository import ReservationRepository
 from campusflow.schemas import (
     AvailabilityResponse,
     ErrorResponse,
@@ -26,15 +29,20 @@ from campusflow.schemas import (
     RoomResponse,
 )
 from campusflow.service import ReservationService
+from campusflow.sqlite_repository import SQLiteReservationRepository
 
 
-def create_app(repository: InMemoryReservationRepository | None = None) -> FastAPI:
+def create_app(repository: ReservationRepository | None = None) -> FastAPI:
     app = FastAPI(
         title="CampusFlow API",
-        version="0.1.0",
+        version="0.2.0",
         description="API de reserva de salas de estudo orientada por especificação.",
     )
-    service = ReservationService(repository or InMemoryReservationRepository())
+    selected_repository = repository
+    if selected_repository is None:
+        database_path = os.getenv("CAMPUSFLOW_DATABASE_PATH", "data/campusflow.db")
+        selected_repository = SQLiteReservationRepository(database_path)
+    service = ReservationService(selected_repository)
 
     def get_service() -> ReservationService:
         return service
@@ -51,7 +59,13 @@ def create_app(repository: InMemoryReservationRepository | None = None) -> FastA
             http_status = status.HTTP_404_NOT_FOUND
         elif isinstance(error, conflict_errors):
             http_status = status.HTTP_409_CONFLICT
-        elif isinstance(error, DurationLimitError | InvalidPeriodError | RoomCapacityError):
+        elif isinstance(
+            error,
+            DurationLimitError
+            | InvalidAttendeeCountError
+            | InvalidPeriodError
+            | RoomCapacityError,
+        ):
             http_status = status.HTTP_422_UNPROCESSABLE_ENTITY
         else:  # pragma: no cover - proteção para futuros erros do domínio
             http_status = status.HTTP_400_BAD_REQUEST
@@ -83,6 +97,21 @@ def create_app(repository: InMemoryReservationRepository | None = None) -> FastA
     ) -> ReservationResponse:
         reservation = current_service.create_reservation(**payload.model_dump())
         return ReservationResponse.model_validate(reservation)
+
+    @app.get(
+        "/reservations",
+        response_model=list[ReservationResponse],
+        tags=["reservations"],
+    )
+    def list_reservations(
+        user_id: Annotated[str, Query(min_length=1, max_length=100)],
+        current_service: Annotated[ReservationService, Depends(get_service)],
+        reservation_status: Annotated[ReservationStatus | None, Query(alias="status")] = None,
+    ) -> list[ReservationResponse]:
+        reservations = current_service.list_reservations(
+            user_id=user_id, status=reservation_status
+        )
+        return [ReservationResponse.model_validate(item) for item in reservations]
 
     @app.get(
         "/reservations/{reservation_id}",
