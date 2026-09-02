@@ -24,7 +24,8 @@ depois dele, `main` e `develop` recebem mudanças exclusivamente por Pull Reques
 Depois de criar o repositório público e enviar o commit inicial:
 
 1. Crie `develop` a partir de `main` e defina o trabalho diário nela.
-2. Em **Settings → Rules → Rulesets**, crie um ruleset para `main` e outro para `develop`.
+2. Em **Settings → Branches**, mantenha proteção clássica para `main` e `develop` (ou converta para
+   Rulesets sem reduzir os controles).
 3. Exija Pull Request antes do merge e pelo menos 1 aprovação.
 4. Descarte aprovações quando houver novos commits.
 5. Exija resolução de conversas e o status check `quality`.
@@ -55,7 +56,8 @@ docente uma destas opções e registre a autorização:
 2. colega externo à equipe adicionado como colaborador/revisor;
 3. dispensa formal da aprovação humana, mantendo PR, comentários de autorrevisão e CI obrigatório.
 
-A opção escolhida deve aparecer no PDF e nas evidências do GitHub.
+A opção adotada foi colaborador externo autorizado, com autor e aprovador distintos. Ela deve
+aparecer no PDF e nas evidências do GitHub.
 
 ## 4. Ciclo de uma tarefa
 
@@ -98,7 +100,7 @@ Tipos aceitos: `feat`, `fix`, `test`, `docs`, `refactor`, `ci`, `chore`.
 - Ruff, Pytest e cobertura passam no GitHub Actions.
 - Mudança arquitetural tem ADR; mudança de comportamento atualiza a especificação.
 
-## 7. Evidências para a Entrega 1
+## 7. Evidências para as entregas
 
 Guardar no PDF final:
 
@@ -108,3 +110,7 @@ Guardar no PDF final:
 - ruleset de `main` sem push direto;
 - execução verde do workflow e conteúdo do artefato `test-output.log`;
 - execução Docker do harness.
+
+Na Sprint 2, o marco **Entrega intermediária** reúne as Issues #13 a #19. Os PRs devem mostrar a
+relação entre o teste de regressão, a re-especificação 0.3.0, o adaptador SQLite, a análise crítica de
+IA e os checks. O relatório não deve marcar uma Issue como concluída antes do merge que a fecha.
