@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "campusflow"
+version = "0.1.0"
+description = "API para reserva segura de salas de estudo"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.116.1",
+  "pydantic==2.12.5",
+  "uvicorn[standard]==0.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx==0.28.1",
+  "pytest==8.4.1",
+  "pytest-cov==6.2.1",
+  "ruff==0.12.7",
+]
+
+[tool.setuptools.packages.find]
+include = ["campusflow*"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --cov=campusflow --cov-report=term-missing --cov-report=xml --cov-fail-under=90"
+testpaths = ["tests"]
+markers = [
+  "unit: testes isolados da regra de negócio",
+  "api: testes dos contratos HTTP",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
