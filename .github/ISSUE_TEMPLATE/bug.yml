@@ -1,0 +1,30 @@
+name: Defeito
+description: Comportamento divergente da especificação
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Comportamento observado
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Passos para reproduzir
+    validations:
+      required: true
+  - type: input
+    id: requirement
+    attributes:
+      label: Requisito/regra afetado
+    validations:
+      required: true
+

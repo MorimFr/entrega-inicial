@@ -1,0 +1,11 @@
+Title,Body,Labels,Status,Estimate,Specification
+"Configurar ambiente reproduzível","Criar Dockerfile Compose e comandos de setup. Aceite: API e testes executam no contêiner.","devops","Ready",3,"RNF-01; RNF-04"
+"Especificar domínio e contratos","Detalhar problema regras entradas saídas e rastreabilidade. Aceite: especificação revisada pelo grupo.","documentation","Ready",3,"RF-01..RF-06; RN-01..RN-09"
+"Implementar criação de reserva","Criar caso de uso com período duração capacidade conflito e limite diário.","feature","Ready",5,"RF-02; RN-01..RN-06"
+"Implementar consulta e cancelamento","Consultar por ID e cancelar preservando histórico e liberando horário.","feature","Ready",3,"RF-03; RF-04; RN-07..RN-09"
+"Implementar catálogo e disponibilidade","Listar salas e responder disponibilidade por intervalo.","feature","Ready",3,"RF-01; RF-05; RN-04; RN-09"
+"Criar test harness","Configurar Pytest fixtures cobertura e casos principais/de borda.","test","Ready",5,"RNF-02; RNF-03; RNF-05"
+"Configurar CI e evidências","Executar lint e testes em PR e publicar logs/cobertura como artefato.","devops","Ready",3,"RNF-01; RNF-03"
+"Documentar agente Codex e SDD","Adicionar AGENTS.md prompts processo de revisão e registro de refinamento.","documentation","Ready",2,"RNF-05; Entrega item 3"
+"Preparar submissão PDF","Preencher integrantes link e anexar prints autênticos do GitHub e Docker.","documentation","Backlog",2,"Formato de submissão"
+
