@@ -72,7 +72,14 @@ complementar com o artefato `test-output.log` do GitHub Actions após o primeiro
 
 ### 5.3 Execução no Docker
 
-`INSERIR PRINT: comando docker compose e resultado completo dos testes.`
+Execução comprovada com Docker Desktop 4.86.0/engine 29.7.2 e Python 3.12.14: imagem construída,
+contêiner criado, **26 testes aprovados**, cobertura de **99,48%** e exit code 0. Comando:
+
+```text
+docker compose --profile test run --rm --build tests
+```
+
+O log textual integral está em `docs/evidence/test-run.md`.
 
 ### 5.4 Governança e trabalho em equipe
 

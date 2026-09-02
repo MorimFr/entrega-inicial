@@ -43,14 +43,24 @@ falhas da aplicação. O CI e o contêiner usam Python 3.12, versão-base declar
 
 ## Ambiente Docker
 
-O arquivo Compose foi validado com sucesso por `docker compose --profile test config --quiet`. A CLI
-Docker está instalada, mas o daemon Linux não estava disponível nesta máquina durante esta execução;
-por isso não há alegação de teste em contêiner neste registro. Assim que o Docker Desktop estiver
-ativo, produzir a evidência com:
+Execução comprovada no Docker Desktop 4.86.0 com engine 29.7.2:
 
 ```text
 docker compose --profile test run --rm --build tests
+
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+collected 26 items
+tests/api/test_reservations_api.py ........                              [ 30%]
+tests/unit/test_reservation_service.py ..................                [100%]
+TOTAL                        191      1    99%
+Required test coverage of 90% reached. Total coverage: 99.48%
+============================== 26 passed in 0.52s ==============================
 ```
+
+**Resultado:** imagem construída, contêiner criado, 26 testes aprovados, cobertura 99,48% e exit
+code 0. Durante a primeira execução, os testes passaram, mas o atalho `pytest` não ativou o coletor
+de cobertura no contêiner. O Compose foi refinado para executar `python -m pytest`, igualando o
+comportamento local e do CI; a repetição completa produziu o resultado acima.
 
 ## GitHub Actions
 

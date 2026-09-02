@@ -6,6 +6,5 @@ services:
 
   tests:
     build: .
-    command: pytest
+    command: python -m pytest
     profiles: ["test"]
-
