@@ -56,3 +56,16 @@ cancelamento. O refinamento correspondente está registrado na versão 0.2.0 da 
 aceitação técnica é determinada pelos comandos reproduzíveis e respectivos logs, não pela afirmação
 do agente.
 
+## Continuidade na Entrega 2
+
+O agente recebeu o enunciado da etapa intermediária e a instrução de continuar no mesmo repositório,
+cumprir os requisitos e identificar ao final as evidências visuais necessárias. Antes da correção,
+foi solicitado que comparasse serviço, contratos e testes. O teste de regressão da RN-03 foi
+executado isoladamente e falhou para `0` e `-1`; somente depois o serviço foi alterado.
+
+O Codex também apoiou a implementação do adaptador SQLite, a ampliação da suíte e a documentação
+crítica. Claude Code, Cursor e Antigravity **não foram executados**: foram comparados por fontes
+oficiais em [`AI_ETHICS.md`](AI_ETHICS.md). Essa distinção evita transformar pesquisa documental em
+uma alegação falsa de experiência prática.
+
+Todas as ações no GitHub continuam sujeitas a check automatizado e revisão humana por conta distinta.

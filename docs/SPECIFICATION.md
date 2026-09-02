@@ -1,7 +1,7 @@
 # Especificação técnica — CampusFlow
 
-**Versão:** 0.2.0  
-**Estado:** aprovada para a Entrega 1  
+**Versão:** 0.3.0
+**Estado:** implementada para a Entrega 2
 **Última atualização:** 1 de setembro de 2026
 
 ## 1. Problema e objetivo
@@ -11,9 +11,10 @@ simultâneas, ocupação acima da capacidade e ausência de uma fonte única de 
 CampusFlow oferece uma API determinística para reservar essas salas e rejeitar estados inválidos
 antes de serem registrados.
 
-Nesta iteração, o sistema é um demonstrador executável: persiste em memória, expõe contratos HTTP e
-prioriza regras isoladas e testáveis. Autenticação, banco de dados e interface gráfica estão fora do
-escopo.
+Na segunda iteração, o sistema mantém contratos HTTP e regras isoladas, passa a persistir reservas em
+SQLite e permite que cada usuário consulte suas próprias reservas pelo identificador informado. O
+adaptador em memória permanece disponível para testes determinísticos. Autenticação institucional e
+interface gráfica continuam fora do escopo.
 
 ## 2. Atores e termos
 
@@ -33,6 +34,8 @@ escopo.
 | RF-04 | Cancelar reserva | Reserva ativa passa a `cancelled` e deixa de bloquear a sala. |
 | RF-05 | Consultar disponibilidade | API informa se uma sala está livre em determinado intervalo. |
 | RF-06 | Verificar saúde | `GET /health` retorna `{"status":"ok"}`. |
+| RF-07 | Listar reservas do usuário | `GET /reservations?user_id=...` retorna as reservas do usuário e aceita filtro por estado. |
+| RF-08 | Preservar reservas | Reservas e cancelamentos permanecem disponíveis após reiniciar a API. |
 
 ## 4. Regras de negócio
 
@@ -40,13 +43,14 @@ escopo.
 |---|---|
 | RN-01 | `starts_at` e `ends_at` são obrigatórios, incluem fuso horário e `ends_at > starts_at`. |
 | RN-02 | A duração máxima de uma reserva é 2 horas; exatamente 2 horas é permitido. |
-| RN-03 | `attendees` é inteiro positivo e não pode exceder a capacidade da sala. |
+| RN-03 | `attendees` é inteiro positivo e não pode exceder a capacidade da sala; cada violação tem código de erro próprio. |
 | RN-04 | Duas reservas ativas da mesma sala não podem se sobrepor. |
 | RN-05 | Intervalos adjacentes são permitidos: uma reserva pode começar no fim de outra. |
 | RN-06 | Cada usuário pode manter no máximo 2 reservas ativas cuja data de início seja o mesmo dia. |
 | RN-07 | Cancelamento é idempotente apenas quanto ao estado: segunda tentativa é conflito explícito. |
 | RN-08 | Canceladas não bloqueiam intervalo e não contam para RN-06. |
 | RN-09 | Sala ou reserva inexistente produz erro de recurso não encontrado. |
+| RN-10 | A listagem filtra estritamente por `user_id`, ordena por início/ID e pode limitar o resultado a `active` ou `cancelled`. |
 
 ### Algoritmo de conflito
 
@@ -66,6 +70,7 @@ N.starts_at < E.ends_at AND N.ends_at > E.starts_at
 | RNF-04 | Portabilidade | Python 3.12; execução documentada em Windows, Linux e macOS. |
 | RNF-05 | Auditabilidade | Regras têm IDs estáveis e rastreabilidade para casos de teste. |
 | RNF-06 | Segurança básica | Nenhum segredo/dado pessoal real versionado; entradas validadas. |
+| RNF-07 | Durabilidade local | SQLite preserva dados entre reinícios; o arquivo fica fora do Git e em volume Docker. |
 
 ## 6. Contratos de entrada e saída
 
@@ -104,8 +109,14 @@ Entrada:
 - **404 / `room_not_found`:** sala não existe.
 - **409 / `reservation_conflict`:** RN-04.
 - **409 / `daily_limit_exceeded`:** RN-06.
-- **422 / `invalid_period`, `duration_limit_exceeded`, `room_capacity_exceeded`:** RN-01 a RN-03.
+- **422 / `invalid_period`, `duration_limit_exceeded`, `invalid_attendee_count`, `room_capacity_exceeded`:** RN-01 a RN-03.
 - **422 FastAPI:** formato/tipo/campo obrigatório inválido.
+
+### `GET /reservations?user_id={id}&status={active|cancelled}`
+
+- `user_id` é obrigatório; `status` é opcional.
+- **200:** lista ordenada de reservas do usuário; pode ser vazia.
+- **422 FastAPI:** `user_id` ausente/vazio ou estado fora do enum.
 
 ### `GET /reservations/{id}`
 
@@ -133,12 +144,14 @@ O OpenAPI gerado em `/openapi.json` é a representação executável complementa
 | `domain.py` | Entidades `Room`, `Reservation` e estado | biblioteca padrão |
 | `errors.py` | Taxonomia estável de erros de domínio | nenhuma |
 | `repository.py` | Porta de persistência e adaptador em memória | domínio |
-| `service.py` | Casos de uso e RN-01 a RN-09 | domínio, erros, porta |
+| `sqlite_repository.py` | Adaptador persistente, schema e índices SQLite | domínio, biblioteca padrão |
+| `service.py` | Casos de uso e RN-01 a RN-10 | domínio, erros, porta |
 | `schemas.py` | Modelos públicos de entrada/saída | Pydantic, domínio |
 | `api.py` | Rotas, injeção e tradução erro/HTTP | FastAPI, serviço, schemas |
 
-A interface `ReservationRepository` define operações isoladas. Testes podem injetar um adaptador
-novo a cada caso; uma futura implementação SQL deve cumprir a mesma porta.
+A interface `ReservationRepository` define operações isoladas. Testes unitários/API injetam um
+adaptador em memória novo a cada caso; a aplicação publicada usa SQLite e os testes de integração
+recriam o adaptador sobre o mesmo arquivo para provar a durabilidade.
 
 ## 8. Estado e invariantes
 
@@ -161,6 +174,8 @@ persistir. Falhas não geram gravação parcial.
 | RN-06, RN-08 | serviço | terceira reserva e cancelamento |
 | RF-04, RN-07 | serviço + API | cancelar e repetir |
 | RF-05, RN-09 | serviço + API | ocupado, livre, cancelado, sala ausente |
+| RF-07, RN-10 | serviço + API | todos os estados, filtro, vazio e consulta inválida |
+| RF-08, RNF-07 | integração | recriação do repositório e cancelamento persistente |
 | RNF-02, RNF-03 | CI | cobertura ≥ 90%, Ruff e Pytest |
 
 ## 10. Critérios de aceite da iteração
@@ -173,6 +188,7 @@ persistir. Falhas não geram gravação parcial.
 
 ## 11. Fora do escopo e evolução
 
-Ficam para iterações futuras: autenticação institucional, autorização, persistência SQL, concorrência
-distribuída, cadastro de salas, notificações, recorrência, interface web e política de antecedência.
-
+Ficam para iterações futuras: autenticação institucional, autorização por token, banco gerenciado,
+concorrência distribuída, cadastro de salas, notificações, recorrência, interface web e política de
+antecedência. Nesta versão, `user_id` é um identificador opaco informado pelo cliente, não uma prova
+de identidade; essa limitação impede classificar a API como pronta para produção pública.
