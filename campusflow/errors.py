@@ -25,6 +25,10 @@ class RoomCapacityError(DomainError):
     code = "room_capacity_exceeded"
 
 
+class InvalidAttendeeCountError(DomainError):
+    code = "invalid_attendee_count"
+
+
 class ReservationConflictError(DomainError):
     code = "reservation_conflict"
 
@@ -35,4 +39,3 @@ class DailyLimitError(DomainError):
 
 class AlreadyCancelledError(DomainError):
     code = "already_cancelled"
-

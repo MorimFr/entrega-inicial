@@ -1,0 +1,16 @@
+Data: 14/10/2026
+Issue: #25
+Commit de reprodução: 7808618
+Comando: python -m pytest tests/integration/test_homologation.py --no-cov -q
+
+Resultado real registrado antes da correção:
+12 failed, 1 passed, 28 warnings in 0.59s
+
+Falhas:
+test_domain_requires_real_integer: 6 casos, bool/float aceitos e string causa TypeError
+test_listing_orders_instants_not_iso_strings[sqlite]: 1 caso, AssertionError
+test_daily_limit_uses_campus_day_not_client_offset: 2 casos, DID NOT RAISE DailyLimitError
+test_http_does_not_coerce_attendee_type: 3 casos, HTTP 201 recebido em vez de 422
+
+Não é um print nem log bruto: é um extrato do resultado da ferramenta. O commit de teste
+preserva a reprodução e LOGICAL_ERRORS.md descreve causa/correção.

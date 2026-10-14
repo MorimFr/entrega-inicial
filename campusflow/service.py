@@ -8,6 +8,7 @@ from campusflow.errors import (
     AlreadyCancelledError,
     DailyLimitError,
     DurationLimitError,
+    InvalidAttendeeCountError,
     InvalidPeriodError,
     ReservationConflictError,
     ReservationNotFoundError,
@@ -15,6 +16,7 @@ from campusflow.errors import (
     RoomNotFoundError,
 )
 from campusflow.repository import ReservationRepository
+from campusflow.time_policy import campus_date
 
 MAX_DURATION = timedelta(hours=2)
 MAX_DAILY_RESERVATIONS = 2
@@ -36,6 +38,24 @@ class ReservationService:
         ends_at: datetime,
         attendees: int,
     ) -> Reservation:
+        with self.repository.transaction():
+            return self._create_reservation(
+                room_id=room_id,
+                user_id=user_id,
+                starts_at=starts_at,
+                ends_at=ends_at,
+                attendees=attendees,
+            )
+
+    def _create_reservation(
+        self,
+        *,
+        room_id: str,
+        user_id: str,
+        starts_at: datetime,
+        ends_at: datetime,
+        attendees: int,
+    ) -> Reservation:
         room = self.repository.get_room(room_id)
         if room is None:
             raise RoomNotFoundError("Sala não encontrada.")
@@ -45,9 +65,16 @@ class ReservationService:
             )
         if ends_at - starts_at > MAX_DURATION:
             raise DurationLimitError("A reserva não pode durar mais que 2 horas.")
+        if type(attendees) is not int or attendees <= 0:
+            raise InvalidAttendeeCountError(
+                "Quantidade de participantes deve ser um inteiro positivo."
+            )
         if attendees > room.capacity:
             raise RoomCapacityError("Quantidade de participantes excede a capacidade da sala.")
-        if self.repository.count_active_for_user_on_date(user_id, starts_at.date()) >= 2:
+        if (
+            self.repository.count_active_for_user_on_date(user_id, campus_date(starts_at))
+            >= MAX_DAILY_RESERVATIONS
+        ):
             raise DailyLimitError("Cada usuário pode manter até 2 reservas ativas por dia.")
 
         for existing in self.repository.list_active_for_room(room_id):
@@ -64,6 +91,11 @@ class ReservationService:
         )
         return self.repository.save(reservation)
 
+    def list_reservations(
+        self, *, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]:
+        return self.repository.list_for_user(user_id, status)
+
     def get_reservation(self, reservation_id: str) -> Reservation:
         reservation = self.repository.get(reservation_id)
         if reservation is None:
@@ -71,6 +103,10 @@ class ReservationService:
         return reservation
 
     def cancel_reservation(self, reservation_id: str) -> Reservation:
+        with self.repository.transaction():
+            return self._cancel_reservation(reservation_id)
+
+    def _cancel_reservation(self, reservation_id: str) -> Reservation:
         reservation = self.get_reservation(reservation_id)
         if reservation.status == ReservationStatus.CANCELLED:
             raise AlreadyCancelledError("A reserva já foi cancelada.")
@@ -78,9 +114,7 @@ class ReservationService:
         assert cancelled is not None
         return cancelled
 
-    def room_is_available(
-        self, *, room_id: str, starts_at: datetime, ends_at: datetime
-    ) -> bool:
+    def room_is_available(self, *, room_id: str, starts_at: datetime, ends_at: datetime) -> bool:
         if self.repository.get_room(room_id) is None:
             raise RoomNotFoundError("Sala não encontrada.")
         if starts_at.tzinfo is None or ends_at.tzinfo is None or ends_at <= starts_at:
@@ -89,4 +123,3 @@ class ReservationService:
             starts_at < reservation.ends_at and ends_at > reservation.starts_at
             for reservation in self.repository.list_active_for_room(room_id)
         )
-

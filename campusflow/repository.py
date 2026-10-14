@@ -1,13 +1,19 @@
-"""Porta de persistência e implementação em memória para a entrega inicial."""
+"""Porta de persistência e adaptador em memória para testes isolados."""
 
+from collections.abc import Iterator
+from contextlib import AbstractContextManager, contextmanager
 from dataclasses import replace
 from datetime import date
+from threading import RLock
 from typing import Protocol
 
 from campusflow.domain import Reservation, ReservationStatus, Room
+from campusflow.time_policy import campus_date
 
 
 class ReservationRepository(Protocol):
+    def transaction(self) -> AbstractContextManager[None]: ...
+
     def list_rooms(self) -> list[Room]: ...
 
     def get_room(self, room_id: str) -> Room | None: ...
@@ -15,6 +21,10 @@ class ReservationRepository(Protocol):
     def save(self, reservation: Reservation) -> Reservation: ...
 
     def get(self, reservation_id: str) -> Reservation | None: ...
+
+    def list_for_user(
+        self, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]: ...
 
     def list_active_for_room(self, room_id: str) -> list[Reservation]: ...
 
@@ -36,6 +46,12 @@ class InMemoryReservationRepository:
             )
         }
         self._reservations: dict[str, Reservation] = {}
+        self._lock = RLock()
+
+    @contextmanager
+    def transaction(self) -> Iterator[None]:
+        with self._lock:
+            yield
 
     def list_rooms(self) -> list[Room]:
         return list(self._rooms.values())
@@ -50,18 +66,30 @@ class InMemoryReservationRepository:
     def get(self, reservation_id: str) -> Reservation | None:
         return self._reservations.get(reservation_id)
 
+    def list_for_user(
+        self, user_id: str, status: ReservationStatus | None = None
+    ) -> list[Reservation]:
+        return sorted(
+            (
+                reservation
+                for reservation in self._reservations.values()
+                if reservation.user_id == user_id
+                and (status is None or reservation.status == status)
+            ),
+            key=lambda reservation: (reservation.starts_at, reservation.id),
+        )
+
     def list_active_for_room(self, room_id: str) -> list[Reservation]:
         return [
             reservation
             for reservation in self._reservations.values()
-            if reservation.room_id == room_id
-            and reservation.status == ReservationStatus.ACTIVE
+            if reservation.room_id == room_id and reservation.status == ReservationStatus.ACTIVE
         ]
 
     def count_active_for_user_on_date(self, user_id: str, target_date: date) -> int:
         return sum(
             reservation.user_id == user_id
-            and reservation.starts_at.date() == target_date
+            and campus_date(reservation.starts_at) == target_date
             and reservation.status == ReservationStatus.ACTIVE
             for reservation in self._reservations.values()
         )
@@ -73,4 +101,3 @@ class InMemoryReservationRepository:
         cancelled = replace(reservation, status=ReservationStatus.CANCELLED)
         self._reservations[reservation_id] = cancelled
         return cancelled
-

@@ -20,7 +20,7 @@ class ReservationCreate(BaseModel):
     user_id: str = Field(min_length=1, max_length=100)
     starts_at: datetime
     ends_at: datetime
-    attendees: int = Field(ge=1)
+    attendees: int = Field(ge=1, strict=True)
 
 
 class ReservationResponse(BaseModel):
@@ -45,4 +45,3 @@ class AvailabilityResponse(BaseModel):
 class ErrorResponse(BaseModel):
     code: str
     message: str
-

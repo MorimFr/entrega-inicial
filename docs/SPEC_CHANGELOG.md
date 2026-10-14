@@ -3,6 +3,40 @@
 Este registro separa evolução de requisitos de alterações meramente editoriais. Toda mudança deve
 informar motivo, impacto e evidência.
 
+## 0.4.0 - 14 de outubro de 2026
+
+**Gatilho:** auditoria e testes da [Issue #25](https://github.com/MorimFr/entrega-inicial/issues/25).
+
+- RN-03: refinado inteiro estrito; booleano, float e string produzem erro controlado, sem coerção.
+- RN-06: data do início passa a usar calendário UTC-03 do campus, evitando contornar o limite
+  diário por offsets diferentes. O offset original é preservado nos dados e respostas.
+- RN-10: SQLite ordena pelo instante datetime convertido, como memória, em vez do texto ISO.
+- RN-11: criação/cancelamento ganham fronteira transacional; memória usa lock e SQLite usa
+  `BEGIN IMMEDIATE`, com rollback em caso de falha.
+- 13 regressões novas tiveram inicialmente 12 falhas e 1 aprovação. Após correção e inclusão dos
+  cenários concorrentes, a suíte passou a 55 casos.
+
+**Impacto:** serviço, porta/adaptadores, calendário, schema HTTP, testes, documentação e ADR-004.
+
+## 0.3.0 — 1 de setembro de 2026
+
+**Gatilhos:** teste de regressão da [Issue #13](https://github.com/MorimFr/entrega-inicial/issues/13)
+e refinamento funcional das Issues
+[#14](https://github.com/MorimFr/entrega-inicial/issues/14) e
+[#15](https://github.com/MorimFr/entrega-inicial/issues/15).
+
+- RN-03 deixou de depender do schema HTTP: o serviço agora rejeita `attendees <= 0` com o código
+  estável `invalid_attendee_count`. O teste inicial falhou duas vezes com `DID NOT RAISE`, provando a
+  divergência entre a especificação e a implementação.
+- RF-07 e RN-10 formalizaram a listagem das reservas por usuário e o filtro opcional por estado.
+- RF-08 e RNF-07 trocaram a perda deliberada de dados da primeira iteração por persistência SQLite
+  local, sem remover o adaptador em memória usado pelo harness.
+- O fora de escopo esclarece que `user_id` ainda não autentica o solicitante; a listagem não deve ser
+  exposta publicamente sem autenticação/autorização futura.
+
+**Impacto:** porta de repositório, serviço, API, adaptadores em memória/SQLite, Compose, contratos,
+testes unitários, de API e de integração. Evidência detalhada em `docs/LOGICAL_ERRORS.md`.
+
 ## 0.2.0 — 1 de setembro de 2026
 
 **Gatilho:** revisão do desenho dos testes antes da implementação.
@@ -35,4 +69,3 @@ Gatilho: teste, revisão ou feedback (inclua Issue/PR).
 - Motivo:
 Impacto: requisitos, contratos, código e testes afetados.
 ```
-

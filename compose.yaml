@@ -1,10 +1,17 @@
 services:
   api:
     build: .
+    environment:
+      CAMPUSFLOW_DATABASE_PATH: /app/data/campusflow.db
     ports:
       - "8000:8000"
+    volumes:
+      - campusflow-data:/app/data
 
   tests:
     build: .
     command: python -m pytest
     profiles: ["test"]
+
+volumes:
+  campusflow-data:

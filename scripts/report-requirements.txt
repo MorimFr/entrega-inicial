@@ -1,0 +1,4 @@
+# Dependências opcionais para gerar/inspecionar o relatório, não exigidas pela API.
+reportlab==5.0.1
+pypdf==6.20.1
+pillow==12.3.0

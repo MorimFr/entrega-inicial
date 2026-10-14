@@ -6,6 +6,12 @@ __pycache__
 .pytest_cache
 .coverage
 coverage.xml
+test-results.xml
 htmlcov
 docs
+data
+.env
+.env.*
+tmp
+output
 
