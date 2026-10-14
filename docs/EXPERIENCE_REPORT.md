@@ -1,38 +1,28 @@
-# Relato sintético de experiência — Entrega 2
+# Relato de experiência - Entrega 2
 
-## Contexto
+Felipe Amorim Monteiro (RA 22452139) realizou o projeto individualmente com apoio do Codex. Informou
+autorização docente para usar MorimFr/SrMorim na autorrevisão dos PRs. Não houve outro integrante.
 
-Felipe Amorim Monteiro (RA 22452139) desenvolveu o CampusFlow como equipe individual, usando um
-colaborador autorizado distinto para revisão de Pull Requests. A segunda iteração continuou no mesmo
-repositório para preservar Issues, decisões, commits, testes e refinamentos da Entrega 1.
+A arquitetura da Entrega 1 separou regras e persistência. Na Entrega 2, SQLite substituiu a memória
+na execução da API, enquanto fixtures mantiveram testes isolados. O exercício confirmou o valor da
+porta: contratos e regras permaneceram testáveis sem banco externo.
 
-## Aprendizados
+O maior aprendizado foi que cobertura alta não mede completude das regras. A suíte de 34 casos
+passava, mas a homologação encontrou tipo não inteiro, ordenação por texto e limite diário por offset.
+As regressões iniciais falharam 12 vezes. Depois da correção e dos casos concorrentes, são 55 testes.
+Especificação 0.4.0 e ADR-004 explicitam as decisões que antes estavam implícitas.
 
-1. **A camada HTTP não substitui o domínio.** O novo teste direto revelou que participantes não
-   positivos eram barrados pelo Pydantic, mas aceitos pelo serviço. A correção tornou RN-03 válida em
-   qualquer adaptador.
-2. **Portas arquiteturais pagam o custo na iteração seguinte.** A persistência SQLite foi adicionada
-   sem reescrever regras nem os testes de API, confirmando a utilidade do ADR-001.
-3. **100% de passagem não significa ausência de risco.** Cobertura alta mede linhas exercitadas, não
-   completude de requisitos, segurança, concorrência ou autorização.
-4. **IA acelera verificação, não transfere responsabilidade.** O agente ajudou a localizar a
-   divergência e executar o ciclo, mas especificação, revisão do diff, proteção de branch e decisão de
-   merge permaneceram humanas.
+A verificação/gravação precisava ser atômica mesmo em uma API local: várias requisições podem
+executar em threads distintas. BEGIN IMMEDIATE resolveu a concorrência de escritores no mesmo banco,
+com custo de serialização. Implantação entre hosts e autenticação continuam fora do escopo.
 
-## Desafios e trade-offs
+O histórico também mostrou o custo de squashes em branches duradouras: main e develop ficaram com
+conteúdo equivalente e ancestralidade divergente. Um release PR consolidou a árvore e a decisão de
+merge foi documentada. Não foi necessário descartar trabalho nem fazer push direto na principal.
 
-- SQLite resolveu durabilidade local com baixa complexidade, mas não foi apresentado como banco de
-  produção distribuído.
-- A consulta por `user_id` completa um fluxo de uso, porém sem autenticação o identificador não prova
-  identidade; a limitação foi explicitada em vez de ocultada.
-- Uma equipe individual não consegue realizar revisão “entre membros”. O processo registra autor e
-  colaborador revisor distintos, sem chamar autoaprovação de revisão por pares.
-- As quatro ferramentas de IA não foram executadas artificialmente apenas para preencher a matriz:
-  uso real e avaliação documental foram separados.
+IA auxiliou implementação e detecção, mas também havia participado da geração do código com falhas.
+A homologação humana, a especificação e o harness sustentam o aceite. As outras ferramentas foram
+avaliadas documentalmente; não se atribuem notas experimentais que não foram medidas.
 
-## Resultado
-
-A iteração passou de um demonstrador volátil para uma API persistente e consultável, ampliou o
-harness de 26 para 33 testes e registrou o vínculo entre falha, re-especificação, correção e evidência.
-O principal aprendizado foi que governança e teste são mecanismos de contenção do erro — humano ou
-gerado por IA — e não meros anexos da implementação.
+O relato individual descreve aprendizado, decisões e desafios de organização do trabalho, em vez de
+inventar experiência de colaboração entre integrantes inexistentes.

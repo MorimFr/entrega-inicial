@@ -35,7 +35,7 @@ nomes, Issues, PRs, aprovações ou logs.
 1. O integrante fornece ao agente a Issue, IDs da especificação e critérios de aceitação.
 2. O agente propõe testes e implementação na branch da Issue.
 3. O autor inspeciona o diff e executa `scripts/test.ps1` ou `make test`.
-4. Outro integrante revisa o PR; saída da IA não conta como aprovação humana.
+4. Felipe revisa o PR na adaptação individual autorizada; saída da IA não conta como aprovação humana.
 5. Se o teste revelar ambiguidade, o grupo decide e registra em `SPEC_CHANGELOG.md` antes do merge.
 6. Prompts ou decisões relevantes são resumidos no PR para auditabilidade.
 
@@ -46,7 +46,7 @@ nomes, Issues, PRs, aprovações ou logs.
 - rejeitar dependências ou escopo não solicitados;
 - não inserir credenciais ou dados pessoais no prompt;
 - executar o harness em ambiente limpo;
-- exigir revisão humana de alguém diferente do autor.
+- exigir homologação humana; autorrevisão individual é explicitada conforme adaptação informada.
 
 ## Resultado desta iteração
 
@@ -68,4 +68,13 @@ crítica. Claude Code, Cursor e Antigravity **não foram executados**: foram com
 oficiais em [`AI_ETHICS.md`](AI_ETHICS.md). Essa distinção evita transformar pesquisa documental em
 uma alegação falsa de experiência prática.
 
-Todas as ações no GitHub continuam sujeitas a check automatizado e revisão humana por conta distinta.
+Todas as ações no GitHub continuam sujeitas a check automatizado e homologação humana. MorimFr e
+SrMorim pertencem à mesma pessoa; a adaptação informada pelo aluno está em GOVERNANCE.md.
+
+## Homologação em 14/10/2026
+
+Prompt do aluno: "Inicie a entrega intermediária. Cumpra todos os requisitos e monte a entrega."
+O agente leu especificação e instruções, executou regressões que tiveram 12 falhas/1 sucesso, corrigiu
+tipo inteiro, ordenação, calendário e transações e ampliou o harness. As ferramentas externas foram
+comparadas por fontes oficiais consultadas em outubro. Logs comprovam execução; não se atribui ao
+modelo nenhuma aprovação acadêmica ou revisão independente.

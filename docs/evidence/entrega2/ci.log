@@ -1,0 +1,404 @@
+quality	Set up job	﻿2026-10-14T13:29:18.0915389Z Current runner version: '2.337.0'
+quality	Set up job	2026-10-14T13:29:18.0941288Z ##[group]Runner Image Provisioner
+quality	Set up job	2026-10-14T13:29:18.0942471Z Hosted Compute Agent
+quality	Set up job	2026-10-14T13:29:18.0943221Z Version: 20261002.596
+quality	Set up job	2026-10-14T13:29:18.0943866Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+quality	Set up job	2026-10-14T13:29:18.0944636Z Build Date: 2026-10-02T22:28:27Z
+quality	Set up job	2026-10-14T13:29:18.0945390Z Worker ID: {5a0109be-1e0f-40ca-926b-bf83ca1dbead}
+quality	Set up job	2026-10-14T13:29:18.0946107Z Region: northcentralus
+quality	Set up job	2026-10-14T13:29:18.0946738Z Cloud: Azure
+quality	Set up job	2026-10-14T13:29:18.0947316Z ##[endgroup]
+quality	Set up job	2026-10-14T13:29:18.0948894Z ##[group]Operating System
+quality	Set up job	2026-10-14T13:29:18.0949610Z Ubuntu
+quality	Set up job	2026-10-14T13:29:18.0950132Z 24.04.5
+quality	Set up job	2026-10-14T13:29:18.0950696Z LTS
+quality	Set up job	2026-10-14T13:29:18.0951211Z ##[endgroup]
+quality	Set up job	2026-10-14T13:29:18.0951751Z ##[group]Runner Image
+quality	Set up job	2026-10-14T13:29:18.0952759Z Image: ubuntu-24.04
+quality	Set up job	2026-10-14T13:29:18.0953336Z Version: 20261004.327.1
+quality	Set up job	2026-10-14T13:29:18.0954460Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+quality	Set up job	2026-10-14T13:29:18.0956270Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+quality	Set up job	2026-10-14T13:29:18.0957366Z ##[endgroup]
+quality	Set up job	2026-10-14T13:29:18.0960094Z ##[group]GITHUB_TOKEN Permissions
+quality	Set up job	2026-10-14T13:29:18.0963423Z Contents: read
+quality	Set up job	2026-10-14T13:29:18.0964496Z Metadata: read
+quality	Set up job	2026-10-14T13:29:18.0965749Z ##[endgroup]
+quality	Set up job	2026-10-14T13:29:18.0968956Z Secret source: Actions
+quality	Set up job	2026-10-14T13:29:18.0970593Z Cache mode: write
+quality	Set up job	2026-10-14T13:29:18.0972317Z Prepare workflow directory
+quality	Set up job	2026-10-14T13:29:18.1434366Z Prepare all required actions
+quality	Set up job	2026-10-14T13:29:18.1504863Z Getting action download info
+quality	Set up job	2026-10-14T13:29:18.3949111Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+quality	Set up job	2026-10-14T13:29:18.4834859Z Download action repository 'actions/setup-python@v7' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+quality	Set up job	2026-10-14T13:29:18.6140911Z Download action repository 'actions/upload-artifact@v7' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+quality	Set up job	2026-10-14T13:29:19.1608994Z Complete job name: quality
+quality	Checkout	﻿2026-10-14T13:29:19.2519950Z ##[group]Run actions/checkout@v7
+quality	Checkout	2026-10-14T13:29:19.2520930Z with:
+quality	Checkout	2026-10-14T13:29:19.2521447Z   repository: MorimFr/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.2525703Z   token: ***
+quality	Checkout	2026-10-14T13:29:19.2526208Z   ssh-strict: true
+quality	Checkout	2026-10-14T13:29:19.2526689Z   ssh-user: git
+quality	Checkout	2026-10-14T13:29:19.2527169Z   persist-credentials: true
+quality	Checkout	2026-10-14T13:29:19.2527705Z   clean: true
+quality	Checkout	2026-10-14T13:29:19.2528193Z   sparse-checkout-cone-mode: true
+quality	Checkout	2026-10-14T13:29:19.2528762Z   fetch-depth: 1
+quality	Checkout	2026-10-14T13:29:19.2529242Z   fetch-tags: false
+quality	Checkout	2026-10-14T13:29:19.2529734Z   show-progress: true
+quality	Checkout	2026-10-14T13:29:19.2530233Z   lfs: false
+quality	Checkout	2026-10-14T13:29:19.2530690Z   submodules: false
+quality	Checkout	2026-10-14T13:29:19.2531190Z   set-safe-directory: true
+quality	Checkout	2026-10-14T13:29:19.2531746Z   allow-unsafe-pr-checkout: false
+quality	Checkout	2026-10-14T13:29:19.2532760Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.3574126Z Syncing repository: MorimFr/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.3577138Z ##[group]Getting Git version info
+quality	Checkout	2026-10-14T13:29:19.3578555Z Working directory is '/home/runner/work/entrega-inicial/entrega-inicial'
+quality	Checkout	2026-10-14T13:29:19.3580717Z [command]/usr/bin/git version
+quality	Checkout	2026-10-14T13:29:19.3640792Z git version 2.55.0
+quality	Checkout	2026-10-14T13:29:19.3663410Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.3676050Z Temporarily overriding HOME='/home/runner/work/_temp/e0bf1eae-701c-44b1-9b40-8c0ec9e63edb' before making global git config changes
+quality	Checkout	2026-10-14T13:29:19.3681770Z Adding repository directory to the temporary git global config as a safe directory
+quality	Checkout	2026-10-14T13:29:19.3684246Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/entrega-inicial/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.3729874Z Deleting the contents of '/home/runner/work/entrega-inicial/entrega-inicial'
+quality	Checkout	2026-10-14T13:29:19.3733500Z ##[group]Determining repository object format
+quality	Checkout	2026-10-14T13:29:19.3735145Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.3736462Z ##[group]Initializing the repository
+quality	Checkout	2026-10-14T13:29:19.3739795Z [command]/usr/bin/git init /home/runner/work/entrega-inicial/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.3839702Z hint: Using 'master' as the name for the initial branch. This default branch name
+quality	Checkout	2026-10-14T13:29:19.3841714Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+quality	Checkout	2026-10-14T13:29:19.3843742Z hint: to use in all of your new repositories, which will suppress this warning,
+quality	Checkout	2026-10-14T13:29:19.3845151Z hint: call:
+quality	Checkout	2026-10-14T13:29:19.3845959Z hint:
+quality	Checkout	2026-10-14T13:29:19.3846930Z hint: 	git config --global init.defaultBranch <name>
+quality	Checkout	2026-10-14T13:29:19.3848050Z hint:
+quality	Checkout	2026-10-14T13:29:19.3849162Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+quality	Checkout	2026-10-14T13:29:19.3850994Z hint: 'development'. The just-created branch can be renamed via this command:
+quality	Checkout	2026-10-14T13:29:19.3852612Z hint:
+quality	Checkout	2026-10-14T13:29:19.3853383Z hint: 	git branch -m <name>
+quality	Checkout	2026-10-14T13:29:19.3854251Z hint:
+quality	Checkout	2026-10-14T13:29:19.3855476Z hint: Disable this message with "git config set advice.defaultBranchName false"
+quality	Checkout	2026-10-14T13:29:19.3857904Z Initialized empty Git repository in /home/runner/work/entrega-inicial/entrega-inicial/.git/
+quality	Checkout	2026-10-14T13:29:19.3868985Z [command]/usr/bin/git remote add origin https://github.com/MorimFr/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.3915923Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.3917339Z ##[group]Disabling automatic garbage collection
+quality	Checkout	2026-10-14T13:29:19.3919129Z [command]/usr/bin/git config --local gc.auto 0
+quality	Checkout	2026-10-14T13:29:19.3953388Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.3954879Z ##[group]Setting up auth
+quality	Checkout	2026-10-14T13:29:19.3955823Z Removing SSH command configuration
+quality	Checkout	2026-10-14T13:29:19.3959443Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+quality	Checkout	2026-10-14T13:29:19.3998782Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+quality	Checkout	2026-10-14T13:29:19.4356265Z Removing HTTP extra header
+quality	Checkout	2026-10-14T13:29:19.4364517Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+quality	Checkout	2026-10-14T13:29:19.4404073Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+quality	Checkout	2026-10-14T13:29:19.4650516Z Removing includeIf entries pointing to credentials config files
+quality	Checkout	2026-10-14T13:29:19.4656890Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+quality	Checkout	2026-10-14T13:29:19.4695047Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+quality	Checkout	2026-10-14T13:29:19.4935187Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+quality	Checkout	2026-10-14T13:29:19.4985758Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git.path /home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Checkout	2026-10-14T13:29:19.5028813Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Checkout	2026-10-14T13:29:19.5070497Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Checkout	2026-10-14T13:29:19.5108233Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Checkout	2026-10-14T13:29:19.5140023Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.5141406Z ##[group]Fetching the repository
+quality	Checkout	2026-10-14T13:29:19.5148098Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6274b36aa3cc5549dd0c1e58398e0fc70fd79c64:refs/remotes/pull/24/merge
+quality	Checkout	2026-10-14T13:29:19.9667128Z From https://github.com/MorimFr/entrega-inicial
+quality	Checkout	2026-10-14T13:29:19.9679755Z  * [new ref]         6274b36aa3cc5549dd0c1e58398e0fc70fd79c64 -> pull/24/merge
+quality	Checkout	2026-10-14T13:29:19.9683836Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.9685163Z ##[group]Determining the checkout info
+quality	Checkout	2026-10-14T13:29:19.9686660Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:19.9689236Z [command]/usr/bin/git sparse-checkout disable
+quality	Checkout	2026-10-14T13:29:19.9742498Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+quality	Checkout	2026-10-14T13:29:19.9776871Z ##[group]Checking out the ref
+quality	Checkout	2026-10-14T13:29:19.9780548Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/24/merge
+quality	Checkout	2026-10-14T13:29:19.9953876Z Note: switching to 'refs/remotes/pull/24/merge'.
+quality	Checkout	2026-10-14T13:29:19.9955004Z 
+quality	Checkout	2026-10-14T13:29:19.9956144Z You are in 'detached HEAD' state. You can look around, make experimental
+quality	Checkout	2026-10-14T13:29:19.9959155Z changes and commit them, and you can discard any commits you make in this
+quality	Checkout	2026-10-14T13:29:19.9962427Z state without impacting any branches by switching back to a branch.
+quality	Checkout	2026-10-14T13:29:19.9963734Z 
+quality	Checkout	2026-10-14T13:29:19.9964775Z If you want to create a new branch to retain commits you create, you may
+quality	Checkout	2026-10-14T13:29:19.9966795Z do so (now or later) by using -c with the switch command. Example:
+quality	Checkout	2026-10-14T13:29:19.9967945Z 
+quality	Checkout	2026-10-14T13:29:19.9968382Z   git switch -c <new-branch-name>
+quality	Checkout	2026-10-14T13:29:19.9969267Z 
+quality	Checkout	2026-10-14T13:29:19.9969796Z Or undo this operation with:
+quality	Checkout	2026-10-14T13:29:19.9970719Z 
+quality	Checkout	2026-10-14T13:29:19.9971304Z   git switch -
+quality	Checkout	2026-10-14T13:29:19.9972201Z 
+quality	Checkout	2026-10-14T13:29:19.9973313Z Turn off this advice by setting config variable advice.detachedHead to false
+quality	Checkout	2026-10-14T13:29:19.9974868Z 
+quality	Checkout	2026-10-14T13:29:19.9976650Z HEAD is now at 6274b36 Merge f863ddb4a56619ddccf876224d0dd6284aceefd5 into 3b93ed7500818946d6b7d74b545edc8b6410dc53
+quality	Checkout	2026-10-14T13:29:19.9981799Z ##[endgroup]
+quality	Checkout	2026-10-14T13:29:20.0020973Z [command]/usr/bin/git log -1 --format=%H
+quality	Checkout	2026-10-14T13:29:20.0052558Z 6274b36aa3cc5549dd0c1e58398e0fc70fd79c64
+quality	Configure Python	﻿2026-10-14T13:29:20.0527048Z ##[group]Run actions/setup-python@v7
+quality	Configure Python	2026-10-14T13:29:20.0528383Z with:
+quality	Configure Python	2026-10-14T13:29:20.0529261Z   python-version: 3.12
+quality	Configure Python	2026-10-14T13:29:20.0530260Z   cache: pip
+quality	Configure Python	2026-10-14T13:29:20.0531162Z   check-latest: false
+quality	Configure Python	2026-10-14T13:29:20.0541202Z   token: ***
+quality	Configure Python	2026-10-14T13:29:20.0542565Z   update-environment: true
+quality	Configure Python	2026-10-14T13:29:20.0544362Z   allow-prereleases: false
+quality	Configure Python	2026-10-14T13:29:20.0545506Z   freethreaded: false
+quality	Configure Python	2026-10-14T13:29:20.0546687Z ##[endgroup]
+quality	Configure Python	2026-10-14T13:29:20.1792616Z ##[group]Installed versions
+quality	Configure Python	2026-10-14T13:29:20.1888193Z Successfully set up CPython (3.12.15)
+quality	Configure Python	2026-10-14T13:29:20.1891460Z ##[endgroup]
+quality	Configure Python	2026-10-14T13:29:20.3138487Z [command]/opt/hostedtoolcache/Python/3.12.15/x64/bin/pip cache dir
+quality	Configure Python	2026-10-14T13:29:20.5840375Z /home/runner/.cache/pip
+quality	Configure Python	2026-10-14T13:29:20.7197879Z pip cache is not found
+quality	Install project	﻿2026-10-14T13:29:20.7397099Z ##[group]Run python -m pip install -e ".[dev]"
+quality	Install project	2026-10-14T13:29:20.7398606Z ^[[36;1mpython -m pip install -e ".[dev]"^[[0m
+quality	Install project	2026-10-14T13:29:20.7643517Z shell: /usr/bin/bash -e {0}
+quality	Install project	2026-10-14T13:29:20.7644663Z env:
+quality	Install project	2026-10-14T13:29:20.7645767Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Install project	2026-10-14T13:29:20.7647632Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+quality	Install project	2026-10-14T13:29:20.7649437Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Install project	2026-10-14T13:29:20.7651041Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Install project	2026-10-14T13:29:20.7652930Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Install project	2026-10-14T13:29:20.7654585Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+quality	Install project	2026-10-14T13:29:20.7655984Z ##[endgroup]
+quality	Install project	2026-10-14T13:29:21.3476192Z Obtaining file:///home/runner/work/entrega-inicial/entrega-inicial
+quality	Install project	2026-10-14T13:29:21.3495554Z   Installing build dependencies: started
+quality	Install project	2026-10-14T13:29:22.0756692Z   Installing build dependencies: finished with status 'done'
+quality	Install project	2026-10-14T13:29:22.0761673Z   Checking if build backend supports build_editable: started
+quality	Install project	2026-10-14T13:29:22.4428674Z   Checking if build backend supports build_editable: finished with status 'done'
+quality	Install project	2026-10-14T13:29:22.4437357Z   Getting requirements to build editable: started
+quality	Install project	2026-10-14T13:29:22.7927858Z   Getting requirements to build editable: finished with status 'done'
+quality	Install project	2026-10-14T13:29:22.7936694Z   Preparing editable metadata (pyproject.toml): started
+quality	Install project	2026-10-14T13:29:22.9903310Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+quality	Install project	2026-10-14T13:29:23.0908756Z Collecting fastapi==0.116.1 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.1364871Z   Downloading fastapi-0.116.1-py3-none-any.whl.metadata (28 kB)
+quality	Install project	2026-10-14T13:29:23.2560106Z Collecting pydantic==2.12.5 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.2593483Z   Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+quality	Install project	2026-10-14T13:29:23.2922919Z Collecting uvicorn==0.35.0 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.2952992Z   Downloading uvicorn-0.35.0-py3-none-any.whl.metadata (6.5 kB)
+quality	Install project	2026-10-14T13:29:23.3147655Z Collecting httpx==0.28.1 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.3178898Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+quality	Install project	2026-10-14T13:29:23.3427956Z Collecting pytest==8.4.1 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.3466946Z   Downloading pytest-8.4.1-py3-none-any.whl.metadata (7.7 kB)
+quality	Install project	2026-10-14T13:29:23.3619740Z Collecting pytest-cov==6.2.1 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.3653590Z   Downloading pytest_cov-6.2.1-py3-none-any.whl.metadata (30 kB)
+quality	Install project	2026-10-14T13:29:23.6959716Z Collecting ruff==0.12.7 (from campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.6996165Z   Downloading ruff-0.12.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (25 kB)
+quality	Install project	2026-10-14T13:29:23.7252672Z Collecting starlette<0.48.0,>=0.40.0 (from fastapi==0.116.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.7290203Z   Downloading starlette-0.47.3-py3-none-any.whl.metadata (6.2 kB)
+quality	Install project	2026-10-14T13:29:23.7469749Z Collecting typing-extensions>=4.8.0 (from fastapi==0.116.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.7505071Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+quality	Install project	2026-10-14T13:29:23.7608393Z Collecting annotated-types>=0.6.0 (from pydantic==2.12.5->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:23.7640702Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+quality	Install project	2026-10-14T13:29:24.4312322Z Collecting pydantic-core==2.41.5 (from pydantic==2.12.5->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.4347836Z   Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+quality	Install project	2026-10-14T13:29:24.4459261Z Collecting typing-inspection>=0.4.2 (from pydantic==2.12.5->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.4497003Z   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+quality	Install project	2026-10-14T13:29:24.4673872Z Collecting anyio (from httpx==0.28.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.4711221Z   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+quality	Install project	2026-10-14T13:29:24.4925962Z Collecting certifi (from httpx==0.28.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.4962110Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+quality	Install project	2026-10-14T13:29:24.5196581Z Collecting httpcore==1.* (from httpx==0.28.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.5234422Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+quality	Install project	2026-10-14T13:29:24.5379635Z Collecting idna (from httpx==0.28.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.5410757Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+quality	Install project	2026-10-14T13:29:24.5528024Z Collecting iniconfig>=1 (from pytest==8.4.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.5558605Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+quality	Install project	2026-10-14T13:29:24.5706233Z Collecting packaging>=20 (from pytest==8.4.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.5738979Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+quality	Install project	2026-10-14T13:29:24.5856593Z Collecting pluggy<2,>=1.5 (from pytest==8.4.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.5887384Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+quality	Install project	2026-10-14T13:29:24.6056014Z Collecting pygments>=2.7.2 (from pytest==8.4.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:24.6086214Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+quality	Install project	2026-10-14T13:29:25.0318819Z Collecting coverage>=7.5 (from coverage[toml]>=7.5->pytest-cov==6.2.1->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.0354501Z   Downloading coverage-7.16.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.2 kB)
+quality	Install project	2026-10-14T13:29:25.0532280Z Collecting click>=7.0 (from uvicorn==0.35.0->uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.0563613Z   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+quality	Install project	2026-10-14T13:29:25.0667098Z Collecting h11>=0.8 (from uvicorn==0.35.0->uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.0701794Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+quality	Install project	2026-10-14T13:29:25.1052878Z Collecting httptools>=0.6.3 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.1086001Z   Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+quality	Install project	2026-10-14T13:29:25.1226364Z Collecting python-dotenv>=0.13 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.1258337Z   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+quality	Install project	2026-10-14T13:29:25.1617428Z Collecting pyyaml>=5.1 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.1658175Z   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+quality	Install project	2026-10-14T13:29:25.2027955Z Collecting uvloop>=0.15.1 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.2062697Z   Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+quality	Install project	2026-10-14T13:29:25.2783953Z Collecting watchfiles>=0.13 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.2819776Z   Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+quality	Install project	2026-10-14T13:29:25.3926057Z Collecting websockets>=10.4 (from uvicorn[standard]==0.35.0->campusflow==0.3.0)
+quality	Install project	2026-10-14T13:29:25.3964740Z   Downloading websockets-17.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+quality	Install project	2026-10-14T13:29:25.4212588Z Downloading fastapi-0.116.1-py3-none-any.whl (95 kB)
+quality	Install project	2026-10-14T13:29:25.4280275Z Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+quality	Install project	2026-10-14T13:29:25.4373738Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+quality	Install project	2026-10-14T13:29:25.4429177Z Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+quality	Install project	2026-10-14T13:29:25.4583847Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 144.2 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.4615016Z Downloading pytest-8.4.1-py3-none-any.whl (365 kB)
+quality	Install project	2026-10-14T13:29:25.4671494Z Downloading pytest_cov-6.2.1-py3-none-any.whl (24 kB)
+quality	Install project	2026-10-14T13:29:25.4720553Z Downloading ruff-0.12.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.9 MB)
+quality	Install project	2026-10-14T13:29:25.5199561Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.9/12.9 MB 280.5 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.5233702Z Downloading uvicorn-0.35.0-py3-none-any.whl (66 kB)
+quality	Install project	2026-10-14T13:29:25.5284010Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+quality	Install project	2026-10-14T13:29:25.5338270Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+quality	Install project	2026-10-14T13:29:25.5396538Z Downloading starlette-0.47.3-py3-none-any.whl (72 kB)
+quality	Install project	2026-10-14T13:29:25.5446539Z Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+quality	Install project	2026-10-14T13:29:25.5496770Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+quality	Install project	2026-10-14T13:29:25.5543722Z Downloading click-8.5.0-py3-none-any.whl (125 kB)
+quality	Install project	2026-10-14T13:29:25.5610989Z Downloading coverage-7.16.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (258 kB)
+quality	Install project	2026-10-14T13:29:25.5671830Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+quality	Install project	2026-10-14T13:29:25.5721237Z Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (552 kB)
+quality	Install project	2026-10-14T13:29:25.5768643Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 552.8/552.8 kB 114.5 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.5801269Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+quality	Install project	2026-10-14T13:29:25.5857188Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+quality	Install project	2026-10-14T13:29:25.5903362Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+quality	Install project	2026-10-14T13:29:25.5952522Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+quality	Install project	2026-10-14T13:29:25.6030170Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 187.1 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.6066074Z Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+quality	Install project	2026-10-14T13:29:25.6114254Z Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+quality	Install project	2026-10-14T13:29:25.6176901Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 180.4 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.6199678Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+quality	Install project	2026-10-14T13:29:25.6247681Z Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+quality	Install project	2026-10-14T13:29:25.6296791Z Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.5 MB)
+quality	Install project	2026-10-14T13:29:25.6467385Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 291.2 MB/s  0:00:00
+quality	Install project	2026-10-14T13:29:25.6500781Z Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (458 kB)
+quality	Install project	2026-10-14T13:29:25.6563208Z Downloading websockets-17.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (225 kB)
+quality	Install project	2026-10-14T13:29:25.6618808Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+quality	Install project	2026-10-14T13:29:25.7554587Z Building wheels for collected packages: campusflow
+quality	Install project	2026-10-14T13:29:25.7563041Z   Building editable for campusflow (pyproject.toml): started
+quality	Install project	2026-10-14T13:29:25.9803493Z   Building editable for campusflow (pyproject.toml): finished with status 'done'
+quality	Install project	2026-10-14T13:29:25.9810191Z   Created wheel for campusflow: filename=campusflow-0.3.0-0.editable-py3-none-any.whl size=7043 sha256=7b12d78b03b256a02c9ee3e37b96891577b597cca434cf28cca51d1699517c0a
+quality	Install project	2026-10-14T13:29:25.9812572Z   Stored in directory: /tmp/pip-ephem-wheel-cache-a5woznc1/wheels/72/90/a6/006f161d1d57a8a20ce735d86e7382f31c5807152743dcdd37
+quality	Install project	2026-10-14T13:29:25.9831713Z Successfully built campusflow
+quality	Install project	2026-10-14T13:29:26.0421965Z Installing collected packages: websockets, uvloop, typing-extensions, ruff, pyyaml, python-dotenv, pygments, pluggy, packaging, iniconfig, idna, httptools, h11, coverage, click, certifi, annotated-types, uvicorn, typing-inspection, pytest, pydantic-core, httpcore, anyio, watchfiles, starlette, pytest-cov, pydantic, httpx, fastapi, campusflow
+quality	Install project	2026-10-14T13:29:28.7081768Z 
+quality	Install project	2026-10-14T13:29:28.7112596Z Successfully installed annotated-types-0.8.0 anyio-4.15.1 campusflow-0.3.0 certifi-2026.7.22 click-8.5.0 coverage-7.16.2 fastapi-0.116.1 h11-0.16.0 httpcore-1.0.9 httptools-0.9.0 httpx-0.28.1 idna-3.20 iniconfig-2.3.1 packaging-26.3 pluggy-1.6.0 pydantic-2.12.5 pydantic-core-2.41.5 pygments-2.21.0 pytest-8.4.1 pytest-cov-6.2.1 python-dotenv-1.2.4 pyyaml-6.0.3 ruff-0.12.7 starlette-0.47.3 typing-extensions-4.16.0 typing-inspection-0.4.4 uvicorn-0.35.0 uvloop-0.23.0 watchfiles-1.3.0 websockets-17.2
+quality	Lint	﻿2026-10-14T13:29:28.8317855Z ##[group]Run python -m ruff check .
+quality	Lint	2026-10-14T13:29:28.8318221Z ^[[36;1mpython -m ruff check .^[[0m
+quality	Lint	2026-10-14T13:29:28.8382283Z shell: /usr/bin/bash -e {0}
+quality	Lint	2026-10-14T13:29:28.8382548Z env:
+quality	Lint	2026-10-14T13:29:28.8382831Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Lint	2026-10-14T13:29:28.8383295Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+quality	Lint	2026-10-14T13:29:28.8383747Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Lint	2026-10-14T13:29:28.8384149Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Lint	2026-10-14T13:29:28.8384552Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Lint	2026-10-14T13:29:28.8385132Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+quality	Lint	2026-10-14T13:29:28.8385475Z ##[endgroup]
+quality	Lint	2026-10-14T13:29:28.8811351Z All checks passed!
+quality	Tests and coverage	﻿2026-10-14T13:29:28.8854519Z ##[group]Run set -o pipefail
+quality	Tests and coverage	2026-10-14T13:29:28.8854849Z ^[[36;1mset -o pipefail^[[0m
+quality	Tests and coverage	2026-10-14T13:29:28.8855135Z ^[[36;1mpython -m pytest | tee test-output.log^[[0m
+quality	Tests and coverage	2026-10-14T13:29:28.8919176Z shell: /usr/bin/bash -e {0}
+quality	Tests and coverage	2026-10-14T13:29:28.8919430Z env:
+quality	Tests and coverage	2026-10-14T13:29:28.8919702Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Tests and coverage	2026-10-14T13:29:28.8920144Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+quality	Tests and coverage	2026-10-14T13:29:28.8920599Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Tests and coverage	2026-10-14T13:29:28.8920985Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Tests and coverage	2026-10-14T13:29:28.8921363Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Tests and coverage	2026-10-14T13:29:28.8921746Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+quality	Tests and coverage	2026-10-14T13:29:28.8922352Z ##[endgroup]
+quality	Tests and coverage	2026-10-14T13:29:30.9675380Z ============================= test session starts ==============================
+quality	Tests and coverage	2026-10-14T13:29:30.9676544Z platform linux -- Python 3.12.15, pytest-8.4.1, pluggy-1.6.0
+quality	Tests and coverage	2026-10-14T13:29:30.9677384Z rootdir: /home/runner/work/entrega-inicial/entrega-inicial
+quality	Tests and coverage	2026-10-14T13:29:30.9678001Z configfile: pyproject.toml
+quality	Tests and coverage	2026-10-14T13:29:30.9678399Z testpaths: tests
+quality	Tests and coverage	2026-10-14T13:29:30.9678776Z plugins: cov-6.2.1, anyio-4.15.1
+quality	Tests and coverage	2026-10-14T13:29:30.9679208Z collected 55 items
+quality	Tests and coverage	2026-10-14T13:29:30.9679433Z 
+quality	Tests and coverage	2026-10-14T13:29:31.1945144Z tests/api/test_reservations_api.py ..........                            [ 18%]
+quality	Tests and coverage	2026-10-14T13:29:31.4345177Z tests/integration/test_homologation.py .....................             [ 56%]
+quality	Tests and coverage	2026-10-14T13:29:31.4952774Z tests/integration/test_sqlite_repository.py ...                          [ 61%]
+quality	Tests and coverage	2026-10-14T13:29:31.6470843Z tests/unit/test_reservation_service.py .....................             [100%]
+quality	Tests and coverage	2026-10-14T13:29:31.6471796Z 
+quality	Tests and coverage	2026-10-14T13:29:31.6472467Z =============================== warnings summary ===============================
+quality	Tests and coverage	2026-10-14T13:29:31.6473946Z ../../../../../opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/starlette/testclient.py:51
+quality	Tests and coverage	2026-10-14T13:29:31.6476489Z   /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/starlette/testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+quality	Tests and coverage	2026-10-14T13:29:31.6478271Z     _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+quality	Tests and coverage	2026-10-14T13:29:31.6478866Z 
+quality	Tests and coverage	2026-10-14T13:29:31.6479208Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+quality	Tests and coverage	2026-10-14T13:29:31.6480162Z - generated xml file: /home/runner/work/entrega-inicial/entrega-inicial/test-results.xml -
+quality	Tests and coverage	2026-10-14T13:29:31.6481004Z ================================ tests coverage ================================
+quality	Tests and coverage	2026-10-14T13:29:31.6481657Z _______________ coverage: platform linux, python 3.12.15-final-0 _______________
+quality	Tests and coverage	2026-10-14T13:29:31.6482199Z 
+quality	Tests and coverage	2026-10-14T13:29:31.6482360Z Name                              Stmts   Miss  Cover   Missing
+quality	Tests and coverage	2026-10-14T13:29:31.6482780Z ---------------------------------------------------------------
+quality	Tests and coverage	2026-10-14T13:29:31.6483198Z campusflow/__init__.py                0      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6483607Z campusflow/api.py                    57      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6484004Z campusflow/domain.py                 20      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6484400Z campusflow/errors.py                 20      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6484832Z campusflow/repository.py             40      1    98%   100
+quality	Tests and coverage	2026-10-14T13:29:31.6485266Z campusflow/schemas.py                31      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6485663Z campusflow/service.py                58      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6486062Z campusflow/sqlite_repository.py      89      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6486466Z campusflow/time_policy.py             4      0   100%
+quality	Tests and coverage	2026-10-14T13:29:31.6487142Z ---------------------------------------------------------------
+quality	Tests and coverage	2026-10-14T13:29:31.6487536Z TOTAL                               319      1    99%
+quality	Tests and coverage	2026-10-14T13:29:31.6487897Z Coverage XML written to file coverage.xml
+quality	Tests and coverage	2026-10-14T13:29:31.6488507Z Required test coverage of 90% reached. Total coverage: 99.69%
+quality	Tests and coverage	2026-10-14T13:29:31.6488991Z ======================== 55 passed, 1 warning in 0.78s =========================
+quality	Publish execution evidence	﻿2026-10-14T13:29:31.7202511Z ##[group]Run actions/upload-artifact@v7
+quality	Publish execution evidence	2026-10-14T13:29:31.7202846Z with:
+quality	Publish execution evidence	2026-10-14T13:29:31.7203059Z   name: test-evidence-38572174867
+quality	Publish execution evidence	2026-10-14T13:29:31.7203379Z   path: test-output.log
+quality	Publish execution evidence	coverage.xml
+quality	Publish execution evidence	test-results.xml
+quality	Publish execution evidence	
+quality	Publish execution evidence	2026-10-14T13:29:31.7203708Z   if-no-files-found: warn
+quality	Publish execution evidence	2026-10-14T13:29:31.7203949Z   compression-level: 6
+quality	Publish execution evidence	2026-10-14T13:29:31.7204160Z   overwrite: false
+quality	Publish execution evidence	2026-10-14T13:29:31.7204379Z   include-hidden-files: false
+quality	Publish execution evidence	2026-10-14T13:29:31.7204607Z   archive: true
+quality	Publish execution evidence	2026-10-14T13:29:31.7204792Z env:
+quality	Publish execution evidence	2026-10-14T13:29:31.7205059Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Publish execution evidence	2026-10-14T13:29:31.7205489Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+quality	Publish execution evidence	2026-10-14T13:29:31.7205924Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Publish execution evidence	2026-10-14T13:29:31.7206302Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Publish execution evidence	2026-10-14T13:29:31.7206675Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+quality	Publish execution evidence	2026-10-14T13:29:31.7207058Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+quality	Publish execution evidence	2026-10-14T13:29:31.7207398Z ##[endgroup]
+quality	Publish execution evidence	2026-10-14T13:29:31.8663315Z Multiple search paths detected. Calculating the least common ancestor of all paths
+quality	Publish execution evidence	2026-10-14T13:29:31.8665075Z The least common ancestor is /home/runner/work/entrega-inicial/entrega-inicial. This will be the root directory of the artifact
+quality	Publish execution evidence	2026-10-14T13:29:31.8666020Z With the provided path, there will be 3 files uploaded
+quality	Publish execution evidence	2026-10-14T13:29:31.8666842Z Artifact name is valid!
+quality	Publish execution evidence	2026-10-14T13:29:31.8667146Z Root directory input is valid!
+quality	Publish execution evidence	2026-10-14T13:29:32.1028835Z Uploading artifact: test-evidence-38572174867.zip
+quality	Publish execution evidence	2026-10-14T13:29:32.1071096Z Beginning upload of artifact content to blob storage
+quality	Publish execution evidence	2026-10-14T13:29:32.2344977Z Uploaded bytes 3522
+quality	Publish execution evidence	2026-10-14T13:29:32.2631684Z Finished uploading artifact content to blob storage!
+quality	Publish execution evidence	2026-10-14T13:29:32.2633208Z SHA256 digest of uploaded artifact is 25fe38f2e44006b2993175bd9de7e04bbfc9ed1a9258f761c3dc92aba74a3c51
+quality	Publish execution evidence	2026-10-14T13:29:32.2634216Z Finalizing artifact upload
+quality	Publish execution evidence	2026-10-14T13:29:32.6648122Z Artifact test-evidence-38572174867 successfully finalized. Artifact ID 11897109310
+quality	Publish execution evidence	2026-10-14T13:29:32.6649186Z Artifact test-evidence-38572174867 has been successfully uploaded! Final size is 3522 bytes. Artifact ID is 11897109310
+quality	Publish execution evidence	2026-10-14T13:29:32.6653291Z Artifact download URL: https://github.com/MorimFr/entrega-inicial/actions/runs/38572174867/artifacts/11897109310
+quality	Post Configure Python	﻿2026-10-14T13:29:32.6825161Z Post job cleanup.
+quality	Post Configure Python	2026-10-14T13:29:32.8135947Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/entrega-inicial/entrega-inicial --files-from manifest.txt --use-compress-program zstdmt
+quality	Post Configure Python	2026-10-14T13:29:34.0613425Z Sent 30668105 of 30668105 (100.0%), 33.6 MBs/sec
+quality	Post Configure Python	2026-10-14T13:29:34.2338179Z Cache saved with the key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.15-pip-2929b2480439554d98158e3869872f8e74aee55ce0fb97ea52c0708ef8b925d0
+quality	Post Checkout	﻿2026-10-14T13:29:34.2528000Z Post job cleanup.
+quality	Post Checkout	2026-10-14T13:29:34.3435564Z [command]/usr/bin/git version
+quality	Post Checkout	2026-10-14T13:29:34.3484456Z git version 2.55.0
+quality	Post Checkout	2026-10-14T13:29:34.3527143Z Temporarily overriding HOME='/home/runner/work/_temp/ed4b8cd6-9d94-4b3e-a601-e73e72f4fd68' before making global git config changes
+quality	Post Checkout	2026-10-14T13:29:34.3528750Z Adding repository directory to the temporary git global config as a safe directory
+quality	Post Checkout	2026-10-14T13:29:34.3533337Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/entrega-inicial/entrega-inicial
+quality	Post Checkout	2026-10-14T13:29:34.3566963Z Removing SSH command configuration
+quality	Post Checkout	2026-10-14T13:29:34.3573953Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+quality	Post Checkout	2026-10-14T13:29:34.3613056Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+quality	Post Checkout	2026-10-14T13:29:34.3868072Z Removing HTTP extra header
+quality	Post Checkout	2026-10-14T13:29:34.3871657Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+quality	Post Checkout	2026-10-14T13:29:34.3908101Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+quality	Post Checkout	2026-10-14T13:29:34.4158149Z Removing includeIf entries pointing to credentials config files
+quality	Post Checkout	2026-10-14T13:29:34.4167309Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+quality	Post Checkout	2026-10-14T13:29:34.4201139Z includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git.path
+quality	Post Checkout	2026-10-14T13:29:34.4202354Z includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git/worktrees/*.path
+quality	Post Checkout	2026-10-14T13:29:34.4203471Z includeif.gitdir:/github/workspace/.git.path
+quality	Post Checkout	2026-10-14T13:29:34.4204157Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+quality	Post Checkout	2026-10-14T13:29:34.4212394Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git.path
+quality	Post Checkout	2026-10-14T13:29:34.4238633Z /home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Post Checkout	2026-10-14T13:29:34.4259887Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-76c5509e\-bc65\-4419\-bdc1\-1905790203c6\.config
+quality	Post Checkout	2026-10-14T13:29:34.4307537Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git/worktrees/*.path
+quality	Post Checkout	2026-10-14T13:29:34.4336528Z /home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Post Checkout	2026-10-14T13:29:34.4349366Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/entrega-inicial/entrega-inicial/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-76c5509e\-bc65\-4419\-bdc1\-1905790203c6\.config
+quality	Post Checkout	2026-10-14T13:29:34.4388898Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+quality	Post Checkout	2026-10-14T13:29:34.4416007Z /github/runner_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Post Checkout	2026-10-14T13:29:34.4425163Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-76c5509e\-bc65\-4419\-bdc1\-1905790203c6\.config
+quality	Post Checkout	2026-10-14T13:29:34.4465045Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+quality	Post Checkout	2026-10-14T13:29:34.4493659Z /github/runner_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config
+quality	Post Checkout	2026-10-14T13:29:34.4502252Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-76c5509e\-bc65\-4419\-bdc1\-1905790203c6\.config
+quality	Post Checkout	2026-10-14T13:29:34.4541221Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+quality	Post Checkout	2026-10-14T13:29:34.4765512Z Removing credentials config '/home/runner/work/_temp/git-credentials-76c5509e-bc65-4419-bdc1-1905790203c6.config'
+quality	Complete job	﻿2026-10-14T13:29:34.4906173Z Cleaning up orphan processes

@@ -1,130 +1,107 @@
 # Análise comparativa e ético-técnica de agentes de IA
 
-**Data da análise:** 1 de setembro de 2026
-**Escopo:** desenvolvimento de software orientado por especificação (SDD) no CampusFlow.
+Data de atualização: 14/10/2026. Projeto: CampusFlow. Autor responsável: Felipe Amorim Monteiro.
 
-## Método e limite da comparação
+## Método e alcance
 
-O **Codex foi a única ferramenta executada no repositório**. Claude Code, Cursor e Google
-Antigravity foram avaliados por documentação oficial, sem ensaio controlado; por isso, este texto não
-atribui notas de velocidade, qualidade ou custo que não tenham sido medidos. A comparação identifica
-capacidades e riscos relevantes ao mesmo fluxo SDD, e não declara um vencedor universal.
+Codex foi o agente utilizado na implementação e homologação. Claude Code, Cursor e Antigravity
+foram avaliados documentalmente por fontes oficiais. Não foram executados benchmarks com essas
+três ferramentas; não há notas de velocidade, custo ou qualidade experimental. O requisito admite
+ferramentas avaliadas/utilizadas: a matriz compara adequação ao SDD e explicita o tipo de evidência.
 
-## Matriz comparativa
+| Ferramenta | Ponto forte documentado | Limitação/controle relevante | Impacto e evidência |
+|---|---|---|---|
+| Codex | contexto AGENTS.md, edição e execução de comandos/testes | limites de acesso dependem da configuração, não só do prompt | uso real: implementação e 21 novos casos; geração anterior tinha erros revelados pelo harness |
+| Claude Code | fluxo de terminal com permissões e revisão das ações | permissões amplas/MCP aumentam exposição; mudanças devem ser inspecionadas | avaliação documental: candidato para SDD reproduzível, sem medida de qualidade no CampusFlow |
+| Cursor | editor e agentes integrados; política de Privacy Mode | contexto pode trafegar aos serviços; modo privado não substitui minimização de dados | avaliação documental: facilita leitura de diff e iteração na IDE; sem ensaio prático |
+| Antigravity | política de execução/revisão e sandbox configurável | Always Proceed amplia autonomia e risco; configurar escopo de projeto | avaliação documental: planos e revisão podem apoiar SDD; sem resultado medido |
 
-| Ferramenta | Forma de trabalho e contexto | Controles relevantes | Impacto provável no SDD | Evidência no projeto |
-|---|---|---|---|---|
-| **Codex** | Agente atua sobre workspace/terminal; `AGENTS.md` mantém regras e fonte de verdade. | Limites de filesystem/rede, aprovações e logs de ações conforme configuração. | Bom encaixe para ciclo especificação → teste → implementação → execução, com diff revisável. | **Uso real:** decomposição, teste de regressão RN-03, código, testes e documentação; todo resultado passou por harness e Git. |
-| **Claude Code** | Agente de terminal com ferramentas permitidas/bloqueadas, modos de permissão e saída estruturada. | `--allowedTools`, `--disallowedTools`, modo de planejamento e prompts; a própria CLI sinaliza risco ao ignorar permissões. | Pode automatizar tarefas e CI com granularidade de ferramentas; exige política explícita para Bash e MCP. | **Avaliação documental:** não instalado nem executado neste trabalho. |
-| **Cursor** | IDE com autocomplete, edição inline, agente, terminal, regras de projeto e agentes em segundo plano. | Permissões de CLI e Privacy Mode; agentes remotos têm acesso ao repositório e internet conforme configuração. | Feedback visual favorece revisão incremental; o modo em segundo plano amplia produtividade e superfície de exfiltração. | **Avaliação documental:** não instalado nem executado neste trabalho. |
-| **Google Antigravity** | Plataforma/IDE/CLI agentic com projetos, planos, artefatos e permissões por escopo. | Listas deny/ask/allow, sandbox, revisão de artefatos e opção de telemetria. | Planejamento e projetos isolados combinam com SDD; modos irrestritos aumentam o risco operacional. | **Avaliação documental:** não instalado nem executado neste trabalho. |
+Fontes para as capacidades/controles: [Codex AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
+[segurança Codex](https://learn.chatgpt.com/docs/security),
+[Claude Code Security](https://code.claude.com/docs/en/security),
+[Cursor Security](https://cursor.com/security),
+[Antigravity Agent Settings](https://antigravity.google/docs/agent-settings).
 
-### Leitura crítica do impacto real do Codex
+## Impacto real na especificação e no código
 
-O benefício observado não foi simplesmente “gerar mais código”. O agente tornou barato comparar
-especificação, serviço e testes e encontrou a RN-03 aplicada apenas no HTTP. O risco simétrico é
-aceitar uma alteração extensa porque ela parece coerente. Neste ciclo, o controle efetivo veio do
-teste que falhou, da inspeção do diff, da porta de repositório e da revisão humana — não da confiança
-na resposta textual do modelo.
+O Codex auxiliou a decomposição em contratos, porta de repositório e regras numeradas; isso permitiu
+comparar memória e SQLite sem duplicar os casos de uso. Porém, o código anterior assistido por IA
+aceitava tipos inválidos, ordenava datas ISO incorretamente e usava calendários diferentes. Uma
+afirmação de cobertura alta não revelou esses defeitos: em outubro, 13 regressões tiveram 12 falhas
+antes da correção. A inspeção também apontou uma janela de corrida na gravação.
 
-## 1. Alucinação, código inseguro e ações destrutivas
+O benefício mensurável foi expandir a suíte de 34 para 55 casos e documentar regras 0.4.0/ADR-004,
+com logs vinculados à execução. Não se atribui todo o resultado à ferramenta: o aluno determinou
+escopo e aceitação, o harness verificou comportamento e a arquitetura delimitou a mudança.
+Uma comparação experimental futura poderia entregar a mesma Issue a duas ferramentas, com o mesmo
+commit, prompt, ambiente e orçamento, e medir testes, correções humanas e regressões. Esses dados
+não existem neste trabalho e não foram simulados.
 
-Agentes podem inventar APIs, pressupor requisitos, escolher dependências inexistentes ou produzir
-código que passa em casos felizes e falha em bordas. Como também executam terminal, uma alucinação
-pode deixar de ser apenas texto e modificar arquivos, publicar dados ou remover recursos. Documentos
-oficiais das próprias ferramentas oferecem sandbox, permissões e revisão justamente porque essa
-capacidade cria risco.
+## 1. Alucinação e código inseguro ou destrutivo
 
-Controles adotados no CampusFlow:
+Agentes podem omitir regras, propor APIs incorretas, instalar dependências desnecessárias ou executar
+comandos que apaguem/publiquem recursos. Também podem seguir instruções maliciosas em arquivos ou
+resultados externos (prompt injection). Documentação de segurança oferece permissões e isolamento;
+existência da opção não prova que ela foi ativada na sessão.
 
-1. `docs/SPECIFICATION.md` é fonte de verdade com IDs estáveis; o agente não cria requisitos em
-   silêncio.
-2. Mudança de comportamento exige teste que falha antes e atualização do changelog.
-3. Escrita fica limitada ao workspace; segredos e `.env` não entram no contexto nem no Git.
-4. Comandos destrutivos, acesso fora do projeto e publicação externa exigem autorização humana.
-5. Ruff, Pytest, cobertura, Docker e GitHub Actions fornecem sinais independentes do texto da IA.
-6. Nenhum modo equivalente a `--dangerously-skip-permissions` deve ser usado em repositório real.
+Neste projeto, o controle comprovável é AGENTS.md, Issues, diff versionado, testes, transações e gates
+do CI/PR. A sessão teve permissões locais amplas; não afirmamos isolamento efetivo de filesystem/rede.
+Para reutilização, recomenda-se workspace isolado, permissões mínimas e aprovação de ações externas.
+Instruções textuais ajudam o agente, mas não substituem limites técnicos. Testes concorrentes e de
+rollback validam invariantes que testes de sucesso sequencial omitiam.
 
-Testes reduzem, mas não eliminam, risco: uma suíte pode confirmar uma especificação incompleta. Por
-isso, revisão de regra, modelagem de ameaça e inspeção do diff continuam obrigatórias.
+## 2. Dados, privacidade e confidencialidade
 
-## 2. Privacidade, confidencialidade e vazamento de dados
+Enviar código/contexto/logs a um modelo pode expor segredos, dados pessoais e informações
+confidenciais. MCPs acrescentam terceiros e permissões próprios. No Cursor, Privacy Mode reduz uso
+para treinamento segundo o fornecedor; isso não equivale a proibir qualquer processamento externo.
+No projeto, identificadores de teste são fictícios; `.env` e banco local ficam fora do Git e do
+contexto de build Docker. Dados de identificação do aluno ficam no relatório por exigência acadêmica.
 
-Código-fonte, prompts, logs, nomes de clientes, chaves e dados de produção podem ser enviados ao
-provedor ou a integrações MCP. A LGPD considera tratamento um conjunto amplo de operações, incluindo
-acesso, armazenamento, transmissão e processamento; enviar contexto a um modelo deve ter finalidade,
-base e minimização, não ser tratado como uma cópia “invisível”. Modos de privacidade variam por
-produto e plano, e integrações podem ter termos próprios.
-
-Política prática para este projeto:
-
-- usar apenas identificadores fictícios (`aluno-1`) em código, testes e prompts;
-- nunca fornecer token, `.env`, banco real, RA além do necessário ao relatório, ou dado de terceiro;
-- conferir configuração de retenção/treinamento e rota dos dados antes de usar ferramenta nova;
-- limitar indexação e leitura às pastas necessárias;
-- revisar MCPs/plugins como terceiros independentes e conceder privilégio mínimo;
-- revogar credenciais e registrar incidente se um segredo for exposto.
-
-O arquivo SQLite local e o volume Docker são excluídos do Git. Em produção, `user_id` seria dado
-pseudônimo, não anônimo; autenticação, autorização, retenção e exclusão precisariam ser definidas.
+A LGPD estabelece princípios de finalidade, necessidade e segurança, e prevê medidas para proteger
+dados pessoais (arts. 6 e 46). Uma futura implantação precisaria definir finalidade/base do tratamento,
+acesso, retenção e direitos do titular. `user_id` informado pelo cliente não autentica ninguém;
+proibir dados reais é um limite do demonstrador, não uma implementação de autorização.
+[Fonte: texto oficial da LGPD](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm).
 
 ## 3. Propriedade intelectual e direitos autorais
 
-Termos contratuais podem atribuir ao usuário direitos que o fornecedor detenha sobre a saída, mas
-isso não garante três coisas: que a saída seja original, que não infrinja direitos de terceiros ou
-que conteúdo puramente gerado por IA receba proteção autoral em todas as jurisdições. A própria
-natureza probabilística permite saídas semelhantes para usuários diferentes. O U.S. Copyright
-Office, por exemplo, distingue material gerado por IA de contribuição humana protegível; o contexto
-brasileiro deve ser validado juridicamente para uso comercial.
+Contrato do provedor, licença de dependência e proteção autoral são questões distintas. Os termos
+OpenAI atribuem a saída ao usuário na medida permitida pela lei e alertam para similaridade e
+responsabilidade de avaliação. Isso não garante originalidade nem remove direitos de terceiros.
+[Fonte: Termos de Uso](https://openai.com/policies/terms-of-use/).
 
-Controles adotados:
+No Brasil, software tem regime previsto pela Lei 9.609/1998 e a Lei 9.610/1998 trata de direitos
+autorais. Não presumimos que uma cláusula privada resolva a autoria de toda saída automatizada.
+Como referência estrangeira, o U.S. Copyright Office estuda a contribuição humana nas obras com IA;
+seus relatórios não são regra brasileira. [Lei de Software](https://www.planalto.gov.br/ccivil_03/leis/l9609.htm),
+[Lei de Direitos Autorais](https://www.planalto.gov.br/ccivil_03/leis/l9610.htm),
+[relatórios USCO](https://www.copyright.gov/ai/).
 
-- Felipe é responsável por selecionar, revisar, modificar e homologar cada alteração;
-- dependências são explícitas e suas licenças devem ser verificadas antes de distribuição;
-- não solicitar reprodução de repositório proprietário, livro, aula ou código sem licença;
-- manter histórico de commits/PRs para evidenciar contribuição e decisão humanas;
-- conservar a licença do projeto sem afirmar que ela licencia material de terceiros;
-- fazer revisão de similaridade/licenças quando o risco ou o destino comercial justificar.
+O aluno deve revisar licenças e procedência, preservar avisos, evitar copiar material proprietário
+sem permissão e registrar contribuição humana em commits/ADRs. MIT do projeto não concede direitos
+sobre material de terceiros. Antes de uso comercial, uma revisão de licenças/autoria pode ser necessária.
 
-## 4. Centralidade da homologação e revisão humana
+## 4. Homologação e revisão humana no SDD
 
-No fluxo SDD, a IA é uma proponente. A homologação pertence à pessoa responsável porque somente ela
-pode confirmar intenção, impacto jurídico, adequação ao contexto e aceitação do risco. O gate usado é:
+A IA propõe; o responsável confirma intenção, contrato e risco. CI verde é condição técnica, não
+aprovação acadêmica nem prova de ausência de vulnerabilidades. O processo é Issue/regra, regressão,
+correção, diff humano, harness, PR e aceite. Os testes não devem ser removidos para ocultar falhas.
 
-```text
-Issue + regra -> proposta/teste -> diff humano -> harness -> PR -> revisão humana -> merge
-```
+Felipe informou que o professor autorizou a adaptação individual: MorimFr e SrMorim são contas do
+mesmo aluno e as aprovações representam autorrevisão humana. Não houve revisão independente entre
+pares. A autorização é relatada pelo aluno; não há documento docente anexado. A distinção está
+documentada porque transparência sobre IA e revisão é parte da ética do trabalho.
 
-CI verde é condição necessária, não aprovação ética ou de produto. No grupo individual, um
-colaborador autorizado distinto revisa os PRs; autoaprovação não é apresentada como revisão entre
-pares. Qualquer saída da IA pode ser rejeitada mesmo que compile.
+## Riscos residuais
 
-## Matriz de riscos e respostas
+| Risco | Mitigação comprovada/proposta | Limite restante |
+|---|---|---|
+| requisito omitido | IDs e regressões para contratos | requisitos humanos ainda podem ser incompletos |
+| corrupção/conflito concorrente | transação local, rollback, testes | múltiplos hosts e carga elevada não homologados |
+| vazamento ou comando destrutivo | minimização de contexto e privilégio mínimo recomendado | sessão local teve permissões amplas |
+| violação de IP | histórico, licenças e revisão de procedência | ausência de prova automática de originalidade |
+| aprovação inadequada | aceite humano e critérios explícitos | autorrevisão não oferece independência entre pares |
 
-| Risco | Probabilidade/impacto | Controle | Risco residual |
-|---|---|---|---|
-| Regra inventada ou omitida | média / alto | IDs, changelog, teste de borda e revisão | especificação humana pode continuar incompleta |
-| Comando destrutivo | baixa-média / alto | sandbox, deny/ask, privilégio mínimo, backup/Git | aprovação humana equivocada |
-| Exfiltração por prompt injection/MCP | média / alto | rede limitada, contexto mínimo, integrações aprovadas | dependência comprometida ou conteúdo malicioso |
-| Segredo ou dado pessoal no prompt | média / alto | `.gitignore`, dados fictícios, revisão e política de incidentes | erro manual antes da detecção |
-| Código vulnerável apesar de testes | média / alto | lint, testes, revisão, futura análise de segurança | falhas fora do modelo de ameaça |
-| Violação de licença/IP | baixa-média / alto | proveniência, licenças e revisão de similaridade | incerteza jurídica entre jurisdições |
-
-## Fontes oficiais consultadas
-
-- OpenAI, [Running Codex safely](https://openai.com/index/running-codex-safely/) e
-  [Termos de Uso](https://openai.com/policies/terms-of-use/).
-- Anthropic, [Claude Code CLI reference](https://docs.anthropic.com/en/docs/claude-code/cli-usage)
-  e [dados em produtos comerciais](https://support.anthropic.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller).
-- Cursor, [Privacy & Security](https://docs.cursor.com/account/privacy),
-  [CLI permissions](https://docs.cursor.com/cli/reference/permissions) e
-  [Background Agents](https://docs.cursor.com/background-agent).
-- Google, [Antigravity Agent Settings](https://antigravity.google/docs/agent-settings),
-  [Permissions](https://antigravity.google/docs/permissions) e
-  [Data Collection Settings](https://antigravity.google/docs/settings).
-- Governo Federal, [visão geral da LGPD](https://www.gov.br/int/pt-br/acesso-a-informacao/lgpd).
-- U.S. Copyright Office,
-  [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/).
-
-As páginas foram consultadas na data desta análise; configurações e termos devem ser revistos antes
-de cada adoção, pois podem mudar.
+As fontes oficiais acima foram consultadas em 14/10/2026. Não foram copiadas extensamente; são
+referências para a comparação e discussão crítica contextualizadas ao projeto.

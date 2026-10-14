@@ -1,116 +1,59 @@
-# Governança e operação no GitHub
+# Governança da Entrega 2
 
-Este documento define o processo da equipe. Os templates e o pipeline já estão versionados; as
-proteções e evidências devem ser ativadas no repositório remoto por alguém com permissão de admin.
+## Equipe e adaptação autorizada
 
-## 1. Branches
+Felipe Amorim Monteiro, RA 22452139, é o único integrante. `MorimFr` é a conta principal e
+`SrMorim` é uma segunda conta da mesma pessoa. Em 14/10/2026, Felipe informou que o professor
+autorizou essa adaptação para o trabalho individual. A autorização é relatada pelo aluno;
+não há documento do professor anexado a este repositório.
 
-| Branch | Uso | Regra de merge |
-|---|---|---|
-| `main` | versão estável e avaliada | somente PR vindo de `develop` |
-| `develop` | integração da sprint | somente PR de branch curta |
-| `feature/<issue>-<slug>` | funcionalidade | PR para `develop` |
-| `fix/<issue>-<slug>` | correção | PR para `develop` |
-| `docs/<issue>-<slug>` | documentação | PR para `develop` |
+As aprovações nas duas contas representam **autorrevisão humana**, não revisão independente entre
+pares. O autor continua responsável por ler o diff, validar critérios e homologar as saídas da IA.
+O relatório final explicita a adaptação em vez de afirmar que existe outro integrante ou colaborador.
 
-Cada branch curta deve nascer de `develop` atualizado e ser removida após o merge. Não fazer push
-direto em `main` ou `develop`.
+Alguns documentos históricos da Entrega 1 usaram a expressão "colaborador externo" antes desse
+esclarecimento. A caracterização correta para esta entrega é a adaptação individual descrita acima;
+os artefatos anteriores foram preservados como histórico, não como comprovação de um segundo membro.
 
-O commit raiz que inicializa um repositório remoto completamente vazio é a única exceção técnica;
-depois dele, `main` e `develop` recebem mudanças exclusivamente por Pull Request.
+## Fluxo de branches
 
-## 2. Configuração inicial autêntica
+- `feature/*` e `fix/*`: tarefas vinculadas a Issues.
+- `develop`: integração da sprint via PR, exemplificada pelo PR #20.
+- `release/*`: consolidação da árvore validada em develop e promoção via PR para main.
+- `main`: versão acadêmica publicada, sempre promovida por PR.
 
-Depois de criar o repositório público e enviar o commit inicial:
+A branch `release/entrega-intermediaria` e o PR #24 foram necessários devido à diferença de
+ancestralidade de squashes prévios. Merge commits foram habilitados em 14/10 para futuros merges de
+branches duradouras; squash continua disponível para tarefas curtas. Não há necessidade de reescrever
+o histórico já publicado nem fazer push direto em main/develop.
 
-1. Crie `develop` a partir de `main` e defina o trabalho diário nela.
-2. Em **Settings → Branches**, mantenha proteção clássica para `main` e `develop` (ou converta para
-   Rulesets sem reduzir os controles).
-3. Exija Pull Request antes do merge e pelo menos 1 aprovação.
-4. Descarte aprovações quando houver novos commits.
-5. Exija resolução de conversas e o status check `quality`.
-6. Bloqueie force push e exclusão; inclua administradores nas regras.
-7. Para `main`, permita merge apenas após `develop` ter sido validada.
+## Proteções verificáveis
 
-Tire um print das regras ativas para a submissão. Não substitua essa evidência por texto preparado.
+Em 14/10/2026, a auditoria encontrou main/develop sem proteção e sem rulesets ativos. As proteções
+clássicas foram reaplicadas via API, com configuração versionada em
+`.github/entrega2-protection.json`:
 
-## 3. Issues, Project e divisão de trabalho
+- PR obrigatório, uma aprovação, descarte de aprovação após novo commit;
+- aprovação do último push revisável, por conta diferente da conta que fez o push;
+- check `quality`, branch atualizada e resolução de conversas;
+- administradores sujeitos às regras; force push e exclusão desabilitados.
 
-1. Crie um GitHub Project no formato Board com colunas `Backlog`, `Ready`, `In progress`, `Review` e
-   `Done`.
-2. Importe `docs/project-backlog.csv` ou crie Issues a partir dos templates em `.github/ISSUE_TEMPLATE`.
-3. Atribua cada Issue a um integrante real, adicione Sprint 1 e estimativa.
-4. Mova o cartão com o estado real; não marque como concluído antes do PR correspondente.
-5. Cada PR deve usar `Closes #N` e listar os IDs da especificação afetados.
+Esses controles conferem contas e checks; não verificam independência entre pessoas. Essa diferença
+está coberta pela adaptação individual informada pelo aluno.
 
-O CSV é uma decomposição inicial; Felipe Amorim Monteiro (RA 22452139), único integrante, deve ser
-atribuído às Issues no GitHub. O print do Board deve mostrar responsável, estados e escopo da sprint.
+## Sprint, critérios e revisão
 
-### Exceção operacional: equipe individual
+O marco Sprint 2 contém Issues #13-#19, #21 e #25, atribuídas a MorimFr. Cada tarefa tem critérios de
+aceitação e referência a requisitos. Fechar tarefas concluídas em develop com evidência do PR
+correspondente; reservar o aceite da publicação/PDF para a promoção final. Não criar comentários ou
+aprovações que não tenham ocorrido.
 
-O requisito de aprovação “entre membros” é impossível com um único integrante. Autoaprovação ou
-conta duplicada não constituem revisão e não devem ser usadas. Antes da entrega, confirme com o
-docente uma destas opções e registre a autorização:
+Antes de aprovar, conferir:
 
-1. professor ou monitor como revisor do Pull Request;
-2. colega externo à equipe adicionado como colaborador/revisor;
-3. dispensa formal da aprovação humana, mantendo PR, comentários de autorrevisão e CI obrigatório.
+1. regra e contrato HTTP atendidos, inclusive erros e bordas;
+2. regressão, changelog e ADR para comportamento/arquitetura alterados;
+3. nenhum segredo ou banco real no diff; dados de teste fictícios;
+4. Ruff, Pytest e Docker aprovados; CI do commit atual verde;
+5. leitura humana de transações, rollback, fuso e restrições da solução.
 
-A opção adotada foi colaborador externo autorizado, com autor e aprovador distintos. Ela deve
-aparecer no PDF e nas evidências do GitHub.
-
-## 4. Ciclo de uma tarefa
-
-Exemplo para a Issue 3:
-
-```bash
-git switch develop
-git pull --ff-only origin develop
-git switch -c feature/3-criar-reserva
-# implementar, testar e fazer commits pequenos
-git push -u origin feature/3-criar-reserva
-```
-
-Abra PR para `develop` usando o template. O revisor autorizado para a equipe individual verifica
-comportamento, testes, aderência à especificação e segurança. O autor responde aos comentários com
-commit ou justificativa; o revisor aprova apenas depois do CI verde. Para tornar o histórico
-avaliável, não concentre todo o trabalho em um único PR e não use outra conta própria para simular
-revisão.
-
-## 5. Convenção de commits
-
-Formato: `tipo(escopo): resumo no imperativo`.
-
-```text
-feat(reservas): impede conflito de horários
-test(api): cobre cancelamento repetido
-docs(spec): esclarece intervalos adjacentes
-ci(harness): publica relatório de cobertura
-```
-
-Tipos aceitos: `feat`, `fix`, `test`, `docs`, `refactor`, `ci`, `chore`.
-
-## 6. Checklist de revisão
-
-- Issue e requisitos (`RF-*`, `RN-*`, `RNF-*`) estão vinculados.
-- Critérios de aceitação são demonstrados por testes.
-- Não há regra de negócio duplicada na API.
-- Erros preservam o contrato documentado.
-- Não há segredo, dado pessoal ou artefato local no diff.
-- Ruff, Pytest e cobertura passam no GitHub Actions.
-- Mudança arquitetural tem ADR; mudança de comportamento atualiza a especificação.
-
-## 7. Evidências para as entregas
-
-Guardar no PDF final:
-
-- URL pública do repositório;
-- tela do Project com Issues e responsáveis;
-- pelo menos dois PRs com comentários, CI verde e a forma de revisão individual autorizada;
-- ruleset de `main` sem push direto;
-- execução verde do workflow e conteúdo do artefato `test-output.log`;
-- execução Docker do harness.
-
-Na Sprint 2, o marco **Entrega intermediária** reúne as Issues #13 a #19. Os PRs devem mostrar a
-relação entre o teste de regressão, a re-especificação 0.3.0, o adaptador SQLite, a análise crítica de
-IA e os checks. O relatório não deve marcar uma Issue como concluída antes do merge que a fecha.
+Commits usam `tipo(escopo): resumo`. Logs e referências ficam em `docs/evidence/entrega2/`.

@@ -149,7 +149,8 @@ O OpenAPI gerado em `/openapi.json` é a representação executável complementa
 | `errors.py` | Taxonomia estável de erros de domínio | nenhuma |
 | `repository.py` | Porta de persistência e adaptador em memória | domínio |
 | `sqlite_repository.py` | Adaptador persistente, schema e índices SQLite | domínio, biblioteca padrão |
-| `service.py` | Casos de uso e RN-01 a RN-10 | domínio, erros, porta |
+| `service.py` | Casos de uso e RN-01 a RN-11 | domínio, erros, porta |
+| `time_policy.py` | Data do campus em UTC-03 fixo | biblioteca padrão |
 | `schemas.py` | Modelos públicos de entrada/saída | Pydantic, domínio |
 | `api.py` | Rotas, injeção e tradução erro/HTTP | FastAPI, serviço, schemas |
 

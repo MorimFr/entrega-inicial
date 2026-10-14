@@ -1,0 +1,10 @@
+GET /health -> HTTP 200
+GET /rooms -> HTTP 200
+POST /reservations -> HTTP 201
+GET /reservations/7ae26f29-87cb-44c5-9629-eef6eae4f8fd -> HTTP 200
+POST /reservations -> HTTP 409
+GET /reservations?user_id=demo-2dde14c80f324330941f277ddcd72742 -> HTTP 200
+DELETE /reservations/7ae26f29-87cb-44c5-9629-eef6eae4f8fd -> HTTP 200
+DELETE /reservations/7ae26f29-87cb-44c5-9629-eef6eae4f8fd -> HTTP 409
+RESERVATION_ID=7ae26f29-87cb-44c5-9629-eef6eae4f8fd
+DEMO_OK: criacao, consulta, conflito, filtro e cancelamento validados

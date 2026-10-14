@@ -1,0 +1,1 @@
+Tarefa concluída e integrada em develop pelo PR #20 (ou #22 para sincronização), com evidências preservadas. A homologação adicional do PR #24 confirmou 55/55 testes e refinou a especificação 0.4.0. Publicação final e PDF são acompanhados nas Issues #19 e #25.

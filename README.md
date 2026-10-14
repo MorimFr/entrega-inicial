@@ -19,8 +19,9 @@ validação automatizada.
 - consultar disponibilidade;
 - listar reservas de um usuário, com filtro por estado;
 - preservar reservas e cancelamentos em SQLite após reiniciar a aplicação.
+- preservar conflito/limite diário sob concorrência local e usar calendário UTC-03 do campus.
 
-A especificação 0.3.0, regras numeradas e contratos estão em
+A especificação 0.4.0, regras numeradas e contratos estão em
 [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). Com a API em execução, OpenAPI e Swagger ficam em
 `http://localhost:8000/docs`.
 
@@ -44,6 +45,30 @@ nos testes de integração. As decisões e trade-offs estão nos
 [`ADR-001`](docs/adr/001-arquitetura-em-camadas.md),
 [`ADR-002`](docs/adr/002-api-e-testes.md) e
 [`ADR-003`](docs/adr/003-persistencia-sqlite.md).
+
+O [ADR-004](docs/adr/004-calendario-e-atomicidade.md) define calendário comum e unidade de trabalho
+atômica. SQLite usa `BEGIN IMMEDIATE`; o adaptador em memória usa lock nos casos de uso.
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant API
+    participant Servico
+    participant Banco as Repositório / transação
+    Cliente->>API: POST /reservations
+    API->>Servico: Entrada validada
+    Servico->>Banco: Inicia transação
+    Servico->>Banco: Consulta sala, limite e conflitos
+    alt Regra violada
+        Banco-->>Servico: Rollback
+        Servico-->>API: Erro de domínio
+        API-->>Cliente: 404 / 409 / 422
+    else Reserva válida
+        Servico->>Banco: Grava e confirma
+        Banco-->>Servico: Reserva persistida
+        API-->>Cliente: 201 + reserva
+    end
+```
 
 ## Instalação e execução local
 
@@ -125,7 +150,8 @@ como artefatos. Evidências ficam em [`docs/evidence/`](docs/evidence/).
 
 Na Sprint 2, um teste direto do serviço demonstrou que `attendees=0` e `attendees=-1` eram aceitos,
 embora RN-03 exigisse inteiro positivo. A causa era a regra existir apenas no schema HTTP. O serviço
-agora retorna `invalid_attendee_count`, e a versão 0.3.0 da especificação registra a mudança.
+agora retorna `invalid_attendee_count`. A homologação de outubro acrescenta inteiro estrito,
+ordenação por instantes, calendário UTC-03 e transação atômica. A especificação 0.4.0 registra tudo.
 
 O relatório com falha observada, causa, correção e prevenção está em
 [`docs/LOGICAL_ERRORS.md`](docs/LOGICAL_ERRORS.md). O histórico de re-especificação está em
@@ -141,8 +167,8 @@ main (protegida) <- PR aprovado <- develop (protegida) <- feature/fix/docs
 - `develop`: integração; recebe branches curtas vinculadas a Issues.
 - todo merge protegido exige o check `quality`, branch atualizada, conversa resolvida e uma aprovação;
 - a Sprint 2 está no marco **Entrega intermediária**, com Issues #13 a #19 atribuídas a Felipe;
-- como a equipe é individual, um colaborador externo autorizado e diferente do autor realiza a
-  aprovação; autoaprovação não é apresentada como revisão entre pares.
+- Felipe usa MorimFr e SrMorim na adaptação individual que informou ter sido autorizada pelo
+  professor. A segunda conta registra autorrevisão humana, não revisão independente.
 
 Processo, checklist e proteção estão em [`docs/GOVERNANCE.md`](docs/GOVERNANCE.md).
 
@@ -166,10 +192,14 @@ oficial, sem alegação de ensaio prático inexistente.
 | [001](docs/adr/001-arquitetura-em-camadas.md) | Domínio isolado e porta de repositório | Aceita |
 | [002](docs/adr/002-api-e-testes.md) | FastAPI, Pytest e gate de cobertura | Aceita |
 | [003](docs/adr/003-persistencia-sqlite.md) | SQLite persistente atrás da porta | Aceita |
+| [004](docs/adr/004-calendario-e-atomicidade.md) | UTC-03, tipos estritos e transações locais | Aceita |
 
 O relato da segunda iteração está em
 [`docs/EXPERIENCE_REPORT.md`](docs/EXPERIENCE_REPORT.md), e o índice do futuro PDF em
 [`docs/INTERMEDIATE_SUBMISSION.md`](docs/INTERMEDIATE_SUBMISSION.md).
+
+PDF consolidado: `docs/ENTREGA_INTERMEDIARIA.pdf`. Gerador: `scripts/build_intermediate_report.py`.
+Logs reais atuais: `docs/evidence/entrega2/`.
 
 ## Relatório da Entrega 1
 

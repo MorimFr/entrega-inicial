@@ -1,0 +1,189 @@
+{
+  "collected_on": "2026-10-14",
+  "implementation_commit": "f863ddb",
+  "pr": {
+    "baseRefName": "main",
+    "headRefName": "release/entrega-intermediaria",
+    "headRefOid": "f863ddb4a56619ddccf876224d0dd6284aceefd5",
+    "number": 24,
+    "reviewDecision": "REVIEW_REQUIRED",
+    "reviews": [],
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-14T13:29:36Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/MorimFr/entrega-inicial/actions/runs/38572174867/job/115879936616",
+        "name": "quality",
+        "startedAt": "2026-10-14T13:29:17Z",
+        "status": "COMPLETED",
+        "workflowName": "Test harness"
+      }
+    ],
+    "url": "https://github.com/MorimFr/entrega-inicial/pull/24"
+  },
+  "main_protection": {
+    "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection",
+    "required_status_checks": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_status_checks",
+      "strict": true,
+      "contexts": [
+        "quality"
+      ],
+      "contexts_url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_status_checks/contexts",
+      "checks": [
+        {
+          "context": "quality",
+          "app_id": null
+        }
+      ]
+    },
+    "required_pull_request_reviews": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_pull_request_reviews",
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "require_last_push_approval": true,
+      "required_approving_review_count": 1
+    },
+    "required_signatures": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_signatures",
+      "enabled": false
+    },
+    "enforce_admins": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/enforce_admins",
+      "enabled": true
+    },
+    "required_linear_history": {
+      "enabled": false
+    },
+    "allow_force_pushes": {
+      "enabled": false
+    },
+    "allow_deletions": {
+      "enabled": false
+    },
+    "block_creations": {
+      "enabled": false
+    },
+    "required_conversation_resolution": {
+      "enabled": true
+    },
+    "lock_branch": {
+      "enabled": false
+    },
+    "allow_fork_syncing": {
+      "enabled": false
+    }
+  },
+  "develop_protection": {
+    "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection",
+    "required_status_checks": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection/required_status_checks",
+      "strict": true,
+      "contexts": [
+        "quality"
+      ],
+      "contexts_url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection/required_status_checks/contexts",
+      "checks": [
+        {
+          "context": "quality",
+          "app_id": null
+        }
+      ]
+    },
+    "required_pull_request_reviews": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection/required_pull_request_reviews",
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "require_last_push_approval": true,
+      "required_approving_review_count": 1
+    },
+    "required_signatures": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection/required_signatures",
+      "enabled": false
+    },
+    "enforce_admins": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/develop/protection/enforce_admins",
+      "enabled": true
+    },
+    "required_linear_history": {
+      "enabled": false
+    },
+    "allow_force_pushes": {
+      "enabled": false
+    },
+    "allow_deletions": {
+      "enabled": false
+    },
+    "block_creations": {
+      "enabled": false
+    },
+    "required_conversation_resolution": {
+      "enabled": true
+    },
+    "lock_branch": {
+      "enabled": false
+    },
+    "allow_fork_syncing": {
+      "enabled": false
+    }
+  },
+  "issues": [
+    {
+      "number": 25,
+      "state": "OPEN",
+      "title": "Homologar e consolidar a Entrega 2",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/25"
+    },
+    {
+      "number": 21,
+      "state": "CLOSED",
+      "title": "Sincronizar main e develop após publicação da Entrega 1",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/21"
+    },
+    {
+      "number": 19,
+      "state": "OPEN",
+      "title": "Consolidar README e submissão da Entrega 2",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/19"
+    },
+    {
+      "number": 18,
+      "state": "CLOSED",
+      "title": "Elaborar análise comparativa e ético-técnica de IA",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/18"
+    },
+    {
+      "number": 17,
+      "state": "CLOSED",
+      "title": "Registrar erros lógicos, re-especificação e ADRs",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/17"
+    },
+    {
+      "number": 16,
+      "state": "CLOSED",
+      "title": "Ampliar test harness da Entrega 2",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/16"
+    },
+    {
+      "number": 15,
+      "state": "CLOSED",
+      "title": "Implementar consulta de reservas por usuário",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/15"
+    },
+    {
+      "number": 14,
+      "state": "CLOSED",
+      "title": "Adicionar persistência SQLite substituível",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/14"
+    },
+    {
+      "number": 13,
+      "state": "CLOSED",
+      "title": "Corrigir validação de participantes no domínio",
+      "url": "https://github.com/MorimFr/entrega-inicial/issues/13"
+    }
+  ]
+}
+
