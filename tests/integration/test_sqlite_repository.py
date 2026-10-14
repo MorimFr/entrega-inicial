@@ -16,9 +16,7 @@ def test_persists_reservation_and_cancellation_between_instances(
 ) -> None:
     database_path = tmp_path / "campusflow.db"
     rooms = [Room(id="persistente", name="Sala Persistente", capacity=6)]
-    first_service = ReservationService(
-        SQLiteReservationRepository(database_path, rooms=rooms)
-    )
+    first_service = ReservationService(SQLiteReservationRepository(database_path, rooms=rooms))
     starts_at = datetime(2026, 9, 15, 9, tzinfo=UTC)
     created = first_service.create_reservation(
         room_id="persistente",

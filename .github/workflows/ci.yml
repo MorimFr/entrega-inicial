@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main, develop]
   push:
-    branches: [develop]
+    branches: [main, develop]
   workflow_dispatch:
 
 permissions:
@@ -30,7 +30,9 @@ jobs:
         run: python -m ruff check .
 
       - name: Tests and coverage
-        run: python -m pytest | tee test-output.log
+        run: |
+          set -o pipefail
+          python -m pytest | tee test-output.log
 
       - name: Publish execution evidence
         if: always()
@@ -40,4 +42,5 @@ jobs:
           path: |
             test-output.log
             coverage.xml
+            test-results.xml
           if-no-files-found: warn

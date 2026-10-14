@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 coverage.xml
+test-results.xml
 htmlcov/
 .venv/
 .env
@@ -12,3 +13,5 @@ htmlcov/
 /data/
 dist/
 build/
+/tmp/
+/output/

@@ -28,4 +28,3 @@ def service(repository: InMemoryReservationRepository) -> ReservationService:
 def client(repository: InMemoryReservationRepository) -> Iterator[TestClient]:
     with TestClient(create_app(repository)) as test_client:
         yield test_client
-

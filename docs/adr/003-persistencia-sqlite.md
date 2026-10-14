@@ -24,8 +24,8 @@ temporários.
 - consultas ganham índices por sala/usuário, estado e início;
 - SQLite é adequado a uma única instância e baixa concorrência, mas não resolve coordenação entre
   múltiplos processos;
-- as checagens de conflito e gravação ainda não formam uma transação distribuída; produção exigiria
-  autenticação, transação atômica e banco gerenciado.
+- atualização em 14/10/2026: o ADR-004 acrescenta transação atômica local para checagens/gravação;
+  implantação distribuída, autenticação e banco gerenciado continuam fora do escopo.
 
 ## Alternativas consideradas
 

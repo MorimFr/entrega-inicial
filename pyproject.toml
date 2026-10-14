@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "campusflow"
-version = "0.2.0"
+version = "0.3.0"
 description = "API para reserva segura de salas de estudo"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -26,7 +26,7 @@ dev = [
 include = ["campusflow*"]
 
 [tool.pytest.ini_options]
-addopts = "-ra --strict-markers --cov=campusflow --cov-report=term-missing --cov-report=xml --cov-fail-under=90"
+addopts = "-ra --strict-markers --cov=campusflow --cov-report=term-missing --cov-report=xml --cov-fail-under=90 --junitxml=test-results.xml"
 testpaths = ["tests"]
 markers = [
   "unit: testes isolados da regra de negócio",

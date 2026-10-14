@@ -1,8 +1,8 @@
 # Especificação técnica — CampusFlow
 
-**Versão:** 0.3.0
+**Versão:** 0.4.0
 **Estado:** implementada para a Entrega 2
-**Última atualização:** 1 de setembro de 2026
+**Última atualização:** 14 de outubro de 2026
 
 ## 1. Problema e objetivo
 
@@ -43,14 +43,15 @@ interface gráfica continuam fora do escopo.
 |---|---|
 | RN-01 | `starts_at` e `ends_at` são obrigatórios, incluem fuso horário e `ends_at > starts_at`. |
 | RN-02 | A duração máxima de uma reserva é 2 horas; exatamente 2 horas é permitido. |
-| RN-03 | `attendees` é inteiro positivo e não pode exceder a capacidade da sala; cada violação tem código de erro próprio. |
+| RN-03 | `attendees` é inteiro positivo estrito: booleanos, frações e strings são rejeitados. Não pode exceder a capacidade da sala. |
 | RN-04 | Duas reservas ativas da mesma sala não podem se sobrepor. |
 | RN-05 | Intervalos adjacentes são permitidos: uma reserva pode começar no fim de outra. |
-| RN-06 | Cada usuário pode manter no máximo 2 reservas ativas cuja data de início seja o mesmo dia. |
+| RN-06 | Cada usuário pode manter no máximo 2 reservas ativas pela data de início no calendário do campus (UTC-03 fixo), independentemente do offset enviado pelo cliente. |
 | RN-07 | Cancelamento é idempotente apenas quanto ao estado: segunda tentativa é conflito explícito. |
 | RN-08 | Canceladas não bloqueiam intervalo e não contam para RN-06. |
 | RN-09 | Sala ou reserva inexistente produz erro de recurso não encontrado. |
-| RN-10 | A listagem filtra estritamente por `user_id`, ordena por início/ID e pode limitar o resultado a `active` ou `cancelled`. |
+| RN-10 | A listagem filtra estritamente por `user_id`, ordena pelo instante real de início/ID (não pelo texto ISO) e aceita filtro `active` ou `cancelled`. |
+| RN-11 | Verificações e gravação da criação/cancelamento compartilham uma transação; requisições concorrentes não violam conflito, limite diário ou cancelamento único. |
 
 ### Algoritmo de conflito
 
@@ -75,6 +76,9 @@ N.starts_at < E.ends_at AND N.ends_at > E.starts_at
 ## 6. Contratos de entrada e saída
 
 Todos os corpos usam JSON e datas usam ISO 8601 com offset (`Z` é aceito). Erros de domínio usam:
+
+O offset de entrada é preservado na resposta, mas o cálculo do dia converte para UTC-03.
+O contrato exige um número JSON inteiro para `attendees`; coerção de strings/booleanos não é aceita.
 
 ```json
 {
@@ -176,6 +180,8 @@ persistir. Falhas não geram gravação parcial.
 | RF-05, RN-09 | serviço + API | ocupado, livre, cancelado, sala ausente |
 | RF-07, RN-10 | serviço + API | todos os estados, filtro, vazio e consulta inválida |
 | RF-08, RNF-07 | integração | recriação do repositório e cancelamento persistente |
+| RN-03, RN-06, RN-10 | memória + SQLite + HTTP | tipo estrito, fronteira de dia e ordenação com offsets distintos |
+| RN-11 | concorrência + SQLite | criação, limite, cancelamento, instâncias independentes e rollback |
 | RNF-02, RNF-03 | CI | cobertura ≥ 90%, Ruff e Pytest |
 
 ## 10. Critérios de aceite da iteração
@@ -189,6 +195,10 @@ persistir. Falhas não geram gravação parcial.
 ## 11. Fora do escopo e evolução
 
 Ficam para iterações futuras: autenticação institucional, autorização por token, banco gerenciado,
-concorrência distribuída, cadastro de salas, notificações, recorrência, interface web e política de
+implantação distribuída entre hosts, cadastro de salas, notificações, recorrência, interface web e política de
 antecedência. Nesta versão, `user_id` é um identificador opaco informado pelo cliente, não uma prova
 de identidade; essa limitação impede classificar a API como pronta para produção pública.
+
+SQLite garante serialização de escritores no mesmo arquivo via `BEGIN IMMEDIATE`. Um banco em
+volume local atende à implantação acadêmica; não se assume coordenação entre hosts ou filesystem de
+rede. O calendário UTC-03 é fixo nesta entrega; mudança institucional de fuso demanda re-especificação.

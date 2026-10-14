@@ -47,3 +47,19 @@ falha observável -> regra/contrato revisado -> implementação mínima -> regre
 ```
 
 A homologação só ocorre quando especificação, código e testes descrevem o mesmo comportamento.
+
+## Homologação final - 14/10/2026 (Issue #25)
+
+Comando antes das correções: `python -m pytest tests/integration/test_homologation.py --no-cov -q`.
+Resultado real: **12 failed, 1 passed**. O commit `7808618` preserva os testes anteriores à correção.
+
+| Falha | Evidência inicial | Causa | Correção e prevenção |
+|---|---|---|---|
+| ERRO-03: tipo de participantes | bool/float aceitos; string causa TypeError; HTTP responde 201 | coerção HTTP e checagem somente de sinal | inteiro estrito no schema e serviço; 9 casos nos dois adaptadores/HTTP |
+| ERRO-04: ordenação | SQLite retorna 08:00-03 antes de 10:00Z | ORDER BY de texto ISO | converter para datetime e ordenar instante/ID; regressão nos dois adaptadores |
+| ERRO-05: limite diário | terceira reserva aceita em UTC-03 ao escrever duas datas como dia seguinte em Z | `.date()` no offset de cada registro | calendário UTC-03 comum; regressão nos dois adaptadores |
+| ERRO-06: janela de corrida | inspeção mostra checagens e gravação em conexões distintas | ausência de unidade de trabalho | transaction na porta; tests concorrentes de criação, limite, cancelamento e instâncias distintas |
+
+ERRO-06 foi identificado estruturalmente; não se afirma que um incidente em produção foi observado.
+Os testes concorrentes confirmam o estado final, sem depender de qual thread vence. Testes de rollback
+confirmam que uma falha não deixa gravação parcial. A suíte final mantém todos os testes anteriores.

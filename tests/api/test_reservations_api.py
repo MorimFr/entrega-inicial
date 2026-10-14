@@ -65,12 +65,8 @@ def test_lists_reservations_by_user_and_status(client: TestClient) -> None:
     )
 
     all_reservations = client.get("/reservations", params={"user_id": "aluno-1"})
-    active = client.get(
-        "/reservations", params={"user_id": "aluno-1", "status": "active"}
-    )
-    cancelled = client.get(
-        "/reservations", params={"user_id": "aluno-1", "status": "cancelled"}
-    )
+    active = client.get("/reservations", params={"user_id": "aluno-1", "status": "active"})
+    cancelled = client.get("/reservations", params={"user_id": "aluno-1", "status": "cancelled"})
     empty = client.get("/reservations", params={"user_id": "sem-reservas"})
 
     assert all_reservations.status_code == 200
@@ -92,9 +88,7 @@ def test_list_reservations_validates_query(client: TestClient) -> None:
 
 
 def test_returns_structured_domain_error(client: TestClient) -> None:
-    response = client.post(
-        "/reservations", json=valid_payload(room_id="small", attendees=3)
-    )
+    response = client.post("/reservations", json=valid_payload(room_id="small", attendees=3))
 
     assert response.status_code == 422
     assert response.json() == {

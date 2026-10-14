@@ -26,4 +26,3 @@ class Reservation:
     ends_at: datetime
     attendees: int
     status: ReservationStatus = ReservationStatus.ACTIVE
-

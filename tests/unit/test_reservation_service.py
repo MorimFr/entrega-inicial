@@ -89,9 +89,7 @@ def test_rejects_attendees_over_capacity(service: ReservationService) -> None:
 
 @pytest.mark.unit
 @pytest.mark.parametrize("attendees", [0, -1])
-def test_rejects_non_positive_attendee_count(
-    service: ReservationService, attendees: int
-) -> None:
+def test_rejects_non_positive_attendee_count(service: ReservationService, attendees: int) -> None:
     """Regressão RN-03: a regra deve existir além da validação HTTP."""
     with pytest.raises(InvalidAttendeeCountError):
         create(service, attendees=attendees)
@@ -117,12 +115,8 @@ def test_lists_user_reservations_and_filters_by_status(
     )
 
     all_reservations = service.list_reservations(user_id="aluno-1")
-    active = service.list_reservations(
-        user_id="aluno-1", status=ReservationStatus.ACTIVE
-    )
-    cancelled = service.list_reservations(
-        user_id="aluno-1", status=ReservationStatus.CANCELLED
-    )
+    active = service.list_reservations(user_id="aluno-1", status=ReservationStatus.ACTIVE)
+    cancelled = service.list_reservations(user_id="aluno-1", status=ReservationStatus.CANCELLED)
 
     assert [item.id for item in all_reservations] == [first.id, second.id]
     assert active == [second]

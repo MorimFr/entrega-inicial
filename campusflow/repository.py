@@ -1,13 +1,19 @@
 """Porta de persistência e adaptador em memória para testes isolados."""
 
+from collections.abc import Iterator
+from contextlib import AbstractContextManager, contextmanager
 from dataclasses import replace
 from datetime import date
+from threading import RLock
 from typing import Protocol
 
 from campusflow.domain import Reservation, ReservationStatus, Room
+from campusflow.time_policy import campus_date
 
 
 class ReservationRepository(Protocol):
+    def transaction(self) -> AbstractContextManager[None]: ...
+
     def list_rooms(self) -> list[Room]: ...
 
     def get_room(self, room_id: str) -> Room | None: ...
@@ -40,6 +46,12 @@ class InMemoryReservationRepository:
             )
         }
         self._reservations: dict[str, Reservation] = {}
+        self._lock = RLock()
+
+    @contextmanager
+    def transaction(self) -> Iterator[None]:
+        with self._lock:
+            yield
 
     def list_rooms(self) -> list[Room]:
         return list(self._rooms.values())
@@ -71,14 +83,13 @@ class InMemoryReservationRepository:
         return [
             reservation
             for reservation in self._reservations.values()
-            if reservation.room_id == room_id
-            and reservation.status == ReservationStatus.ACTIVE
+            if reservation.room_id == room_id and reservation.status == ReservationStatus.ACTIVE
         ]
 
     def count_active_for_user_on_date(self, user_id: str, target_date: date) -> int:
         return sum(
             reservation.user_id == user_id
-            and reservation.starts_at.date() == target_date
+            and campus_date(reservation.starts_at) == target_date
             and reservation.status == ReservationStatus.ACTIVE
             for reservation in self._reservations.values()
         )

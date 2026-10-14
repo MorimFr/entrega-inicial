@@ -3,11 +3,13 @@
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import replace
 from datetime import date, datetime
 from pathlib import Path
 
 from campusflow.domain import Reservation, ReservationStatus, Room
+from campusflow.time_policy import campus_date
 
 DEFAULT_ROOMS = [
     Room(id="sala-a", name="Sala A", capacity=4),
@@ -18,15 +20,31 @@ DEFAULT_ROOMS = [
 class SQLiteReservationRepository:
     """Persistência local sem dependências externas, compatível com a porta do domínio."""
 
-    def __init__(
-        self, database_path: str | Path, rooms: list[Room] | None = None
-    ) -> None:
+    def __init__(self, database_path: str | Path, rooms: list[Room] | None = None) -> None:
         self.database_path = Path(database_path)
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
+        self._current_connection: ContextVar[sqlite3.Connection | None] = ContextVar(
+            "sqlite_transaction", default=None
+        )
         self._initialize(rooms or DEFAULT_ROOMS)
 
     @contextmanager
+    def transaction(self) -> Iterator[None]:
+        # BEGIN IMMEDIATE serializa escritores, inclusive de instâncias distintas.
+        with self._connection() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            token = self._current_connection.set(connection)
+            try:
+                yield
+            finally:
+                self._current_connection.reset(token)
+
+    @contextmanager
     def _connection(self) -> Iterator[sqlite3.Connection]:
+        current = self._current_connection.get()
+        if current is not None:
+            yield current
+            return
         connection = sqlite3.connect(self.database_path, timeout=5)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
@@ -82,9 +100,7 @@ class SQLiteReservationRepository:
 
     def list_rooms(self) -> list[Room]:
         with self._connection() as connection:
-            rows = connection.execute(
-                "SELECT id, name, capacity FROM rooms ORDER BY id"
-            ).fetchall()
+            rows = connection.execute("SELECT id, name, capacity FROM rooms ORDER BY id").fetchall()
         return [Room(id=row["id"], name=row["name"], capacity=row["capacity"]) for row in rows]
 
     def get_room(self, room_id: str) -> Room | None:
@@ -134,7 +150,10 @@ class SQLiteReservationRepository:
         query += " ORDER BY starts_at, id"
         with self._connection() as connection:
             rows = connection.execute(query, parameters).fetchall()
-        return [self._reservation_from_row(row) for row in rows]
+        return sorted(
+            (self._reservation_from_row(row) for row in rows),
+            key=lambda reservation: (reservation.starts_at, reservation.id),
+        )
 
     def list_active_for_room(self, room_id: str) -> list[Reservation]:
         with self._connection() as connection:
@@ -150,7 +169,7 @@ class SQLiteReservationRepository:
 
     def count_active_for_user_on_date(self, user_id: str, target_date: date) -> int:
         return sum(
-            reservation.starts_at.date() == target_date
+            campus_date(reservation.starts_at) == target_date
             for reservation in self.list_for_user(user_id, ReservationStatus.ACTIVE)
         )
 

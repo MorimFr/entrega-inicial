@@ -35,7 +35,7 @@ from campusflow.sqlite_repository import SQLiteReservationRepository
 def create_app(repository: ReservationRepository | None = None) -> FastAPI:
     app = FastAPI(
         title="CampusFlow API",
-        version="0.2.0",
+        version="0.3.0",
         description="API de reserva de salas de estudo orientada por especificação.",
     )
     selected_repository = repository
@@ -61,10 +61,7 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
             http_status = status.HTTP_409_CONFLICT
         elif isinstance(
             error,
-            DurationLimitError
-            | InvalidAttendeeCountError
-            | InvalidPeriodError
-            | RoomCapacityError,
+            DurationLimitError | InvalidAttendeeCountError | InvalidPeriodError | RoomCapacityError,
         ):
             http_status = status.HTTP_422_UNPROCESSABLE_ENTITY
         else:  # pragma: no cover - proteção para futuros erros do domínio
@@ -108,9 +105,7 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
         current_service: Annotated[ReservationService, Depends(get_service)],
         reservation_status: Annotated[ReservationStatus | None, Query(alias="status")] = None,
     ) -> list[ReservationResponse]:
-        reservations = current_service.list_reservations(
-            user_id=user_id, status=reservation_status
-        )
+        reservations = current_service.list_reservations(user_id=user_id, status=reservation_status)
         return [ReservationResponse.model_validate(item) for item in reservations]
 
     @app.get(
@@ -123,9 +118,7 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
         reservation_id: str,
         current_service: Annotated[ReservationService, Depends(get_service)],
     ) -> ReservationResponse:
-        return ReservationResponse.model_validate(
-            current_service.get_reservation(reservation_id)
-        )
+        return ReservationResponse.model_validate(current_service.get_reservation(reservation_id))
 
     @app.delete(
         "/reservations/{reservation_id}",
