@@ -46,3 +46,15 @@ Isso é higiene básica, não uma auditoria de segurança completa.
 O PR final deve ser aprovado por autorrevisão humana na adaptação individual informada. Depois
 do merge, executar/verificar o CI da main e vincular a tag v1.0.0 ao commit aprovado. O vídeo real
 de 3-5 minutos e seu link continuam necessários antes da emissão do PDF definitivo.
+
+## Confirmação no CI
+
+[Workflow 39970906028](https://github.com/MorimFr/entrega-inicial/actions/runs/39970906028)
+aprovado no commit `b87f46e2afed99c03b09364c896be358743d3173`. Incluiu lint, comparação integral
+do OpenAPI, harness nativo e harness Docker. Artefatos do workflow anterior aprovado,
+[39970556971](https://github.com/MorimFr/entrega-inicial/actions/runs/39970556971), também foram
+baixados e conferidos: 63 casos, nenhuma falha/erro/skip, 327/328 linhas cobertas.
+
+`github.json` é um snapshot datado anterior ao commit que o incorpora; não é uma garantia de estado
+eterno da branch. O PDF de revisão usa uma nova captura. O definitivo requer captura posterior ao
+merge/release, sem alteração artificial do histórico.

@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-10-23T14:31:41.967951+00:00",
+  "captured_at": "2026-10-23T14:36:31.073576+00:00",
   "repository": "https://github.com/MorimFr/entrega-inicial",
   "pr": {
     "baseRefName": "main",
     "headRefName": "release/entrega-final",
-    "headRefOid": "1508929ab841590a9bcf134ded889dad4c0c1e76",
+    "headRefOid": "b87f46e2afed99c03b09364c896be358743d3173",
     "isDraft": true,
     "mergeCommit": null,
     "mergedAt": null,
@@ -15,11 +15,11 @@
     "statusCheckRollup": [
       {
         "__typename": "CheckRun",
-        "completedAt": "2026-10-23T14:27:20Z",
-        "conclusion": "FAILURE",
-        "detailsUrl": "https://github.com/MorimFr/entrega-inicial/actions/runs/39969716766/job/120468850190",
+        "completedAt": "2026-10-23T14:36:03Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970906028/job/120472992932",
         "name": "quality",
-        "startedAt": "2026-10-23T14:27:03Z",
+        "startedAt": "2026-10-23T14:35:21Z",
         "status": "COMPLETED",
         "workflowName": "Test harness"
       }
@@ -84,6 +84,26 @@
     }
   },
   "runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-23T14:35:17Z",
+      "databaseId": 39970906028,
+      "event": "pull_request",
+      "headBranch": "release/entrega-final",
+      "headSha": "b87f46e2afed99c03b09364c896be358743d3173",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970906028"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-23T14:32:51Z",
+      "databaseId": 39970556971,
+      "event": "pull_request",
+      "headBranch": "release/entrega-final",
+      "headSha": "38e630f0307dd9927b6b8db8ab759440028fce29",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970556971"
+    },
     {
       "conclusion": "failure",
       "createdAt": "2026-10-23T14:26:59Z",
