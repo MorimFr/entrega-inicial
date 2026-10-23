@@ -6,9 +6,6 @@ $pythonPath = if (Test-Path ".venv\Scripts\python.exe") {
     "python"
 }
 
-& $pythonPath -m ruff check .
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-& $pythonPath -m pytest
+& $pythonPath scripts/run_harness.py
 exit $LASTEXITCODE
 

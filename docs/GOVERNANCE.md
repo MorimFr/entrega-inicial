@@ -31,7 +31,7 @@ o histórico já publicado nem fazer push direto em main/develop.
 
 Em 14/10/2026, a auditoria encontrou main/develop sem proteção e sem rulesets ativos. As proteções
 clássicas foram reaplicadas via API, com configuração versionada em
-`.github/entrega2-protection.json`:
+`.github/branch-protection.json` (nome consolidado na Entrega 3):
 
 - PR obrigatório, uma aprovação, descarte de aprovação após novo commit;
 - aprovação do último push revisável, por conta diferente da conta que fez o push;
@@ -57,3 +57,9 @@ Antes de aprovar, conferir:
 5. leitura humana de transações, rollback, fuso e restrições da solução.
 
 Commits usam `tipo(escopo): resumo`. Logs e referências ficam em `docs/evidence/entrega2/`.
+
+## Encerramento (Entrega 3)
+
+Sprint 3 / Issue #26: release/entrega-final -> PR para main, quality e autorrevisão humana autorizada.
+A tag v1.0.0 aponta somente ao commit aprovado. Após a publicação não devem restar PRs abertos ou
+conflitos. Documentos anteriores são históricos; SPECIFICATION.md e README indicam o As-Built final.

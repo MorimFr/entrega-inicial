@@ -49,6 +49,7 @@ def main() -> None:
         "attendees": 1,
     }
     created = call("POST", "/reservations", 201, payload)
+    print(json.dumps(created, indent=2, ensure_ascii=True))
     reservation_id = created["id"]
     call("GET", f"/reservations/{reservation_id}", 200)
     call("POST", "/reservations", 409, {**payload, "user_id": "conflict-" + uuid4().hex})
@@ -57,6 +58,7 @@ def main() -> None:
         raise RuntimeError("Filtro por usuário inconsistente")
     call("DELETE", f"/reservations/{reservation_id}", 200)
     call("DELETE", f"/reservations/{reservation_id}", 409)
+    call("POST", "/reservations", 422, {**payload, "attendees": 0})
     print(f"RESERVATION_ID={reservation_id}")
     print("DEMO_OK: criacao, consulta, conflito, filtro e cancelamento validados")
 

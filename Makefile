@@ -10,8 +10,8 @@ lint:
 	python -m ruff check .
 
 test:
-	python -m pytest
+	python scripts/run_harness.py
 
 test-docker:
-	docker compose --profile test run --rm tests
+	docker compose --profile test run --rm --build tests
 

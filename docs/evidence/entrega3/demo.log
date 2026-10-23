@@ -1,0 +1,210 @@
+ Image campusflow-final-validation-api Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 614B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.00kB 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 232B done
+#4 DONE 0.0s
+
+#5 [base 1/5] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#5 resolve docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 0.1s done
+#5 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 1.12kB done
+#6 DONE 0.0s
+
+#7 [base 2/5] WORKDIR /app
+#7 CACHED
+
+#8 [base 3/5] COPY pyproject.toml README.md ./
+#8 CACHED
+
+#9 [base 4/5] COPY campusflow ./campusflow
+#9 CACHED
+
+#10 [base 5/5] RUN pip install --no-cache-dir .     && groupadd --system campusflow     && useradd --system --gid campusflow --no-create-home campusflow     && mkdir -p /app/data     && chown campusflow:campusflow /app/data
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers done
+#11 exporting manifest sha256:3cdb3cd13607d882227d34b685b1b02005f11f08b3166967e11e2d5b53b44cb0 done
+#11 exporting config sha256:6771511813fbd908229a075e9a4371aa525a43eec274dd15c62d211b17d30c3f done
+#11 exporting attestation manifest sha256:ec35b96d52976f73f244a9c1587d2a61355763e9f329e79e4d75ceb2cc697785 0.0s done
+#11 exporting manifest list sha256:ac4e607d00dbd36587e1bf2bff191c6c8f75634ce004617196a51500c5e68464 0.0s done
+#11 naming to docker.io/library/campusflow-final-validation-api:latest
+#11 naming to docker.io/library/campusflow-final-validation-api:latest done
+#11 unpacking to docker.io/library/campusflow-final-validation-api:latest 0.0s done
+#11 DONE 0.2s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image campusflow-final-validation-api Built 
+ Container campusflow-final-validation-api-1 Running 
+ Image campusflow-final-validation-demo Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.13kB done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.00kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 232B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 133.63kB 0.0s done
+#5 DONE 0.1s
+
+#6 [base 1/5] FROM docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+#6 resolve docker.io/library/python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 0.1s done
+#6 DONE 0.1s
+
+#7 [base 2/5] WORKDIR /app
+#7 CACHED
+
+#8 [base 3/5] COPY pyproject.toml README.md ./
+#8 CACHED
+
+#9 [base 4/5] COPY campusflow ./campusflow
+#9 CACHED
+
+#10 [base 5/5] RUN pip install --no-cache-dir .     && groupadd --system campusflow     && useradd --system --gid campusflow --no-create-home campusflow     && mkdir -p /app/data     && chown campusflow:campusflow /app/data
+#10 CACHED
+
+#11 [tests 1/3] RUN pip install --no-cache-dir ".[dev]"
+#11 1.728 Processing /app
+#11 1.736   Installing build dependencies: started
+#11 4.085   Installing build dependencies: finished with status 'done'
+#11 4.088   Getting requirements to build wheel: started
+#11 4.679   Getting requirements to build wheel: finished with status 'done'
+#11 4.683   Preparing metadata (pyproject.toml): started
+#11 5.259   Preparing metadata (pyproject.toml): finished with status 'done'
+#11 5.264 Requirement already satisfied: fastapi==0.116.1 in /usr/local/lib/python3.12/site-packages (from campusflow==1.0.0) (0.116.1)
+#11 5.264 Requirement already satisfied: pydantic==2.12.5 in /usr/local/lib/python3.12/site-packages (from campusflow==1.0.0) (2.12.5)
+#11 5.265 Requirement already satisfied: uvicorn==0.35.0 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (0.35.0)
+#11 5.271 Requirement already satisfied: starlette<0.48.0,>=0.40.0 in /usr/local/lib/python3.12/site-packages (from fastapi==0.116.1->campusflow==1.0.0) (0.47.3)
+#11 5.272 Requirement already satisfied: typing-extensions>=4.8.0 in /usr/local/lib/python3.12/site-packages (from fastapi==0.116.1->campusflow==1.0.0) (4.16.0)
+#11 5.275 Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.12/site-packages (from pydantic==2.12.5->campusflow==1.0.0) (0.8.0)
+#11 5.275 Requirement already satisfied: pydantic-core==2.41.5 in /usr/local/lib/python3.12/site-packages (from pydantic==2.12.5->campusflow==1.0.0) (2.41.5)
+#11 5.276 Requirement already satisfied: typing-inspection>=0.4.2 in /usr/local/lib/python3.12/site-packages (from pydantic==2.12.5->campusflow==1.0.0) (0.4.4)
+#11 5.280 Requirement already satisfied: click>=7.0 in /usr/local/lib/python3.12/site-packages (from uvicorn==0.35.0->uvicorn[standard]==0.35.0->campusflow==1.0.0) (8.5.0)
+#11 5.280 Requirement already satisfied: h11>=0.8 in /usr/local/lib/python3.12/site-packages (from uvicorn==0.35.0->uvicorn[standard]==0.35.0->campusflow==1.0.0) (0.16.0)
+#11 5.283 Requirement already satisfied: httptools>=0.6.3 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (0.9.0)
+#11 5.284 Requirement already satisfied: python-dotenv>=0.13 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (1.2.4)
+#11 5.285 Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (6.0.3)
+#11 5.286 Requirement already satisfied: uvloop>=0.15.1 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (0.23.0)
+#11 5.287 Requirement already satisfied: watchfiles>=0.13 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (1.3.0)
+#11 5.288 Requirement already satisfied: websockets>=10.4 in /usr/local/lib/python3.12/site-packages (from uvicorn[standard]==0.35.0->campusflow==1.0.0) (17.3)
+#11 5.431 Collecting httpx==0.28.1 (from campusflow==1.0.0)
+#11 5.539   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#11 5.619 Collecting pytest==8.4.1 (from campusflow==1.0.0)
+#11 5.647   Downloading pytest-8.4.1-py3-none-any.whl.metadata (7.7 kB)
+#11 5.687 Collecting pytest-cov==6.2.1 (from campusflow==1.0.0)
+#11 5.712   Downloading pytest_cov-6.2.1-py3-none-any.whl.metadata (30 kB)
+#11 6.132 Collecting ruff==0.12.7 (from campusflow==1.0.0)
+#11 6.157   Downloading ruff-0.12.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (25 kB)
+#11 6.175 Requirement already satisfied: anyio in /usr/local/lib/python3.12/site-packages (from httpx==0.28.1->campusflow==1.0.0) (4.15.1)
+#11 6.210 Collecting certifi (from httpx==0.28.1->campusflow==1.0.0)
+#11 6.248   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+#11 6.288 Collecting httpcore==1.* (from httpx==0.28.1->campusflow==1.0.0)
+#11 6.314   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#11 6.329 Requirement already satisfied: idna in /usr/local/lib/python3.12/site-packages (from httpx==0.28.1->campusflow==1.0.0) (3.20)
+#11 6.368 Collecting iniconfig>=1 (from pytest==8.4.1->campusflow==1.0.0)
+#11 6.404   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#11 6.444 Collecting packaging>=20 (from pytest==8.4.1->campusflow==1.0.0)
+#11 6.471   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#11 6.520 Collecting pluggy<2,>=1.5 (from pytest==8.4.1->campusflow==1.0.0)
+#11 6.544   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#11 6.589 Collecting pygments>=2.7.2 (from pytest==8.4.1->campusflow==1.0.0)
+#11 6.614   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#11 7.047 Collecting coverage>=7.5 (from coverage[toml]>=7.5->pytest-cov==6.2.1->campusflow==1.0.0)
+#11 7.071   Downloading coverage-7.17.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.1 kB)
+#11 7.132 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#11 7.178 Downloading pytest-8.4.1-py3-none-any.whl (365 kB)
+#11 7.248 Downloading pytest_cov-6.2.1-py3-none-any.whl (24 kB)
+#11 7.272 Downloading ruff-0.12.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.9 MB)
+#11 7.836    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.9/12.9 MB 23.1 MB/s eta 0:00:00
+#11 7.858 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#11 7.884 Downloading coverage-7.17.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (261 kB)
+#11 7.918 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#11 7.953 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#11 7.984 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#11 8.009 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#11 8.080    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 19.8 MB/s eta 0:00:00
+#11 8.107 Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+#11 8.143 Building wheels for collected packages: campusflow
+#11 8.152   Building wheel for campusflow (pyproject.toml): started
+#11 8.759   Building wheel for campusflow (pyproject.toml): finished with status 'done'
+#11 8.760   Created wheel for campusflow: filename=campusflow-1.0.0-py3-none-any.whl size=13545 sha256=4010076db8d8a69d77e6ab48cde5a66aeef948363fad99ca238c704947f9a24c
+#11 8.760   Stored in directory: /tmp/pip-ephem-wheel-cache-q25x3fo0/wheels/54/1b/b7/aa63e25c8f14f4f2ae7b04e6097bdecb770e455c5c1ee0a600
+#11 8.764 Successfully built campusflow
+#11 8.796 Installing collected packages: ruff, pygments, pluggy, packaging, iniconfig, coverage, certifi, pytest, httpcore, pytest-cov, httpx, campusflow
+#11 10.75   Attempting uninstall: campusflow
+#11 10.76     Found existing installation: campusflow 1.0.0
+#11 10.77     Uninstalling campusflow-1.0.0:
+#11 10.78       Successfully uninstalled campusflow-1.0.0
+#11 10.82 Successfully installed campusflow-1.0.0 certifi-2026.10.23 coverage-7.17.0 httpcore-1.0.9 httpx-0.28.1 iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 pygments-2.21.0 pytest-8.4.1 pytest-cov-6.2.1 ruff-0.12.7
+#11 10.82 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#11 DONE 11.1s
+
+#12 [tests 2/3] COPY tests ./tests
+#12 DONE 0.1s
+
+#13 [tests 3/3] COPY scripts/run_harness.py scripts/demo_api.py ./scripts/
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 2.7s done
+#14 exporting manifest sha256:36c7ca2cb66e00165a109520c703b82081289b14158bb6d541601926dd062bb0 0.0s done
+#14 exporting config sha256:c0aea76c00c8522cebcdf2365b38eff24e30f6f16bc4b33e2220bbdb027da193 0.0s done
+#14 exporting attestation manifest sha256:f47030280eb005341dda6f39e19cfa9d7b6195dec7adc755fce50962a77db528 0.0s done
+#14 exporting manifest list sha256:f2c49df3926f92a655eb81f7ac9bf5756ea7b26271293a9ce13e063381ed18ce 0.0s done
+#14 naming to docker.io/library/campusflow-final-validation-demo:latest
+#14 naming to docker.io/library/campusflow-final-validation-demo:latest done
+#14 unpacking to docker.io/library/campusflow-final-validation-demo:latest
+#14 unpacking to docker.io/library/campusflow-final-validation-demo:latest 1.7s done
+#14 DONE 4.6s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image campusflow-final-validation-demo Built 
+ Container campusflow-final-validation-api-1 Waiting 
+ Container campusflow-final-validation-api-1 Healthy 
+ Container campusflow-final-validation-demo-run-1092a726f3ef Creating 
+ Container campusflow-final-validation-demo-run-1092a726f3ef Created 
+GET /health -> HTTP 200
+GET /rooms -> HTTP 200
+POST /reservations -> HTTP 201
+{
+  "id": "7cd6d067-36d5-4447-af39-519f93874bc9",
+  "room_id": "sala-a",
+  "user_id": "demo-3e05f0fa5b4a4bfd9b3aa0927a2d5411",
+  "starts_at": "2026-10-25T10:00:00-03:00",
+  "ends_at": "2026-10-25T11:00:00-03:00",
+  "attendees": 1,
+  "status": "active"
+}
+GET /reservations/7cd6d067-36d5-4447-af39-519f93874bc9 -> HTTP 200
+POST /reservations -> HTTP 409
+GET /reservations?user_id=demo-3e05f0fa5b4a4bfd9b3aa0927a2d5411 -> HTTP 200
+DELETE /reservations/7cd6d067-36d5-4447-af39-519f93874bc9 -> HTTP 200
+DELETE /reservations/7cd6d067-36d5-4447-af39-519f93874bc9 -> HTTP 409
+POST /reservations -> HTTP 422
+RESERVATION_ID=7cd6d067-36d5-4447-af39-519f93874bc9
+DEMO_OK: criacao, consulta, conflito, filtro e cancelamento validados

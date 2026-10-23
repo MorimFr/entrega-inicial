@@ -1,17 +1,32 @@
 services:
   api:
-    build: .
+    build:
+      context: .
+      target: runtime
     environment:
       CAMPUSFLOW_DATABASE_PATH: /app/data/campusflow.db
     ports:
-      - "8000:8000"
+      - "127.0.0.1:${CAMPUSFLOW_PORT:-8000}:8000"
     volumes:
       - campusflow-data:/app/data
 
   tests:
-    build: .
-    command: python -m pytest
+    build:
+      context: .
+      target: tests
     profiles: ["test"]
+    volumes:
+      - ./artifacts:/app/artifacts
+
+  demo:
+    build:
+      context: .
+      target: tests
+    command: python scripts/demo_api.py --base-url http://api:8000
+    profiles: ["demo"]
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes:
   campusflow-data:
