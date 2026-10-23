@@ -10,6 +10,8 @@ informar motivo, impacto e evidência.
   em desacordo com ISO 8601 declarado. Regressões iniciais: 3 falhas/1 aprovação (incluindo versão).
 - OpenAPI passa a declarar o 404 real no POST e as duas famílias de erro 422 (domínio/detail).
 - Versão única do pacote/API em campusflow.__version__; snapshot OpenAPI conferido no CI.
+- O primeiro CI revelou descrições 422 variáveis entre Python 3.12 e 3.14 (HTTPStatus).
+  Descrições explícitas estabilizam o contrato sem relaxar a comparação do snapshot.
 - Runtime e harness separados, usuário sem privilégios, porta local, relatórios exportados e
   comandos unificados, conforme ADR-005. Nenhuma regra RF/RN foi removida.
 

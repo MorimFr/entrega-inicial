@@ -8,6 +8,10 @@ def test_openapi_exposes_stable_version_and_room_not_found(client: TestClient) -
     schema = client.get("/openapi.json").json()
     assert schema["info"]["version"] == "1.0.0"
     assert "404" in schema["paths"]["/reservations"]["post"]["responses"]
+    for path, method in [("/reservations", "post"), ("/rooms/{room_id}/availability", "get")]:
+        assert schema["paths"][path][method]["responses"]["422"]["description"] == (
+            "Validation or business rule error"
+        )
 
 
 @pytest.mark.parametrize("starts_at", [1792746000, True, "1792746000"])

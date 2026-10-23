@@ -78,3 +78,13 @@ confirmam que uma falha não deixa gravação parcial. A suíte final mantém to
   (erro de domínio ou `detail` do framework). Pacote e API compartilham uma única versão.
 - **Prevenção:** oito casos em `tests/api/test_release_contract.py`, snapshot OpenAPI e check no CI.
   Suíte completa: 63 aprovados no Docker; evidências em `docs/evidence/entrega3/`.
+
+## ERRO-08 - metadado OpenAPI dependente da versão Python
+
+- O [primeiro CI da candidata](https://github.com/MorimFr/entrega-inicial/actions/runs/39969716766)
+  rejeitou o snapshot exportado no host. A comparação de JSONs mostrou apenas as descrições 422
+  explícitas: Python 3.14 usava `Unprocessable Content`, Python 3.12, `Unprocessable Entity`.
+- A mudança vinha do nome padrão de HTTPStatus, não de diferença nas regras de negócio.
+- Um assert de regressão falhou primeiro no host. A correção declara a descrição estável
+  `Validation or business rule error` nas duas rotas afetadas, exporta novamente o contrato e
+  mantém comparação integral do snapshot no CI. Nenhum gate foi desativado ou tornado permissivo.

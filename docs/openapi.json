@@ -105,6 +105,7 @@
             "description": "Conflict"
           },
           "422": {
+            "description": "Validation or business rule error",
             "content": {
               "application/json": {
                 "schema": {
@@ -119,8 +120,7 @@
                   "title": "Response 422 Create Reservation Reservations Post"
                 }
               }
-            },
-            "description": "Unprocessable Content"
+            }
           }
         }
       },
@@ -359,6 +359,7 @@
             "description": "Not Found"
           },
           "422": {
+            "description": "Validation or business rule error",
             "content": {
               "application/json": {
                 "schema": {
@@ -373,8 +374,7 @@
                   "title": "Response 422 Check Availability Rooms  Room Id  Availability Get"
                 }
               }
-            },
-            "description": "Unprocessable Content"
+            }
           }
         }
       }

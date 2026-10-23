@@ -147,6 +147,7 @@ O OpenAPI gerado em `/openapi.json` é a representação executável complementa
 O snapshot definitivo é `docs/openapi.json`, exportado por `scripts/export_openapi.py`. O CI executa
 o modo `--check` para rejeitar divergência entre documento e API. A versão do pacote e API vem de
 `campusflow.__version__`, sem números duplicados na implementação.
+As descrições 422 declaradas são explícitas, independentes do nome HTTPStatus da versão Python.
 
 ## 7. Componentes e APIs internas
 

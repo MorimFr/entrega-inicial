@@ -43,4 +43,4 @@ TOTAL                               300      1    99%
 Coverage HTML written to dir artifacts\local-final\htmlcov
 Coverage XML written to file artifacts\local-final\coverage.xml
 Required test coverage of 90% reached. Total coverage: 99.67%
-====================== 63 passed, 168 warnings in 1.88s =======================
+====================== 63 passed, 168 warnings in 1.52s =======================

@@ -90,7 +90,10 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
         responses={
             404: {"model": ErrorResponse},
             409: {"model": ErrorResponse},
-            422: {"model": ErrorResponse | ValidationErrorResponse},
+            422: {
+                "model": ErrorResponse | ValidationErrorResponse,
+                "description": "Validation or business rule error",
+            },
         },
         tags=["reservations"],
     )
@@ -145,7 +148,10 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
         response_model=AvailabilityResponse,
         responses={
             404: {"model": ErrorResponse},
-            422: {"model": ErrorResponse | ValidationErrorResponse},
+            422: {
+                "model": ErrorResponse | ValidationErrorResponse,
+                "description": "Validation or business rule error",
+            },
         },
         tags=["rooms"],
     )

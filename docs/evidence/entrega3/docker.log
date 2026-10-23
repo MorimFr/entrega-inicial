@@ -39,4 +39,4 @@ TOTAL                               328      1    99%
 Coverage HTML written to dir artifacts/htmlcov
 Coverage XML written to file artifacts/coverage.xml
 Required test coverage of 90% reached. Total coverage: 99.70%
-======================== 63 passed, 1 warning in 2.14s =========================
+======================== 63 passed, 1 warning in 2.06s =========================
