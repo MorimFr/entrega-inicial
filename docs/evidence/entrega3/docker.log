@@ -1,0 +1,42 @@
+All checks passed!
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-8.4.1, pluggy-1.7.0
+rootdir: /app
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-6.2.1, anyio-4.15.1
+collected 63 items
+
+tests/api/test_release_contract.py ........                              [ 12%]
+tests/api/test_reservations_api.py ..........                            [ 28%]
+tests/integration/test_homologation.py .....................             [ 61%]
+tests/integration/test_sqlite_repository.py ...                          [ 66%]
+tests/unit/test_reservation_service.py .....................             [100%]
+
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:51
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+----------------- generated xml file: /app/artifacts/junit.xml -----------------
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.15-final-0 _______________
+
+Name                              Stmts   Miss  Cover   Missing
+---------------------------------------------------------------
+campusflow/__init__.py                1      0   100%
+campusflow/api.py                    57      0   100%
+campusflow/domain.py                 20      0   100%
+campusflow/errors.py                 20      0   100%
+campusflow/repository.py             40      1    98%   100
+campusflow/schemas.py                39      0   100%
+campusflow/service.py                58      0   100%
+campusflow/sqlite_repository.py      89      0   100%
+campusflow/time_policy.py             4      0   100%
+---------------------------------------------------------------
+TOTAL                               328      1    99%
+Coverage HTML written to dir artifacts/htmlcov
+Coverage XML written to file artifacts/coverage.xml
+Required test coverage of 90% reached. Total coverage: 99.70%
+======================== 63 passed, 1 warning in 2.14s =========================

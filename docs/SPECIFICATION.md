@@ -1,8 +1,8 @@
-# Especificação técnica — CampusFlow
+# Especificação definitiva - SDD As-Built do CampusFlow
 
-**Versão:** 0.4.0
-**Estado:** implementada para a Entrega 2
-**Última atualização:** 14 de outubro de 2026
+**Versão:** 1.0.0
+**Estado:** As-Built da candidata final; aceite pela homologação do PR da Issue #26
+**Última atualização:** 23 de outubro de 2026
 
 ## 1. Problema e objetivo
 
@@ -11,8 +11,8 @@ simultâneas, ocupação acima da capacidade e ausência de uma fonte única de 
 CampusFlow oferece uma API determinística para reservar essas salas e rejeitar estados inválidos
 antes de serem registrados.
 
-Na segunda iteração, o sistema mantém contratos HTTP e regras isoladas, passa a persistir reservas em
-SQLite e permite que cada usuário consulte suas próprias reservas pelo identificador informado. O
+Na solução final, o sistema mantém contratos HTTP e regras isoladas, persiste reservas em
+SQLite e permite consulta das reservas pelo identificador de usuário informado. O
 adaptador em memória permanece disponível para testes determinísticos. Autenticação institucional e
 interface gráfica continuam fora do escopo.
 
@@ -79,6 +79,10 @@ Todos os corpos usam JSON e datas usam ISO 8601 com offset (`Z` é aceito). Erro
 
 O offset de entrada é preservado na resposta, mas o cálculo do dia converte para UTC-03.
 O contrato exige um número JSON inteiro para `attendees`; coerção de strings/booleanos não é aceita.
+Datas de entrada exigem strings ISO 8601 com separador T; números Unix/epoch, inclusive strings
+numéricas, são rejeitados no body e na consulta de disponibilidade. Identificadores são opacos,
+sem trim/normalização: room_id de 1-50 caracteres, user_id de 1-100. Campos extras no body são
+ignorados pelo padrão Pydantic; não são persistidos. Não existe cadastro/autenticação do usuário.
 
 ```json
 {
@@ -140,6 +144,9 @@ Entrada:
 - **422 / `invalid_period`:** RN-01.
 
 O OpenAPI gerado em `/openapi.json` é a representação executável complementar destes contratos.
+O snapshot definitivo é `docs/openapi.json`, exportado por `scripts/export_openapi.py`. O CI executa
+o modo `--check` para rejeitar divergência entre documento e API. A versão do pacote e API vem de
+`campusflow.__version__`, sem números duplicados na implementação.
 
 ## 7. Componentes e APIs internas
 
@@ -203,3 +210,27 @@ de identidade; essa limitação impede classificar a API como pronta para produ�
 SQLite garante serialização de escritores no mesmo arquivo via `BEGIN IMMEDIATE`. Um banco em
 volume local atende à implantação acadêmica; não se assume coordenação entre hosts ou filesystem de
 rede. O calendário UTC-03 é fixo nesta entrega; mudança institucional de fuso demanda re-especificação.
+
+## 12. Implantação e operação efetivamente entregues
+
+| Item | As-Built |
+|---|---|
+| Entrada de execução | uvicorn campusflow.api:app, porta interna 8000, um processo |
+| Compose API | target runtime, usuário campusflow sem privilégios, loopback 127.0.0.1 |
+| Porta do host | CAMPUSFLOW_PORT; padrão 8000 |
+| Banco Docker | CAMPUSFLOW_DATABASE_PATH=/app/data/campusflow.db, volume campusflow-data |
+| Banco Python local | variável CAMPUSFLOW_DATABASE_PATH; padrão data/campusflow.db |
+| Catálogo | sala-a (Sala A, 4) e sala-b (Sala B, 8); inicialização INSERT OR IGNORE |
+| Lifecycle | create_app inicializa schema/banco na importação/partida; falha de caminho/permissão impede partida |
+| Health | GET /health é liveness, não teste de disponibilidade contínua do banco |
+| Timeout SQLite | conexão 5 s; criação/cancelamento usam BEGIN IMMEDIATE |
+| Harness | target tests, Ruff + Pytest; exporta artifacts/test-output.log, junit.xml, coverage.xml e htmlcov/ |
+| Demonstração | profile demo chama a API pelo HTTP da rede Compose, dados fictícios |
+| Base | Python 3.12-slim fixada por digest no Dockerfile |
+
+Não se rejeitam datas passadas: política de antecedência não foi especificada. A disponibilidade
+informa ausência de conflito no intervalo; não garante elegibilidade de criação por duração,
+capacidade ou limite do usuário. As verificações completas são realizadas no POST.
+
+Logs históricos e PDFs das entregas anteriores são preservados como evidências datadas. A referência
+final é esta especificação, o OpenAPI versionado, o README e a release estável aprovada.

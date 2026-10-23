@@ -4,10 +4,13 @@ __pycache__/
 .pytest_cache/
 .coverage
 coverage.xml
+!docs/evidence/entrega3/coverage.xml
 test-results.xml
 htmlcov/
 .venv/
 .env
+.env.*
+!.env.example
 .idea/
 .vscode/
 /data/
@@ -15,3 +18,4 @@ dist/
 build/
 /tmp/
 /output/
+/artifacts/

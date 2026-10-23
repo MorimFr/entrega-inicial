@@ -63,3 +63,18 @@ Resultado real: **12 failed, 1 passed**. O commit `7808618` preserva os testes a
 ERRO-06 foi identificado estruturalmente; não se afirma que um incidente em produção foi observado.
 Os testes concorrentes confirmam o estado final, sem depender de qual thread vence. Testes de rollback
 confirmam que uma falha não deixa gravação parcial. A suíte final mantém todos os testes anteriores.
+
+## ERRO-07 - coerção de epoch divergente do contrato ISO (Issue #26)
+
+- **Observação real em 23/10/2026:** o POST aceitava `1792746000` e `"1792746000"` como
+  `starts_at` e retornava 201, apesar de o contrato exigir string ISO 8601 com fuso.
+- **Causa:** coerção permissiva do tipo datetime no Pydantic; faltava validação de formato antes
+  da conversão. O booleano já era rejeitado.
+- **Regressão primeiro:** o commit `6641e24` conserva os quatro casos iniciais, com 3 falhas e
+  1 aprovação. Duas falhas eram a coerção; a terceira era a versão de API ainda 0.3.0.
+- **Correção:** tipo ISODateTime valida string com separador T antes de delegar o parsing;
+  o serviço mantém as regras de fuso e intervalo. A mesma validação foi aplicada à disponibilidade.
+- **Contrato complementar:** OpenAPI agora declara o 404 do POST e as duas famílias de 422
+  (erro de domínio ou `detail` do framework). Pacote e API compartilham uma única versão.
+- **Prevenção:** oito casos em `tests/api/test_release_contract.py`, snapshot OpenAPI e check no CI.
+  Suíte completa: 63 aprovados no Docker; evidências em `docs/evidence/entrega3/`.

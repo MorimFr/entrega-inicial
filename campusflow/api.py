@@ -1,12 +1,12 @@
 """Adaptador HTTP FastAPI."""
 
 import os
-from datetime import datetime
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Query, Request, status
 from fastapi.responses import JSONResponse
 
+from campusflow import __version__
 from campusflow.domain import ReservationStatus
 from campusflow.errors import (
     AlreadyCancelledError,
@@ -24,9 +24,11 @@ from campusflow.repository import ReservationRepository
 from campusflow.schemas import (
     AvailabilityResponse,
     ErrorResponse,
+    ISODateTime,
     ReservationCreate,
     ReservationResponse,
     RoomResponse,
+    ValidationErrorResponse,
 )
 from campusflow.service import ReservationService
 from campusflow.sqlite_repository import SQLiteReservationRepository
@@ -35,7 +37,7 @@ from campusflow.sqlite_repository import SQLiteReservationRepository
 def create_app(repository: ReservationRepository | None = None) -> FastAPI:
     app = FastAPI(
         title="CampusFlow API",
-        version="0.3.0",
+        version=__version__,
         description="API de reserva de salas de estudo orientada por especificação.",
     )
     selected_repository = repository
@@ -85,7 +87,11 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
         "/reservations",
         response_model=ReservationResponse,
         status_code=status.HTTP_201_CREATED,
-        responses={409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+        responses={
+            404: {"model": ErrorResponse},
+            409: {"model": ErrorResponse},
+            422: {"model": ErrorResponse | ValidationErrorResponse},
+        },
         tags=["reservations"],
     )
     def create_reservation(
@@ -137,13 +143,16 @@ def create_app(repository: ReservationRepository | None = None) -> FastAPI:
     @app.get(
         "/rooms/{room_id}/availability",
         response_model=AvailabilityResponse,
-        responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+        responses={
+            404: {"model": ErrorResponse},
+            422: {"model": ErrorResponse | ValidationErrorResponse},
+        },
         tags=["rooms"],
     )
     def check_availability(
         room_id: str,
-        starts_at: Annotated[datetime, Query()],
-        ends_at: Annotated[datetime, Query()],
+        starts_at: Annotated[ISODateTime, Query()],
+        ends_at: Annotated[ISODateTime, Query()],
         current_service: Annotated[ReservationService, Depends(get_service)],
     ) -> AvailabilityResponse:
         available = current_service.room_is_available(

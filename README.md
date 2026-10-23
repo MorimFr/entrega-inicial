@@ -1,80 +1,94 @@
-# CampusFlow
+# CampusFlow - versão final 1.0.0
 
 [![Test harness](https://github.com/MorimFr/entrega-inicial/actions/workflows/ci.yml/badge.svg)](https://github.com/MorimFr/entrega-inicial/actions/workflows/ci.yml)
 
-API persistente para reservar salas de estudo compartilhadas sem conflitos de horário. O mesmo
-repositório acompanha as Entregas 1 e 2 da disciplina, preservando o ciclo de desenvolvimento
-orientado por especificação (SDD), refinamentos por testes, colaboração com IA, governança e
-validação automatizada.
+API local para reservar salas de estudo sem conflitos. Lista salas, cria/consulta/cancela reservas,
+consulta disponibilidade e lista reservas por usuário. SQLite conserva os registros após reinícios.
+Transações protegem conflito, limite diário e cancelamento sob concorrência no mesmo arquivo.
 
-**Repositório público:** <https://github.com/MorimFr/entrega-inicial>
+**Autor:** Felipe Amorim Monteiro - RA 22452139 (equipe individual).
+**Repositório público:** <https://github.com/MorimFr/entrega-inicial>.
+**Release estável planejada:** [v1.0.0](https://github.com/MorimFr/entrega-inicial/releases/tag/v1.0.0),
+publicada somente após homologação do PR final e CI da main. A candidata não equivale à tag publicada.
 
-## Solução funcional
+## Execução simples com Docker
 
-- listar salas e capacidades;
-- criar, consultar e cancelar reservas;
-- impedir sobreposição e permitir intervalos adjacentes;
-- limitar reservas a 2 horas e a 2 reservas ativas por usuário/dia;
-- validar quantidade positiva e capacidade da sala;
-- consultar disponibilidade;
-- listar reservas de um usuário, com filtro por estado;
-- preservar reservas e cancelamentos em SQLite após reiniciar a aplicação.
-- preservar conflito/limite diário sob concorrência local e usar calendário UTC-03 do campus.
+Pré-requisito: Docker Desktop/Engine iniciado e Docker Compose disponível.
 
-A especificação 0.4.0, regras numeradas e contratos estão em
-[`docs/SPECIFICATION.md`](docs/SPECIFICATION.md). Com a API em execução, OpenAPI e Swagger ficam em
-`http://localhost:8000/docs`.
-
-## Arquitetura
-
-```mermaid
-flowchart LR
-    Client[Cliente HTTP] --> API[FastAPI / contratos]
-    API --> Service[Serviço / casos de uso]
-    Service --> Domain[Entidades e regras]
-    Service --> Port[Porta de repositório]
-    Port --> SQLite[(SQLite / produção local)]
-    Port --> Memory[Memória / testes]
-    Tests[Test harness] --> API
-    Tests --> Service
-    Tests --> SQLite
+```powershell
+docker compose up --build -d --wait api
 ```
 
-A aplicação usa SQLite; o harness injeta memória nos testes unitários/HTTP e arquivos temporários
-nos testes de integração. As decisões e trade-offs estão nos
-[`ADR-001`](docs/adr/001-arquitetura-em-camadas.md),
-[`ADR-002`](docs/adr/002-api-e-testes.md) e
-[`ADR-003`](docs/adr/003-persistencia-sqlite.md).
+Abra **http://localhost:8000/docs** para usar o Swagger; **/health** informa liveness. A imagem
+runtime executa como usuário sem privilégios e não instala ferramentas de teste. A porta é exposta
+somente em 127.0.0.1. Não precisa instalar Python no computador para usar Docker.
 
-O [ADR-004](docs/adr/004-calendario-e-atomicidade.md) define calendário comum e unidade de trabalho
-atômica. SQLite usa `BEGIN IMMEDIATE`; o adaptador em memória usa lock nos casos de uso.
+Encerrar sem apagar dados:
 
-```mermaid
-sequenceDiagram
-    participant Cliente
-    participant API
-    participant Servico
-    participant Banco as Repositório / transação
-    Cliente->>API: POST /reservations
-    API->>Servico: Entrada validada
-    Servico->>Banco: Inicia transação
-    Servico->>Banco: Consulta sala, limite e conflitos
-    alt Regra violada
-        Banco-->>Servico: Rollback
-        Servico-->>API: Erro de domínio
-        API-->>Cliente: 404 / 409 / 422
-    else Reserva válida
-        Servico->>Banco: Grava e confirma
-        Banco-->>Servico: Reserva persistida
-        API-->>Cliente: 201 + reserva
-    end
+```powershell
+docker compose down
 ```
 
-## Instalação e execução local
+O volume nomeado `campusflow-data` armazena `/app/data/campusflow.db`. Recriar o contêiner não apaga
+reservas. Faça backup do arquivo/volume com a aplicação parada quando precisar preservar dados.
+Não use `down --volumes` se quiser conservá-los.
 
-Pré-requisito: Python 3.12.
+## Configuração de ambiente
 
-No PowerShell:
+Não há credenciais obrigatórias. O Compose funciona sem `.env`; `.env.example` contém os padrões.
+
+| Variável | Uso | Padrão |
+|---|---|---|
+| CAMPUSFLOW_PORT | porta no host (Compose) | 8000 |
+| CAMPUSFLOW_DATABASE_PATH | caminho SQLite na execução Python | data/campusflow.db |
+| CAMPUSFLOW_DATABASE_PATH | caminho interno definido pelo Compose | /app/data/campusflow.db |
+
+Para outra porta, crie `.env` com `CAMPUSFLOW_PORT=8001` (ou use variável no shell) e execute Compose.
+Então abra http://localhost:8001/docs. `.env` e bancos reais não são versionados nem enviados ao build.
+
+## Harness em comando único
+
+```powershell
+docker compose --profile test run --rm --build tests
+```
+
+O target tests executa **Ruff e a suíte completa**. O processo retorna erro se lint/teste falhar ou
+coverage ficar abaixo de 90%. Os relatórios persistem no host:
+
+```text
+artifacts/test-output.log     saída real do lint/Pytest
+artifacts/junit.xml           casos, falhas e duração
+artifacts/coverage.xml        cobertura por módulo
+artifacts/htmlcov/index.html  relatório navegável de cobertura
+```
+
+100% de passagem significa todos os testes coletados aprovados. Não significa 100% de cobertura.
+Unitários, API, SQLite, rollback, fusos e concorrência estão em `tests/`. Os gates e artefatos também
+rodam no GitHub Actions, incluindo execução do harness Docker e verificação do OpenAPI As-Built.
+
+## Demonstração funcional
+
+Com a API iniciada, execute sem Python local:
+
+```powershell
+docker compose --profile demo run --rm demo
+```
+
+O script usa dados fictícios e mostra criação 201, consulta 200, conflito 409, listagem, cancelamento
+200, repetição 409 e entrada inválida 422. A saída contém um `RESERVATION_ID`. Para comprovar
+persistência, recrie a API e consulte esse ID:
+
+```powershell
+docker compose up -d --force-recreate --wait api
+docker compose --profile demo run --rm demo python scripts/demo_api.py --base-url http://api:8000 --reservation-id ID_COPIADO
+```
+
+O [roteiro do vídeo de 3-5 minutos](docs/DEMO.md) orienta a gravação real e a publicação do link para
+o professor. O vídeo está pendente até o aluno fornecer o link; ele é obrigatório no PDF final.
+
+## Instalação Python (opcional, desenvolvimento)
+
+Base homologada: Python 3.12. No PowerShell:
 
 ```powershell
 .\scripts\setup.ps1
@@ -82,155 +96,88 @@ No PowerShell:
 uvicorn campusflow.api:app --reload
 ```
 
-Em Linux/macOS:
+Linux/macOS:
 
 ```bash
-python -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev]"
 uvicorn campusflow.api:app --reload
 ```
 
-O banco local padrão é `data/campusflow.db`, ignorado pelo Git. O caminho é configurável:
+Harness local: `python scripts/run_harness.py` (ou `.\scripts\test.ps1`). Configuração de banco local:
+`$env:CAMPUSFLOW_DATABASE_PATH = "data/campusflow-local.db"` no PowerShell, ou `export` no shell Unix.
+O diretório pai é criado na partida; o usuário deve ter permissão de escrita nesse caminho.
 
-```powershell
-$env:CAMPUSFLOW_DATABASE_PATH = "data/campusflow-local.db"
-uvicorn campusflow.api:app --reload
+## As-Built e contratos definitivos
+
+- [Especificação As-Built 1.0.0](docs/SPECIFICATION.md): RF-01 a RF-08, RN-01 a RN-11 e RNF-01 a RNF-07.
+- [OpenAPI versionado](docs/openapi.json), também disponível em `/openapi.json`.
+- Exportar: `python scripts/export_openapi.py`. Conferir: `python scripts/export_openapi.py --check`.
+- [Histórico de refinamento](docs/SPEC_CHANGELOG.md) e [erros identificados](docs/LOGICAL_ERRORS.md).
+
+Regras principais: intervalo com fuso e duração de até 2 horas; participantes inteiros positivos até
+a capacidade; sem sobreposição; adjacência permitida; no máximo duas reservas ativas por usuário no
+dia UTC-03 do campus. Datas de entrada usam strings ISO 8601, sem coerção de epoch. Canceladas não
+bloqueiam a sala nem o limite; segundo cancelamento retorna 409.
+
+## Arquitetura e fluxo
+
+```mermaid
+flowchart LR
+    Cliente[Cliente HTTP / Swagger] --> API[FastAPI / schemas]
+    API --> Servico[Casos de uso / regras]
+    Servico --> Dominio[Entidades]
+    Servico --> Porta[Porta de repositório / transaction]
+    Porta --> SQLite[(SQLite + volume)]
+    Porta --> Memoria[Memória / testes]
+    Harness[Ruff + Pytest / CI] --> API
+    Harness --> Servico
+    Harness --> SQLite
 ```
 
-Verificação rápida:
-
-```bash
-curl http://localhost:8000/health
-curl http://localhost:8000/rooms
+```mermaid
+sequenceDiagram
+    Cliente->>API: POST /reservations
+    API->>Servico: formato validado
+    Servico->>SQLite: BEGIN IMMEDIATE
+    Servico->>SQLite: consulta sala, limite e conflitos
+    alt violação de regra
+        Servico->>SQLite: ROLLBACK
+        API-->>Cliente: 404 / 409 / 422
+    else reserva válida
+        Servico->>SQLite: INSERT e COMMIT
+        API-->>Cliente: 201 + reserva
+    end
 ```
 
-## Ambiente padronizado com Docker
+| ADR | Decisão |
+|---|---|
+| [001](docs/adr/001-arquitetura-em-camadas.md) | domínio isolado e porta substituível |
+| [002](docs/adr/002-api-e-testes.md) | FastAPI, Pytest, Ruff e gate de cobertura |
+| [003](docs/adr/003-persistencia-sqlite.md) | SQLite local persistente |
+| [004](docs/adr/004-calendario-e-atomicidade.md) | calendário comum, tipos e transações |
+| [005](docs/adr/005-release-e-empacotamento.md) | versão única, runtime/harness e release final |
 
-Pré-requisito: Docker com Compose v2.
+## Governança e retrospectiva
 
-```bash
-docker compose up --build api
-```
+`main` protegida recebe o PR de release; branches de trabalho vinculam Issues e critérios de aceite.
+O check quality e a aprovação são obrigatórios. MorimFr e SrMorim pertencem a Felipe; a autorrevisão
+por conta secundária segue a adaptação individual autorizada pelo professor conforme relato do aluno.
+Não se afirma revisão independente entre pessoas. Consulte [governança](docs/GOVERNANCE.md).
 
-A API fica em `http://localhost:8000`. O Compose monta o volume `campusflow-data` em `/app/data`,
-portanto recriar o contêiner não apaga as reservas. Para encerrar:
+[Retrospectiva final](docs/RETROSPECTIVE.md), [uso de IA](docs/AI_USAGE.md),
+[análise ético-técnica](docs/AI_ETHICS.md) e [índice da submissão final](docs/FINAL_SUBMISSION.md).
 
-```bash
-docker compose down
-```
+## Limites da solução entregue
 
-## Test harness
+Produto homologado para uso acadêmico **local**. `user_id` é informado pelo cliente, não autentica
+identidade. Não usar dados reais nem expor a API à internet sem autenticação/autorização. Catálogo
+fixo de duas salas; sem notificações, interface web própria ou implantação distribuída entre hosts.
+Não há política de antecedência (datas passadas não são rejeitadas). Limites estão no As-Built;
+não são funcionalidades prometidas como implementadas.
 
-Execução local completa:
+## Histórico e licença
 
-```powershell
-.\scripts\test.ps1
-```
-
-Ou diretamente:
-
-```bash
-python -m ruff check .
-python -m pytest
-```
-
-Execução no ambiente padronizado:
-
-```bash
-docker compose --profile test run --rm --build tests
-```
-
-O Pytest descobre testes unitários, de contrato HTTP e de integração SQLite. Cada caso usa estado
-isolado, todos devem passar e o processo falha se a cobertura ficar abaixo de 90%. O workflow
-`.github/workflows/ci.yml` repete lint e testes nos PRs, guardando `test-output.log` e `coverage.xml`
-como artefatos. Evidências ficam em [`docs/evidence/`](docs/evidence/).
-
-## Refinamento orientado por testes
-
-Na Sprint 2, um teste direto do serviço demonstrou que `attendees=0` e `attendees=-1` eram aceitos,
-embora RN-03 exigisse inteiro positivo. A causa era a regra existir apenas no schema HTTP. O serviço
-agora retorna `invalid_attendee_count`. A homologação de outubro acrescenta inteiro estrito,
-ordenação por instantes, calendário UTC-03 e transação atômica. A especificação 0.4.0 registra tudo.
-
-O relatório com falha observada, causa, correção e prevenção está em
-[`docs/LOGICAL_ERRORS.md`](docs/LOGICAL_ERRORS.md). O histórico de re-especificação está em
-[`docs/SPEC_CHANGELOG.md`](docs/SPEC_CHANGELOG.md).
-
-## Governança e colaboração
-
-```text
-main (protegida) <- PR aprovado <- develop (protegida) <- feature/fix/docs
-```
-
-- `main`: versão estável; recebe a sprint por PR vindo de `develop`.
-- `develop`: integração; recebe branches curtas vinculadas a Issues.
-- todo merge protegido exige o check `quality`, branch atualizada, conversa resolvida e uma aprovação;
-- a Sprint 2 está no marco **Entrega intermediária**, com Issues #13 a #19 atribuídas a Felipe;
-- Felipe usa MorimFr e SrMorim na adaptação individual que informou ter sido autorizada pelo
-  professor. A segunda conta registra autorrevisão humana, não revisão independente.
-
-Processo, checklist e proteção estão em [`docs/GOVERNANCE.md`](docs/GOVERNANCE.md).
-
-## Desenvolvimento com IA e análise crítica
-
-O Codex foi usado para apoiar especificação, implementação, testes e documentação. `AGENTS.md`
-mantém a fonte de verdade SDD, limites arquiteturais e gates no repositório. Código proposto pela IA
-passa pelo mesmo diff, harness, PR e revisão humana.
-
-- protocolo e prompts: [`docs/AI_USAGE.md`](docs/AI_USAGE.md);
-- comparação entre Codex, Claude Code, Cursor e Antigravity, com análise de segurança, privacidade,
-  propriedade intelectual e homologação humana: [`docs/AI_ETHICS.md`](docs/AI_ETHICS.md).
-
-Somente o Codex foi utilizado no CampusFlow; as demais ferramentas foram avaliadas por documentação
-oficial, sem alegação de ensaio prático inexistente.
-
-## Decisões arquiteturais
-
-| ADR | Decisão | Estado |
-|---|---|---|
-| [001](docs/adr/001-arquitetura-em-camadas.md) | Domínio isolado e porta de repositório | Aceita |
-| [002](docs/adr/002-api-e-testes.md) | FastAPI, Pytest e gate de cobertura | Aceita |
-| [003](docs/adr/003-persistencia-sqlite.md) | SQLite persistente atrás da porta | Aceita |
-| [004](docs/adr/004-calendario-e-atomicidade.md) | UTC-03, tipos estritos e transações locais | Aceita |
-
-O relato da segunda iteração está em
-[`docs/EXPERIENCE_REPORT.md`](docs/EXPERIENCE_REPORT.md), e o índice do futuro PDF em
-[`docs/INTERMEDIATE_SUBMISSION.md`](docs/INTERMEDIATE_SUBMISSION.md).
-
-PDF consolidado: `docs/ENTREGA_INTERMEDIARIA.pdf`. Gerador: `scripts/build_intermediate_report.py`.
-Logs reais atuais: `docs/evidence/entrega2/`.
-
-## Relatório da Entrega 1
-
-O relatório consolidado, com identificação, resumo técnico e nove evidências legíveis, está em
-[`docs/ENTREGA_INICIAL_FINAL.pdf`](docs/ENTREGA_INICIAL_FINAL.pdf). Os arquivos-fonte e os PNGs
-originais ficam em `docs/RELATORIO_FINAL.html` e `docs/evidence/screenshots/`.
-
-## Estrutura do repositório
-
-```text
-campusflow/           aplicação, regras e adaptadores em memória/SQLite
-tests/unit/           testes isolados do serviço
-tests/api/            testes dos contratos HTTP
-tests/integration/    testes de persistência e reinício
-docs/                 especificação, ADRs, análises e evidências
-.github/              CI e templates colaborativos
-AGENTS.md             contexto persistente do agente de IA
-Dockerfile/compose.yaml ambiente reproduzível e volume persistente
-```
-
-## Integrante
-
-**Felipe Amorim Monteiro — RA 22452139.**
-
-## Limitações conhecidas
-
-- `user_id` é informado pelo cliente; autenticação e autorização ainda não fazem parte desta etapa;
-- o catálogo inicial contém duas salas fixas;
-- SQLite atende a implantação local de instância única, não concorrência distribuída;
-- cadastro de salas, autenticação institucional e interface web ficam para próximas iterações.
-
-## Licença
-
-Uso acadêmico. Consulte [`LICENSE`](LICENSE).
+As releases das Entregas 1/2 e seus logs/PDFs permanecem preservados. A documentação vigente da
+conclusão é o As-Built e os artefatos da release estável. Código: [licença MIT](LICENSE).

@@ -1,0 +1,28 @@
+ Network campusflow-final-validation_default Creating 
+ Network campusflow-final-validation_default Creating 
+ Network campusflow-final-validation_default Created 
+ Network campusflow-final-validation_default Created 
+ Container campusflow-final-validation-api-run-b085a22408f8 Creating 
+ Container campusflow-final-validation-api-run-b085a22408f8 Created 
+uid=999(campusflow) gid=999(campusflow) groups=999(campusflow)
+RUNTIME_OK: versao 1.0.0; pytest ausente
+WARNING: The directory '/home/campusflow/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+annotated-types==0.8.0
+anyio==4.15.1
+campusflow @ file:///app
+click==8.5.0
+fastapi==0.116.1
+h11==0.16.0
+httptools==0.9.0
+idna==3.20
+pydantic==2.12.5
+pydantic_core==2.41.5
+python-dotenv==1.2.4
+PyYAML==6.0.3
+starlette==0.47.3
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+uvicorn==0.35.0
+uvloop==0.23.0
+watchfiles==1.3.0
+websockets==17.3

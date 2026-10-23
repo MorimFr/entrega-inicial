@@ -3,6 +3,16 @@
 Este registro separa evolução de requisitos de alterações meramente editoriais. Toda mudança deve
 informar motivo, impacto e evidência.
 
+## 1.0.0 - 23 de outubro de 2026 (As-Built, Issue #26)
+
+- Consolidação definitiva de arquitetura, endpoints, validações, lifecycle, variáveis e limites.
+- Corrigida coerção de epoch: a API aceitava 1792746000 e a string equivalente como datas,
+  em desacordo com ISO 8601 declarado. Regressões iniciais: 3 falhas/1 aprovação (incluindo versão).
+- OpenAPI passa a declarar o 404 real no POST e as duas famílias de erro 422 (domínio/detail).
+- Versão única do pacote/API em campusflow.__version__; snapshot OpenAPI conferido no CI.
+- Runtime e harness separados, usuário sem privilégios, porta local, relatórios exportados e
+  comandos unificados, conforme ADR-005. Nenhuma regra RF/RN foi removida.
+
 ## 0.4.0 - 14 de outubro de 2026
 
 **Gatilho:** auditoria e testes da [Issue #25](https://github.com/MorimFr/entrega-inicial/issues/25).
