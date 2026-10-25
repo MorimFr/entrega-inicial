@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "campusflow"
-version = "0.3.0"
+dynamic = ["version"]
 description = "API para reserva segura de salas de estudo"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -24,6 +24,9 @@ dev = [
 
 [tool.setuptools.packages.find]
 include = ["campusflow*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "campusflow.__version__"}
 
 [tool.pytest.ini_options]
 addopts = "-ra --strict-markers --cov=campusflow --cov-report=term-missing --cov-report=xml --cov-fail-under=90 --junitxml=test-results.xml"

@@ -1,0 +1,2 @@
+# Preserve Docker console evidence without treating its trailing spaces as source lint.
+docs/evidence/entrega3/*.log -whitespace

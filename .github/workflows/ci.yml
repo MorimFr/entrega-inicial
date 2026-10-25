@@ -29,10 +29,16 @@ jobs:
       - name: Lint
         run: python -m ruff check .
 
+      - name: Check As-Built OpenAPI
+        run: python scripts/export_openapi.py --check
+
       - name: Tests and coverage
         run: |
           set -o pipefail
-          python -m pytest | tee test-output.log
+          python scripts/run_harness.py | tee test-output.log
+
+      - name: Validate standardized container harness
+        run: docker compose --profile test run --rm --build tests
 
       - name: Publish execution evidence
         if: always()
@@ -41,6 +47,5 @@ jobs:
           name: test-evidence-${{ github.run_id }}
           path: |
             test-output.log
-            coverage.xml
-            test-results.xml
+            artifacts/
           if-no-files-found: warn

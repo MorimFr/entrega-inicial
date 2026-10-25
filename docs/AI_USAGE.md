@@ -78,3 +78,15 @@ O agente leu especificação e instruções, executou regressões que tiveram 12
 tipo inteiro, ordenação, calendário e transações e ampliou o harness. As ferramentas externas foram
 comparadas por fontes oficiais consultadas em outubro. Logs comprovam execução; não se atribui ao
 modelo nenhuma aprovação acadêmica ou revisão independente.
+
+## Encerramento em 23/10/2026 (Entrega 3)
+
+O agente preparou o As-Built 1.0.0, exportação/conferência OpenAPI, separação runtime/tests,
+harness com XML/HTML/JUnit, roteiro e gerador de relatório. Primeiro registrou regressões de
+coerção de epoch; depois corrigiu o contrato. Um CI falhou por descrição de HTTPStatus variável
+entre Python 3.12 e 3.14; a causa foi corrigida com descrição explícita, sem retirar a checagem.
+
+O PR #27 registra a candidata. Execução local, Docker, CI, demo HTTP e recriação de contêiner
+foram verificadas. O aluno informou que ainda não gravou o vídeo: não é substituído por uma
+simulação do agente. Aprovação humana, merge protegido, CI da main e publicação da tag devem
+ser conferidos antes da emissão do PDF definitivo; o gerador bloqueia esse modo se houver pendências.

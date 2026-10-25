@@ -1,0 +1,302 @@
+{
+  "captured_at": "2026-10-23T14:36:31.073576+00:00",
+  "repository": "https://github.com/MorimFr/entrega-inicial",
+  "pr": {
+    "baseRefName": "main",
+    "headRefName": "release/entrega-final",
+    "headRefOid": "b87f46e2afed99c03b09364c896be358743d3173",
+    "isDraft": true,
+    "mergeCommit": null,
+    "mergedAt": null,
+    "number": 27,
+    "reviewDecision": "REVIEW_REQUIRED",
+    "reviews": [],
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-23T14:36:03Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970906028/job/120472992932",
+        "name": "quality",
+        "startedAt": "2026-10-23T14:35:21Z",
+        "status": "COMPLETED",
+        "workflowName": "Test harness"
+      }
+    ],
+    "url": "https://github.com/MorimFr/entrega-inicial/pull/27"
+  },
+  "main": {
+    "sha": "d49d6f798d1f02b63183ab411fe49e2eb95e9535",
+    "protected": true
+  },
+  "protection": {
+    "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection",
+    "required_status_checks": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_status_checks",
+      "strict": true,
+      "contexts": [
+        "quality"
+      ],
+      "contexts_url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_status_checks/contexts",
+      "checks": [
+        {
+          "context": "quality",
+          "app_id": null
+        }
+      ]
+    },
+    "required_pull_request_reviews": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_pull_request_reviews",
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "require_last_push_approval": true,
+      "required_approving_review_count": 1
+    },
+    "required_signatures": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/required_signatures",
+      "enabled": false
+    },
+    "enforce_admins": {
+      "url": "https://api.github.com/repos/MorimFr/entrega-inicial/branches/main/protection/enforce_admins",
+      "enabled": true
+    },
+    "required_linear_history": {
+      "enabled": false
+    },
+    "allow_force_pushes": {
+      "enabled": false
+    },
+    "allow_deletions": {
+      "enabled": false
+    },
+    "block_creations": {
+      "enabled": false
+    },
+    "required_conversation_resolution": {
+      "enabled": true
+    },
+    "lock_branch": {
+      "enabled": false
+    },
+    "allow_fork_syncing": {
+      "enabled": false
+    }
+  },
+  "runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-23T14:35:17Z",
+      "databaseId": 39970906028,
+      "event": "pull_request",
+      "headBranch": "release/entrega-final",
+      "headSha": "b87f46e2afed99c03b09364c896be358743d3173",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970906028"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-23T14:32:51Z",
+      "databaseId": 39970556971,
+      "event": "pull_request",
+      "headBranch": "release/entrega-final",
+      "headSha": "38e630f0307dd9927b6b8db8ab759440028fce29",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/39970556971"
+    },
+    {
+      "conclusion": "failure",
+      "createdAt": "2026-10-23T14:26:59Z",
+      "databaseId": 39969716766,
+      "event": "pull_request",
+      "headBranch": "release/entrega-final",
+      "headSha": "1508929ab841590a9bcf134ded889dad4c0c1e76",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/39969716766"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-14T14:17:41Z",
+      "databaseId": 38579221978,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "d49d6f798d1f02b63183ab411fe49e2eb95e9535",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/38579221978"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-14T13:40:26Z",
+      "databaseId": 38573761230,
+      "event": "pull_request",
+      "headBranch": "release/entrega-intermediaria",
+      "headSha": "65fd09c64745d504fe0bcac3dbc1e25b5fb34cdd",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/38573761230"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-14T13:29:13Z",
+      "databaseId": 38572174867,
+      "event": "pull_request",
+      "headBranch": "release/entrega-intermediaria",
+      "headSha": "f863ddb4a56619ddccf876224d0dd6284aceefd5",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/38572174867"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T13:17:41Z",
+      "databaseId": 33634856011,
+      "event": "pull_request",
+      "headBranch": "release/entrega-intermediaria",
+      "headSha": "e039a691676c4f5d95398ea4564026a79dc2afde",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33634856011"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:33:29Z",
+      "databaseId": 33583655962,
+      "event": "push",
+      "headBranch": "develop",
+      "headSha": "f31fd046e00a8a1209001108768397553b489b9d",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33583655962"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:30:54Z",
+      "databaseId": 33583488539,
+      "event": "pull_request",
+      "headBranch": "feature/13-entrega-intermediaria",
+      "headSha": "f803e73ec7d13c122713251e70fdab9486d1aa18",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33583488539"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:30:07Z",
+      "databaseId": 33583437482,
+      "event": "push",
+      "headBranch": "develop",
+      "headSha": "8ccfeb242f5a6c52cabd837727453af4c8bc721d",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33583437482"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:27:10Z",
+      "databaseId": 33583263996,
+      "event": "pull_request",
+      "headBranch": "chore/21-sincronizar-main-develop",
+      "headSha": "75275f8798a19c6dfb889759cf1260b601c1a5c4",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33583263996"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:18:47Z",
+      "databaseId": 33582748170,
+      "event": "pull_request",
+      "headBranch": "feature/13-entrega-intermediaria",
+      "headSha": "d8f3f3f6ff656de91cf825a6312b4d13bcdf6649",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33582748170"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T02:17:44Z",
+      "databaseId": 33582687001,
+      "event": "pull_request",
+      "headBranch": "feature/13-entrega-intermediaria",
+      "headSha": "f2a34644adfe6e72b14db2fd0f434947f4f41838",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33582687001"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T01:53:46Z",
+      "databaseId": 33581149860,
+      "event": "pull_request",
+      "headBranch": "docs/9-relatorio-final",
+      "headSha": "48c040ab307629e5caa0790148551f0d153b8b21",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33581149860"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T01:40:21Z",
+      "databaseId": 33580308168,
+      "event": "pull_request",
+      "headBranch": "develop",
+      "headSha": "d47a101cb2f17c01672e0a2a801bdc21b1ded6c8",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33580308168"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T01:36:55Z",
+      "databaseId": 33580092885,
+      "event": "push",
+      "headBranch": "develop",
+      "headSha": "d47a101cb2f17c01672e0a2a801bdc21b1ded6c8",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33580092885"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T01:11:37Z",
+      "databaseId": 33578395082,
+      "event": "pull_request",
+      "headBranch": "feature/1-entrega-inicial",
+      "headSha": "c2bfe281c529cab7a6ea50432c4bd8f432a76cda",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33578395082"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T01:00:36Z",
+      "databaseId": 33577644597,
+      "event": "pull_request",
+      "headBranch": "feature/1-entrega-inicial",
+      "headSha": "9b6d95b9602098284ed302442f2b1a13563802df",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33577644597"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T00:59:30Z",
+      "databaseId": 33577564445,
+      "event": "pull_request",
+      "headBranch": "feature/1-entrega-inicial",
+      "headSha": "cccdd654c01da2ffd6698cdca9d385103530f9b0",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33577564445"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-02T00:56:46Z",
+      "databaseId": 33577382487,
+      "event": "pull_request",
+      "headBranch": "feature/1-entrega-inicial",
+      "headSha": "b9915b3a495033d12555d564cef889905ff74962",
+      "status": "completed",
+      "url": "https://github.com/MorimFr/entrega-inicial/actions/runs/33577382487"
+    }
+  ],
+  "open_prs": [
+    {
+      "number": 27,
+      "url": "https://github.com/MorimFr/entrega-inicial/pull/27"
+    }
+  ],
+  "release": null,
+  "tag_commit": null,
+  "video": {
+    "url": null,
+    "seconds": null,
+    "access_checked": false,
+    "source": "Informação do aluno; não é gravação produzida pelo agente"
+  }
+}

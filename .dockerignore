@@ -14,4 +14,8 @@ data
 .env.*
 tmp
 output
+artifacts
+*.egg-info
+build
+dist
 

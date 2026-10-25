@@ -63,3 +63,28 @@ Resultado real: **12 failed, 1 passed**. O commit `7808618` preserva os testes a
 ERRO-06 foi identificado estruturalmente; não se afirma que um incidente em produção foi observado.
 Os testes concorrentes confirmam o estado final, sem depender de qual thread vence. Testes de rollback
 confirmam que uma falha não deixa gravação parcial. A suíte final mantém todos os testes anteriores.
+
+## ERRO-07 - coerção de epoch divergente do contrato ISO (Issue #26)
+
+- **Observação real em 23/10/2026:** o POST aceitava `1792746000` e `"1792746000"` como
+  `starts_at` e retornava 201, apesar de o contrato exigir string ISO 8601 com fuso.
+- **Causa:** coerção permissiva do tipo datetime no Pydantic; faltava validação de formato antes
+  da conversão. O booleano já era rejeitado.
+- **Regressão primeiro:** o commit `6641e24` conserva os quatro casos iniciais, com 3 falhas e
+  1 aprovação. Duas falhas eram a coerção; a terceira era a versão de API ainda 0.3.0.
+- **Correção:** tipo ISODateTime valida string com separador T antes de delegar o parsing;
+  o serviço mantém as regras de fuso e intervalo. A mesma validação foi aplicada à disponibilidade.
+- **Contrato complementar:** OpenAPI agora declara o 404 do POST e as duas famílias de 422
+  (erro de domínio ou `detail` do framework). Pacote e API compartilham uma única versão.
+- **Prevenção:** oito casos em `tests/api/test_release_contract.py`, snapshot OpenAPI e check no CI.
+  Suíte completa: 63 aprovados no Docker; evidências em `docs/evidence/entrega3/`.
+
+## ERRO-08 - metadado OpenAPI dependente da versão Python
+
+- O [primeiro CI da candidata](https://github.com/MorimFr/entrega-inicial/actions/runs/39969716766)
+  rejeitou o snapshot exportado no host. A comparação de JSONs mostrou apenas as descrições 422
+  explícitas: Python 3.14 usava `Unprocessable Content`, Python 3.12, `Unprocessable Entity`.
+- A mudança vinha do nome padrão de HTTPStatus, não de diferença nas regras de negócio.
+- Um assert de regressão falhou primeiro no host. A correção declara a descrição estável
+  `Validation or business rule error` nas duas rotas afetadas, exporta novamente o contrato e
+  mantém comparação integral do snapshot no CI. Nenhum gate foi desativado ou tornado permissivo.

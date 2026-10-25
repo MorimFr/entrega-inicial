@@ -1,0 +1,7 @@
+ Container campusflow-final-validation-api-1 Running 
+ Container campusflow-final-validation-api-1 Waiting 
+ Container campusflow-final-validation-api-1 Healthy 
+ Container campusflow-final-validation-demo-run-51b5fe40082f Creating 
+ Container campusflow-final-validation-demo-run-51b5fe40082f Created 
+GET /reservations/7cd6d067-36d5-4447-af39-519f93874bc9 -> HTTP 200
+PERSISTENCE_OK: estado preservado apos recriacao do conteiner
